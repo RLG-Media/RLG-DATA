@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block title %}Profile - RLG{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">User Profile</h2>
+
+    <!-- Display Current User Information -->
+    <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+            <h5 class="card-title">Profile Information</h5>
+            <p><strong>Username:</strong> {{ user.username }}</p>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+            <p><strong>Role:</strong> {{ user.roles[0].name }}</p>
+            <p><strong>Account Created:</strong> {{ user.created_at.strftime('%B %d, %Y') }}</p>
+        </div>
+    </div>
+
+    <!-- Profile Update Section -->
+    <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+            <h4 class="card-title">Update Profile</h4>
+
+            <!-- Display Error Messages -->
+            {% if errors %}
+                <div class="alert alert-danger" role="alert">
+                    <ul>
+                        {% for error in errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
+            <!-- Display Success Message -->
+            {% if success_message %}
+                <div class="alert alert-success" role="alert">
+                    {{ success_message }}
+                </div>
+            {% endif %}
+
+            <!-- Profile Update Form -->
+            <form method="POST" action="{{ url_for('auth.update_profile') }}" novalidate>
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                <!-- Username Field -->
+                <div class="mb-3">
+                    <label for="username" class="form-label">Update Username:</label>
+                    <input 
+                        type="text" 
+                        class="form-control" 
+                        id="username" 
+                        name="username" 
+                        placeholder="New username" 
+                        value="{{ user.username }}" 
+                        required 
+                        minlength="3" 
+                        maxlength="20"
+                        pattern="^[a-zA-Z0-9_]+$"
+                        title="Username can contain letters, numbers, and underscores only.">
+                </div>
+
+                <!-- Email Update Field -->
+                <div class="mb-3">
+                    <label for="email" class="form-label">Update Email:</label>
+                    <input 
+                        type="email" 
+                        class="form-control" 
+                        id="email" 
+                        name="email" 
+                        placeholder="New email address" 
+                        value="{{ user.email }}" 
+                        required>
+                </div>
+
+                <!-- Password Field -->
+                <div class="mb-3">
+                    <label for="password" class="form-label">Update Password:</label>
+                    <input 
+                        type="password" 
+                        class="form-control" 
+                        id="password" 
+                        name="password" 
+                        placeholder="New password" 
+                        required
+                        minlength="8"
+                        pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+                        title="Password must include at least 8 characters, an uppercase letter, a number, and a special character.">
+                    <small class="form-text text-muted">
+                        Ensure your password is strong and secure.
+                    </small>
+                </div>
+
+                <!-- Confirm Password Field -->
+                <div class="mb-3">
+                    <label for="confirm_password" class="form-label">Confirm Password:</label>
+                    <input 
+                        type="password" 
+                        class="form-control" 
+                        id="confirm_password" 
+                        name="confirm_password" 
+                        placeholder="Confirm your new password" 
+                        required>
+                </div>
+
+                <!-- Save Changes Button -->
+                <button type="submit" class="btn btn-primary w-100">Save Changes</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Account Preferences -->
+    <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+            <h4 class="card-title">Account Preferences</h4>
+            <form method="POST" action="{{ url_for('auth.update_preferences') }}" novalidate>
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                <!-- Notification Preferences -->
+                <div class="mb-3">
+                    <label for="notifications" class="form-label">Email Notifications:</label>
+                    <select class="form-control" id="notifications" name="notifications">
+                        <option value="enabled" {% if user.notifications == 'enabled' %}selected{% endif %}>Enabled</option>
+                        <option value="disabled" {% if user.notifications == 'disabled' %}selected{% endif %}>Disabled</option>
+                    </select>
+                </div>
+
+                <!-- Save Preferences Button -->
+                <button type="submit" class="btn btn-secondary w-100">Update Preferences</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Log Out Section -->
+    <div class="text-center mt-4">
+        <a href="{{ url_for('auth.logout') }}" class="btn btn-danger w-100">Log Out</a>
+    </div>
+</div>
+{% endblock %}

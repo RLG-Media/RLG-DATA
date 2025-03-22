@@ -1,0 +1,144 @@
+{
+    "shared": {
+      "app": {
+        "name": "RLG Platform",
+        "version": "1.0.0",
+        "environment": "production",
+        "default_language": "en",
+        "supported_languages": ["en", "es", "fr", "de", "pt"],
+        "timezone": "UTC"
+      },
+      "database": {
+        "type": "postgresql",
+        "host": "localhost",
+        "port": 5432,
+        "username": "rlg_admin",
+        "password": "securepassword",
+        "database_name": "rlg_shared_db",
+        "max_connections": 15,
+        "timeout": 30
+      },
+      "auth": {
+        "jwt_secret": "your_shared_jwt_secret_key",
+        "jwt_expiry": 3600,
+        "oauth": {
+          "google": {
+            "client_id": "google_client_id",
+            "client_secret": "google_client_secret",
+            "redirect_uri": "https://rlgplatform.com/auth/google/callback"
+          },
+          "facebook": {
+            "client_id": "facebook_client_id",
+            "client_secret": "facebook_client_secret",
+            "redirect_uri": "https://rlgplatform.com/auth/facebook/callback"
+          }
+        }
+      },
+      "logging": {
+        "level": "info",
+        "file": "logs/rlg_platform.log",
+        "rotation": {
+          "size": "15M",
+          "backup_count": 7
+        },
+        "console_output": true
+      },
+      "security": {
+        "cors": {
+          "allowed_origins": [
+            "https://rlgdata.com",
+            "https://rlgfans.com",
+            "https://api.rlgplatform.com"
+          ],
+          "allowed_methods": ["GET", "POST", "PUT", "DELETE"],
+          "allowed_headers": ["Content-Type", "Authorization"]
+        },
+        "rate_limit": {
+          "requests_per_minute": 100
+        },
+        "firewall": {
+          "enable": true,
+          "blocked_ips": []
+        }
+      }
+    },
+    "rlg_data": {
+      "api": {
+        "base_url": "https://api.rlgdata.com",
+        "endpoints": {
+          "analytics": "/v1/analytics",
+          "user_management": "/v1/users",
+          "reporting": "/v1/reports",
+          "realtime_data": "/v1/realtime"
+        },
+        "key": "your_rlg_data_api_key",
+        "rate_limit": 1000
+      },
+      "features": {
+        "realtime_data": true,
+        "data_export": true,
+        "calendar_integration": true,
+        "word_cloud": true,
+        "social_media_analysis": true
+      },
+      "integrations": {
+        "google_analytics": {
+          "tracking_id": "UA-RLGDATA-XXXXX-Y"
+        },
+        "platforms": {
+          "facebook": {
+            "api_key": "facebook_api_key",
+            "base_url": "https://graph.facebook.com"
+          },
+          "youtube": {
+            "api_key": "youtube_api_key",
+            "base_url": "https://www.googleapis.com/youtube/v3"
+          },
+          "tiktok": {
+            "api_key": "tiktok_api_key",
+            "base_url": "https://open.tiktokapis.com"
+          }
+        }
+      }
+    },
+    "rlg_fans": {
+      "api": {
+        "base_url": "https://api.rlgfans.com",
+        "endpoints": {
+          "creator_management": "/v1/creators",
+          "subscription_tracking": "/v1/subscriptions",
+          "engagement_reports": "/v1/reports",
+          "fan_interactions": "/v1/interactions"
+        },
+        "key": "your_rlg_fans_api_key",
+        "rate_limit": 500
+      },
+      "features": {
+        "creator_tracking": true,
+        "subscription_management": true,
+        "fan_engagement": true,
+        "monetization_tools": true
+      },
+      "integrations": {
+        "platforms": {
+          "onlyfans": {
+            "api_key": "onlyfans_api_key",
+            "base_url": "https://api.onlyfans.com"
+          },
+          "fansly": {
+            "api_key": "fansly_api_key",
+            "base_url": "https://api.fansly.com"
+          },
+          "mymfans": {
+            "api_key": "mym_api_key",
+            "base_url": "https://api.mym.fans"
+          },
+          "patreon": {
+            "api_key": "patreon_api_key",
+            "base_url": "https://www.patreon.com/api"
+          }
+        }
+      }
+    }
+  }
+  

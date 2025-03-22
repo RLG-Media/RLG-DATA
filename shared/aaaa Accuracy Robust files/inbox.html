@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Inbox interface for managing messages and notifications.">
+    <meta name="author" content="RLG Data & Fans">
+    <title>Inbox | RLG</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/theme_manager.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="scripts/inbox.js" defer></script>
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <a href="dashboard.html">RLG</a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="analytics.html">Analytics</a></li>
+                    <li><a href="inbox.html" class="active">Inbox</a></li>
+                    <li><a href="settings.html">Settings</a></li>
+                </ul>
+            </nav>
+            <div class="user-profile">
+                <img src="images/user-avatar.png" alt="User Avatar">
+                <div class="dropdown">
+                    <a href="profile.html">Profile</a>
+                    <a href="logout.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <main>
+        <section class="inbox-container">
+            <aside class="inbox-sidebar">
+                <button class="compose-btn">
+                    <i class="fas fa-pencil-alt"></i> Compose
+                </button>
+                <ul class="folder-list">
+                    <li><a href="#" class="active"><i class="fas fa-inbox"></i> Inbox</a></li>
+                    <li><a href="#"><i class="fas fa-paper-plane"></i> Sent</a></li>
+                    <li><a href="#"><i class="fas fa-star"></i> Starred</a></li>
+                    <li><a href="#"><i class="fas fa-trash-alt"></i> Trash</a></li>
+                </ul>
+            </aside>
+
+            <section class="message-list">
+                <header class="message-header">
+                    <div class="search-bar">
+                        <input type="text" placeholder="Search messages...">
+                        <button><i class="fas fa-search"></i></button>
+                    </div>
+                    <div class="actions">
+                        <button title="Mark as Read"><i class="fas fa-envelope-open"></i></button>
+                        <button title="Delete"><i class="fas fa-trash-alt"></i></button>
+                        <button title="Refresh"><i class="fas fa-sync-alt"></i></button>
+                    </div>
+                </header>
+
+                <ul class="messages">
+                    <!-- Dynamic messages populated by backend -->
+                    <li class="message unread">
+                        <input type="checkbox">
+                        <div class="message-info">
+                            <h4 class="sender">John Doe</h4>
+                            <p class="preview">Hey, are we still on for tomorrow?</p>
+                        </div>
+                        <div class="message-meta">
+                            <span class="timestamp">2 hrs ago</span>
+                        </div>
+                    </li>
+                    <li class="message">
+                        <input type="checkbox">
+                        <div class="message-info">
+                            <h4 class="sender">Marketing Team</h4>
+                            <p class="preview">Weekly report is attached. Please review.</p>
+                        </div>
+                        <div class="message-meta">
+                            <span class="timestamp">Yesterday</span>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+
+            <section class="message-view">
+                <!-- Message details populate here dynamically -->
+                <div class="no-message">
+                    <p>Select a message to view its content.</p>
+                </div>
+            </section>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 RLG. All rights reserved.</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!-- youtube.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Analytics - RLG Fans</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+
+    <!-- Chart.js for Engagement Analytics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a class="navbar-brand" href="{{ url_for('index') }}">RLG Fans</a>
+        <ul class="navbar-nav">
+            <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+            <li><a href="{{ url_for('services') }}">Services</a></li>
+            <li><a href="{{ url_for('support') }}">Support</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+        <h1>YouTube Analytics</h1>
+        <p>Gain actionable insights into your YouTube performance and discover trending strategies for content growth and monetization.</p>
+
+        <!-- Analytics Overview -->
+        <div class="analytics-overview">
+            <div class="metric-card">
+                <h2>Total Subscribers</h2>
+                <p id="totalSubscribers">Loading...</p>
+            </div>
+            <div class="metric-card">
+                <h2>Total Views</h2>
+                <p id="totalViews">Loading...</p>
+            </div>
+            <div class="metric-card">
+                <h2>Engagement Rate</h2>
+                <p id="engagementRate">Loading...</p>
+            </div>
+        </div>
+
+        <!-- Engagement and Trending Charts -->
+        <div class="charts-section">
+            <h2>Engagement Over Time</h2>
+            <canvas id="engagementChart" class="chart-container"></canvas>
+
+            <h2>Trending Content Insights</h2>
+            <div id="trendingContent" class="trending-content">
+                <ul id="trendingList">Loading trending content...</ul>
+            </div>
+        </div>
+
+        <!-- Recommendations Section -->
+        <div class="recommendations-section">
+            <h2>Recommendations for Growth</h2>
+            <ul id="recommendationsList">
+                <li>Loading recommendations...</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Fetching data from backend APIs and updating the page
+        async function loadYouTubeMetrics() {
+            try {
+                const response = await fetch('/api/youtube/metrics');
+                const data = await response.json();
+
+                document.getElementById('totalSubscribers').innerText = data.subscribers;
+                document.getElementById('totalViews').innerText = data.totalViews;
+                document.getElementById('engagementRate').innerText = data.engagementRate + '%';
+
+                updateEngagementChart(data.engagementData);
+                loadTrendingContent();
+                loadRecommendations(data.recommendations);
+            } catch (error) {
+                console.error('Error loading YouTube metrics:', error);
+            }
+        }
+
+        function updateEngagementChart(engagementData) {
+            const ctx = document.getElementById('engagementChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: engagementData.dates,
+                    datasets: [{
+                        label: 'Engagement Rate',
+                        data: engagementData.values,
+                        borderColor: '#4285F4',
+                        fill: false
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: { beginAtZero: true }
+                    },
+                    plugins: {
+                        legend: { position: 'top' }
+                    }
+                }
+            });
+        }
+
+        async function loadTrendingContent() {
+            try {
+                const response = await fetch('/api/youtube/trending');
+                const data = await response.json();
+                const trendingList = document.getElementById('trendingList');
+                trendingList.innerHTML = '';
+
+                data.forEach(content => {
+                    const item = document.createElement('li');
+                    item.innerText = `${content.title} - ${content.views} views`;
+                    trendingList.appendChild(item);
+                });
+            } catch (error) {
+                console.error('Error loading trending content:', error);
+            }
+        }
+
+        function loadRecommendations(recommendations) {
+            const recommendationsList = document.getElementById('recommendationsList');
+            recommendationsList.innerHTML = '';
+
+            recommendations.forEach(rec => {
+                const item = document.createElement('li');
+                item.innerText = rec;
+                recommendationsList.appendChild(item);
+            });
+        }
+
+        // Load all metrics on page load
+        document.addEventListener('DOMContentLoaded', loadYouTubeMetrics);
+    </script>
+
+</body>
+</html>

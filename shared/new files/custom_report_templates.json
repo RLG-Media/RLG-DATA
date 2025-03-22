@@ -1,0 +1,128 @@
+{
+    "templates": [
+      {
+        "id": "monthly_performance",
+        "name": "Monthly Performance Report",
+        "description": "A detailed report summarizing key performance metrics for the past month.",
+        "sections": [
+          {
+            "title": "Overview",
+            "content_type": "text",
+            "placeholder": "Provide a summary of the monthly performance."
+          },
+          {
+            "title": "Key Metrics",
+            "content_type": "table",
+            "columns": ["Metric", "Value", "Change (%)"],
+            "example_data": [
+              ["Revenue", "$500,000", "+10%"],
+              ["User Growth", "20,000 users", "+5%"]
+            ]
+          },
+          {
+            "title": "Trend Analysis",
+            "content_type": "chart",
+            "chart_type": "line",
+            "example_data": {
+              "labels": ["Week 1", "Week 2", "Week 3", "Week 4"],
+              "datasets": [
+                {
+                  "label": "Revenue",
+                  "data": [100000, 120000, 150000, 130000],
+                  "color": "rgba(75, 192, 192, 1)"
+                }
+              ]
+            }
+          }
+        ],
+        "export_options": ["PDF", "Excel"]
+      },
+      {
+        "id": "crisis_summary",
+        "name": "Crisis Summary Report",
+        "description": "A comprehensive summary of the response to a recent crisis.",
+        "sections": [
+          {
+            "title": "Incident Details",
+            "content_type": "text",
+            "placeholder": "Summarize the incident details and context."
+          },
+          {
+            "title": "Response Timeline",
+            "content_type": "timeline",
+            "events": [
+              {
+                "timestamp": "2025-01-01T10:00:00Z",
+                "event": "Incident reported"
+              },
+              {
+                "timestamp": "2025-01-01T11:00:00Z",
+                "event": "Response team activated"
+              }
+            ]
+          },
+          {
+            "title": "Impact Analysis",
+            "content_type": "chart",
+            "chart_type": "pie",
+            "example_data": {
+              "labels": ["Financial Loss", "Reputation Damage", "Operational Downtime"],
+              "datasets": [
+                {
+                  "data": [50, 30, 20],
+                  "backgroundColor": ["#FF6384", "#36A2EB", "#FFCE56"]
+                }
+              ]
+            }
+          }
+        ],
+        "export_options": ["PDF", "CSV"]
+      },
+      {
+        "id": "custom_kpi_tracking",
+        "name": "Custom KPI Tracking Report",
+        "description": "Track and analyze custom KPIs defined by the user.",
+        "sections": [
+          {
+            "title": "KPI Overview",
+            "content_type": "table",
+            "columns": ["KPI Name", "Target", "Actual", "Variance (%)"],
+            "example_data": [
+              ["Customer Satisfaction", "85%", "87%", "+2%"],
+              ["Net Profit Margin", "20%", "18%", "-2%"]
+            ]
+          },
+          {
+            "title": "Historical Trends",
+            "content_type": "chart",
+            "chart_type": "bar",
+            "example_data": {
+              "labels": ["Q1", "Q2", "Q3", "Q4"],
+              "datasets": [
+                {
+                  "label": "Net Profit Margin",
+                  "data": [18, 20, 22, 21],
+                  "color": "rgba(54, 162, 235, 1)"
+                }
+              ]
+            }
+          }
+        ],
+        "export_options": ["PDF", "Excel", "JSON"]
+      }
+    ],
+    "global_settings": {
+      "default_export_format": "PDF",
+      "allow_custom_templates": true,
+      "customization_options": {
+        "font_styles": ["Arial", "Helvetica", "Times New Roman"],
+        "color_schemes": ["Light", "Dark", "Custom"],
+        "include_logo": true
+      },
+      "notifications": {
+        "email_on_completion": true,
+        "push_notification_on_error": true
+      }
+    }
+  }
+  

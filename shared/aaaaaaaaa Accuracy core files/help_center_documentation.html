@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Help Center - RLG Data & RLG Fans Documentation">
+    <meta name="author" content="RLG Data & RLG Fans">
+    <title>Help Center | RLG</title>
+
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/theme_manager.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="scripts/help_center_documentation.js" defer></script>
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <a href="dashboard.html">RLG</a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="support_faqs.html">FAQs</a></li>
+                    <li><a href="help_center_documentation.html" class="active">Help Center</a></li>
+                    <li><a href="settings.html">Settings</a></li>
+                </ul>
+            </nav>
+            <div class="user-profile">
+                <img src="images/user-avatar.png" alt="User Avatar">
+                <div class="dropdown">
+                    <a href="profile.html">Profile</a>
+                    <a href="logout.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="help-center-container">
+            <header class="help-header">
+                <h2>Help Center & Documentation</h2>
+                <div class="help-search">
+                    <input type="text" id="helpSearch" placeholder="Search for guides, FAQs, or troubleshooting tips...">
+                    <button id="searchHelp"><i class="fas fa-search"></i></button>
+                </div>
+            </header>
+
+            <div class="help-sections">
+                <aside class="sidebar">
+                    <h3>Categories</h3>
+                    <ul>
+                        <li><a href="#getting-started">Getting Started</a></li>
+                        <li><a href="#account-management">Account Management</a></li>
+                        <li><a href="#integration-guides">Integration Guides</a></li>
+                        <li><a href="#social-media-tools">Social Media Tools</a></li>
+                        <li><a href="#analytics-reporting">Analytics & Reporting</a></li>
+                        <li><a href="#faq">Frequently Asked Questions</a></li>
+                        <li><a href="#contact-support">Contact Support</a></li>
+                    </ul>
+                </aside>
+
+                <div class="help-content">
+                    <section id="getting-started">
+                        <h3>Getting Started</h3>
+                        <p>Learn how to set up your RLG Data & RLG Fans account and start analyzing data.</p>
+                        <ul>
+                            <li><a href="getting_started_guide.html">Quick Start Guide</a></li>
+                            <li><a href="interactive_tutorials.html">Interactive Tutorials</a></li>
+                        </ul>
+                    </section>
+
+                    <section id="account-management">
+                        <h3>Account Management</h3>
+                        <p>Manage your account settings, subscriptions, and security preferences.</p>
+                    </section>
+
+                    <section id="integration-guides">
+                        <h3>Integration Guides</h3>
+                        <p>Connect RLG Data & RLG Fans with your favorite platforms.</p>
+                        <ul>
+                            <li><a href="api_documentation.html">API Documentation</a></li>
+                            <li><a href="third_party_integration_management.html">Third-Party Integrations</a></li>
+                        </ul>
+                    </section>
+
+                    <section id="social-media-tools">
+                        <h3>Social Media Tools</h3>
+                        <p>Guides for **Facebook, Instagram, TikTok, LinkedIn, YouTube, Twitter, Pinterest, Reddit, Snapchat, Threads, and Google Ads**.</p>
+                    </section>
+
+                    <section id="analytics-reporting">
+                        <h3>Analytics & Reporting</h3>
+                        <p>Learn how to create, analyze, and export reports.</p>
+                    </section>
+
+                    <section id="faq">
+                        <h3>Frequently Asked Questions</h3>
+                        <ul>
+                            <li><a href="support_faqs.html">View FAQs</a></li>
+                        </ul>
+                    </section>
+
+                    <section id="contact-support">
+                        <h3>Need Help?</h3>
+                        <p>Contact our support team for further assistance.</p>
+                        <button id="contactSupport">Contact Support</button>
+                    </section>
+                </div>
+            </div>
+
+            <div class="download-guides">
+                <h3>Download User Guides</h3>
+                <button id="downloadPDF"><i class="fas fa-file-pdf"></i> Download PDF</button>
+                <button id="downloadOffline"><i class="fas fa-download"></i> Download for Offline Use</button>
+            </div>
+
+            <div class="help-chatbot">
+                <h3>Need Assistance?</h3>
+                <button id="openChatbot"><i class="fas fa-comments"></i> Chat with AI</button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 RLG Data & RLG Fans. All rights reserved.</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+
+{% block title %}Analytics - RLG Fans{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="mt-4">Analytics Dashboard</h1>
+
+    <!-- Key Metrics Section -->
+    <div class="row mt-4">
+        <div class="col-md-3">
+            <div class="metric-card">
+                <h3>{{ total_engagements }}</h3>
+                <p>Total Engagements</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="metric-card">
+                <h3>{{ new_followers }}</h3>
+                <p>New Followers</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="metric-card">
+                <h3>{{ paid_subscriptions }}</h3>
+                <p>Paid Subscriptions</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="metric-card">
+                <h3>{{ total_income }}</h3>
+                <p>Total Income</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Section -->
+    <div class="row mt-5">
+        <div class="col-md-6">
+            <h2>Engagement by Platform</h2>
+            <div id="engagementChart" class="chart-container"></div>
+        </div>
+        <div class="col-md-6">
+            <h2>Sentiment Analysis</h2>
+            <canvas id="sentimentChart" class="chart-container"></canvas>
+        </div>
+    </div>
+
+    <!-- Trending Topics and Word Cloud -->
+    <div class="row mt-5">
+        <div class="col-md-6">
+            <h2>Trending Topics</h2>
+            <ul class="list-group">
+                {% for topic in trending_topics %}
+                    <li class="list-group-item">{{ topic }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-md-6">
+            <h2>Word Cloud</h2>
+            <div id="wordCloud" class="word-cloud-container"></div>
+        </div>
+    </div>
+
+    <!-- Report Generation -->
+    <div class="row mt-5">
+        <div class="col-md-12 text-center">
+            <h2>Generate Detailed Report</h2>
+            <button id="generateReport" class="btn btn-primary mt-3">Download Report</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://www.gstatic.com/charts/loader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/d3-cloud/build/d3.layout.cloud.js"></script>
+
+<script>
+// Load Google Charts for engagement chart
+google.charts.load('current', { packages: ['corechart'] });
+google.charts.setOnLoadCallback(drawEngagementChart);
+
+function drawEngagementChart() {
+    const data = google.visualization.arrayToDataTable([
+        ['Platform', 'Engagements'],
+        ['OnlyFans', {{ platform_engagements.onlyfans }}],
+        ['Fansly', {{ platform_engagements.fansly }}],
+        ['Patreon', {{ platform_engagements.patreon }}],
+        // Additional platforms as needed
+    ]);
+
+    const options = {
+        title: 'Engagement by Platform',
+        pieHole: 0.4,
+        chartArea: { width: '80%', height: '80%' },
+    };
+
+    const chart = new google.visualization.PieChart(document.getElementById('engagementChart'));
+    chart.draw(data, options);
+}
+
+// Chart.js for sentiment analysis chart
+const sentimentCtx = document.getElementById('sentimentChart').getContext('2d');
+const sentimentChart = new Chart(sentimentCtx, {
+    type: 'bar',
+    data: {
+        labels: ['Positive', 'Neutral', 'Negative'],
+        datasets: [{
+            label: 'Sentiment',
+            data: [{{ sentiment_data.positive }}, {{ sentiment_data.neutral }}, {{ sentiment_data.negative }}],
+            backgroundColor: ['#4CAF50', '#FFC107', '#F44336'],
+        }]
+    },
+    options: {
+        scales: {
+            y: { beginAtZero: true }
+        }
+    }
+});
+
+// D3.js for word cloud
+const words = [
+    {% for word in word_cloud %}
+        { text: '{{ word.text }}', size: {{ word.size }} },
+    {% endfor %}
+];
+
+d3.layout.cloud().size([500, 300])
+    .words(words)
+    .rotate(0)
+    .fontSize(d => d.size)
+    .on('end', drawWordCloud)
+    .start();
+
+function drawWordCloud(words) {
+    d3.select('#wordCloud').append('svg')
+        .attr('width', 500)
+        .attr('height', 300)
+        .append('g')
+        .attr('transform', 'translate(250,150)')
+        .selectAll('text')
+        .data(words)
+        .enter().append('text')
+        .style('font-size', d => `${d.size}px`)
+        .style('fill', (d, i) => d3.schemeCategory10[i % 10])
+        .attr('text-anchor', 'middle')
+        .attr('transform', d => `translate(${d.x},${d.y})rotate(${d.rotate})`)
+        .text(d => d.text);
+}
+
+// Report generation functionality
+document.getElementById('generateReport').addEventListener('click', () => {
+    fetch('/generate_report')
+        .then(response => response.blob())
+        .then(blob => {
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'analytics_report.pdf';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+});
+</script>
+{% endblock %}

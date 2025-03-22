@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Monitoring Dashboard | RLG Data & RLG Fans</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script defer src="api_monitoring_dashboard.js"></script>
+</head>
+<body>
+    <header>
+        <h1>API Monitoring Dashboard</h1>
+        <p>Monitor the performance, uptime, and latency of RLG Data & RLG Fans APIs.</p>
+    </header>
+    
+    <main>
+        <section class="status-overview">
+            <h2>API Status Overview</h2>
+            <div class="status-container">
+                <div class="status-card" id="uptime-status">
+                    <h3>Uptime</h3>
+                    <p id="uptime-percentage">Loading...</p>
+                </div>
+                <div class="status-card" id="latency-status">
+                    <h3>Average Latency</h3>
+                    <p id="avg-latency">Loading...</p>
+                </div>
+                <div class="status-card" id="error-rate">
+                    <h3>Error Rate</h3>
+                    <p id="error-percentage">Loading...</p>
+                </div>
+            </div>
+        </section>
+        
+        <section class="charts">
+            <h2>API Performance Metrics</h2>
+            <canvas id="latencyChart"></canvas>
+            <canvas id="errorChart"></canvas>
+        </section>
+    </main>
+    
+    <footer>
+        <p>&copy; 2024 RLG Data & RLG Fans | API Monitoring System</p>
+    </footer>
+</body>
+</html>

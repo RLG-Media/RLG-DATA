@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}User Management - RLG DATA{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">User Management</h2>
+
+    <!-- Success and Error Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}" role="alert">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <!-- Users Table -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">All Users</h5>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td>{{ user.id }}</td>
+                            <td>{{ user.username }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>{{ user.roles[0].name }}</td>
+                            <td>
+                                <a href="{{ url_for('admin.edit_user', user_id=user.id) }}" class="btn btn-sm btn-primary">Edit</a>
+                                <form method="POST" action="{{ url_for('admin.delete_user', user_id=user.id) }}" class="d-inline">
+                                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this user?')">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Add New User Form -->
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Add New User</h5>
+            <form method="POST" action="{{ url_for('admin.add_user') }}">
+                <!-- Username Field -->
+                <div class="form-group mb-3">
+                    <label for="username">Username:</label>
+                    <input type="text" class="form-control" id="username" name="username" placeholder="Enter username" required>
+                </div>
+
+                <!-- Email Field -->
+                <div class="form-group mb-3">
+                    <label for="email">Email:</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" required>
+                </div>
+
+                <!-- Password Field -->
+                <div class="form-group mb-3">
+                    <label for="password">Password:</label>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Enter password" required>
+                </div>
+
+                <!-- Role Dropdown -->
+                <div class="form-group mb-3">
+                    <label for="role">Role:</label>
+                    <select class="form-control" id="role" name="role" required>
+                        <option value="">Select a role</option>
+                        {% for role in roles %}
+                            <option value="{{ role.id }}">{{ role.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Add User Button -->
+                <button type="submit" class="btn btn-success">Add User</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

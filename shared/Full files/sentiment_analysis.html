@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentiment Analysis - RLG</title>
+    <link rel="stylesheet" href="styles/theme_manager.css"> <!-- Global Theme -->
+    <link rel="stylesheet" href="styles/sentiment_analysis.css"> <!-- Page-Specific Styles -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="scripts/global.js"></script> <!-- Global Script -->
+</head>
+<body>
+    <header class="rlg-header">
+        <h1>Sentiment Analysis</h1>
+        <p>Analyze text sentiments effortlessly with RLG's advanced tools.</p>
+    </header>
+
+    <main class="container">
+        <!-- Input Section -->
+        <section class="input-section">
+            <h2>Analyze Sentiment</h2>
+            <form id="sentiment-form">
+                <textarea 
+                    id="user-text" 
+                    placeholder="Enter your text here..." 
+                    rows="5" 
+                    required></textarea>
+                <button type="submit" id="analyze-button">Analyze Sentiment</button>
+            </form>
+        </section>
+
+        <!-- Results Section -->
+        <section id="results-section" class="hidden">
+            <h2>Analysis Results</h2>
+            <div id="results-container">
+                <p><strong>Sentiment:</strong> <span id="sentiment-result"></span></p>
+                <p><strong>Confidence Score:</strong> <span id="confidence-score"></span></p>
+            </div>
+            <button id="reset-button">Analyze Another Text</button>
+        </section>
+    </main>
+
+    <footer class="rlg-footer">
+        <p>Powered by RLG Data & RLG Fans</p>
+    </footer>
+
+    <script>
+        // Backend Integration
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('sentiment-form');
+            const resultsSection = document.getElementById('results-section');
+            const resultsContainer = document.getElementById('results-container');
+            const sentimentResult = document.getElementById('sentiment-result');
+            const confidenceScore = document.getElementById('confidence-score');
+            const resetButton = document.getElementById('reset-button');
+
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const userText = document.getElementById('user-text').value;
+
+                if (!userText.trim()) {
+                    alert('Please enter some text for analysis.');
+                    return;
+                }
+
+                try {
+                    // Send data to the backend for analysis
+                    const response = await axios.post('/api/sentiment-analysis', {
+                        text: userText
+                    });
+
+                    // Display results
+                    const { sentiment, confidence } = response.data;
+                    sentimentResult.textContent = sentiment || 'Unknown';
+                    confidenceScore.textContent = `${(confidence * 100).toFixed(2)}%` || 'N/A';
+                    resultsSection.classList.remove('hidden');
+                    form.classList.add('hidden');
+                } catch (error) {
+                    console.error('Error during sentiment analysis:', error);
+                    alert('Something went wrong. Please try again later.');
+                }
+            });
+
+            // Reset form and results
+            resetButton.addEventListener('click', () => {
+                form.reset();
+                form.classList.remove('hidden');
+                resultsSection.classList.add('hidden');
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscription Management - RLG Data & RLG Fans</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Manage Your Subscription</h1>
+        <p>Stay in control of your plan with seamless upgrades, cancellations, and billing management.</p>
+    </header>
+
+    <section id="current-plan">
+        <h2>Your Current Plan</h2>
+        <p><strong>Plan:</strong> <span id="plan-name">Loading...</span></p>
+        <p><strong>Billing Cycle:</strong> <span id="billing-cycle">Loading...</span></p>
+        <p><strong>Next Payment Date:</strong> <span id="next-payment">Loading...</span></p>
+    </section>
+
+    <section id="manage-subscription">
+        <h2>Subscription Options</h2>
+        <button onclick="upgradePlan()">🔼 Upgrade Plan</button>
+        <button onclick="downgradePlan()">🔽 Downgrade Plan</button>
+        <button onclick="cancelSubscription()">❌ Cancel Subscription</button>
+        <p class="note">Cancellation takes effect at the end of the billing cycle. You will retain access until then.</p>
+    </section>
+
+    <section id="payment-methods">
+        <h2>Billing & Payment Methods</h2>
+        <p><strong>Current Payment Method:</strong> <span id="payment-method">Loading...</span></p>
+        <button onclick="updatePayment()">💳 Update Payment Details</button>
+        <button onclick="viewInvoices()">📜 View Invoices</button>
+    </section>
+
+    <section id="faq">
+        <h2>Frequently Asked Questions</h2>
+        <details>
+            <summary>How do I change my subscription plan?</summary>
+            <p>Click the "Upgrade Plan" or "Downgrade Plan" button to modify your plan instantly.</p>
+        </details>
+        <details>
+            <summary>How can I update my payment method?</summary>
+            <p>Click the "Update Payment Details" button to update your billing information securely.</p>
+        </details>
+        <details>
+            <summary>What happens when I cancel my subscription?</summary>
+            <p>Your access continues until the end of your current billing cycle. No refunds are issued for unused time.</p>
+        </details>
+    </section>
+
+    <footer>
+        <p>🔐 **Your data is securely handled with encryption & compliance monitoring.**  
+        🚀 Need help? Contact our **24/7 support team.**</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("plan-name").innerText = "Premium Monthly";
+            document.getElementById("billing-cycle").innerText = "Monthly";
+            document.getElementById("next-payment").innerText = "March 15, 2025";
+            document.getElementById("payment-method").innerText = "Visa - **** 1234";
+        });
+
+        function upgradePlan() {
+            alert("Redirecting to upgrade page...");
+        }
+
+        function downgradePlan() {
+            alert("Redirecting to downgrade options...");
+        }
+
+        function cancelSubscription() {
+            if (confirm("Are you sure you want to cancel your subscription?")) {
+                alert("Subscription cancellation requested.");
+            }
+        }
+
+        function updatePayment() {
+            alert("Redirecting to payment update page...");
+        }
+
+        function viewInvoices() {
+            alert("Fetching your past invoices...");
+        }
+    </script>
+</body>
+</html>

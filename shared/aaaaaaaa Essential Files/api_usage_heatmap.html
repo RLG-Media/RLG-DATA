@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="API Usage Heatmap Dashboard for RLG Data and RLG Fans">
+    <meta name="author" content="RLG Team">
+    <title>API Usage Heatmap | RLG</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/theme_manager.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.0.1/chart.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.0.1/chart.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom/dist/chartjs-plugin-zoom.min.js" defer></script>
+    <script src="scripts/api_usage_heatmap.js" defer></script>
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <a href="dashboard.html">RLG</a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="analytics.html">Analytics</a></li>
+                    <li><a href="api_usage_heatmap.html" class="active">API Usage Heatmap</a></li>
+                    <li><a href="settings.html">Settings</a></li>
+                </ul>
+            </nav>
+            <div class="user-profile">
+                <img src="images/user-avatar.png" alt="User Avatar">
+                <div class="dropdown">
+                    <a href="profile.html">Profile</a>
+                    <a href="logout.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="dashboard-container">
+            <h1>API Usage Heatmap</h1>
+            <div class="filters">
+                <label for="date-range">Date Range:</label>
+                <input type="date" id="start-date">
+                <input type="date" id="end-date">
+                <button id="filter-button">Apply</button>
+            </div>
+            <div class="chart-container">
+                <canvas id="api-usage-heatmap" aria-label="API Usage Heatmap"></canvas>
+            </div>
+            <div class="export-options">
+                <button id="export-pdf">Export as PDF</button>
+                <button id="export-csv">Export as CSV</button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 RLG. All rights reserved.</p>
+    </footer>
+</body>
+</html>

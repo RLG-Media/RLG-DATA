@@ -1,0 +1,185 @@
+{
+    "dashboard": {
+      "id": null,
+      "uid": "rlg-dashboard",
+      "title": "RLG Data & Fans Monitoring",
+      "timezone": "browser",
+      "schemaVersion": 36,
+      "version": 1,
+      "refresh": "10s",
+      "panels": [
+        {
+          "type": "row",
+          "title": "Backend Metrics",
+          "panels": [
+            {
+              "type": "timeseries",
+              "title": "Request Rate (RLG Data Backend)",
+              "datasource": "Prometheus",
+              "targets": [
+                {
+                  "expr": "rate(http_requests_total{job='rlg_data_backend'}[1m])",
+                  "legendFormat": "RLG Data Backend",
+                  "refId": "A"
+                }
+              ]
+            },
+            {
+              "type": "timeseries",
+              "title": "Request Rate (RLG Fans Backend)",
+              "datasource": "Prometheus",
+              "targets": [
+                {
+                  "expr": "rate(http_requests_total{job='rlg_fans_backend'}[1m])",
+                  "legendFormat": "RLG Fans Backend",
+                  "refId": "B"
+                }
+              ]
+            },
+            {
+              "type": "timeseries",
+              "title": "Backend Error Rate",
+              "datasource": "Prometheus",
+              "targets": [
+                {
+                  "expr": "rate(http_errors_total[1m])",
+                  "legendFormat": "{{job}} Errors",
+                  "refId": "C"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "row",
+          "title": "Database Metrics",
+          "panels": [
+            {
+              "type": "timeseries",
+              "title": "PostgreSQL Queries per Second",
+              "datasource": "Prometheus",
+              "targets": [
+                {
+                  "expr": "rate(pg_stat_activity[1m])",
+                  "legendFormat": "QPS",
+                  "refId": "D"
+                }
+              ]
+            },
+            {
+              "type": "gauge",
+              "title": "Database Connections",
+              "datasource": "Prometheus",
+              "targets": [
+                {
+                  "expr": "pg_stat_activity_count{state='active'}",
+                  "legendFormat": "Active Connections",
+                  "refId": "E"
+                }
+              ],
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "short",
+                  "min": 0
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "row",
+          "title": "Caching (Redis)",
+          "panels": [
+            {
+              "type": "timeseries",
+              "title": "Redis Memory Usage",
+              "datasource": "Prometheus",
+              "targets": [
+                {
+                  "expr": "redis_memory_used_bytes{job='redis'}",
+                  "legendFormat": "Memory Used (Bytes)",
+                  "refId": "F"
+                }
+              ]
+            },
+            {
+              "type": "gauge",
+              "title": "Redis Keys",
+              "datasource": "Prometheus",
+              "targets": [
+                {
+                  "expr": "redis_keys_total{job='redis'}",
+                  "legendFormat": "Total Keys",
+                  "refId": "G"
+                }
+              ],
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "short",
+                  "min": 0
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "row",
+          "title": "System Metrics",
+          "panels": [
+            {
+              "type": "timeseries",
+              "title": "CPU Usage",
+              "datasource": "Prometheus",
+              "targets": [
+                {
+                  "expr": "100 - (avg by (instance) (rate(node_cpu_seconds_total{mode='idle'}[1m])) * 100)",
+                  "legendFormat": "{{instance}} CPU Usage",
+                  "refId": "H"
+                }
+              ]
+            },
+            {
+              "type": "timeseries",
+              "title": "Memory Usage",
+              "datasource": "Prometheus",
+              "targets": [
+                {
+                  "expr": "node_memory_Active_bytes / node_memory_MemTotal_bytes * 100",
+                  "legendFormat": "{{instance}} Memory Usage",
+                  "refId": "I"
+                }
+              ]
+            },
+            {
+              "type": "timeseries",
+              "title": "Disk Space Usage",
+              "datasource": "Prometheus",
+              "targets": [
+                {
+                  "expr": "(node_filesystem_size_bytes - node_filesystem_free_bytes) / node_filesystem_size_bytes * 100",
+                  "legendFormat": "{{instance}} Disk Usage",
+                  "refId": "J"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "templating": {
+        "list": [
+          {
+            "type": "datasource",
+            "name": "Prometheus",
+            "label": "Prometheus Datasource",
+            "query": "prometheus",
+            "refresh": 1
+          }
+        ]
+      },
+      "time": {
+        "from": "now-1h",
+        "to": "now"
+      }
+    }
+  }
+  

@@ -1,0 +1,148 @@
+{
+  "dashboard_config": {
+      "default_layout": "grid",
+      "themes": {
+          "light": {
+              "background_color": "#f8f9fa",
+              "text_color": "#343a40",
+              "card_color": "#ffffff",
+              "highlight_color": "#007bff"
+          },
+          "dark": {
+              "background_color": "#343a40",
+              "text_color": "#f8f9fa",
+              "card_color": "#424242",
+              "highlight_color": "#17a2b8"
+          }
+      },
+      "widget_types": [
+          "key_metrics",
+          "trend_chart",
+          "pie_chart",
+          "table",
+          "text_summary",
+          "social_feed",
+          "calendar",
+          "heatmap",
+          "sentiment_analysis"
+      ],
+      "max_widgets_per_dashboard": 12,
+      "enable_ai_recommendations": true
+  },
+  "default_widgets": [
+      {
+          "widget_id": "1",
+          "widget_type": "key_metrics",
+          "title": "Engagement Overview",
+          "data_source": "analytics_service",
+          "dimensions": { "width": 2, "height": 1 }
+      },
+      {
+          "widget_id": "2",
+          "widget_type": "trend_chart",
+          "title": "Monthly Engagement Trends",
+          "data_source": "analytics_service",
+          "dimensions": { "width": 3, "height": 2 }
+      },
+      {
+          "widget_id": "3",
+          "widget_type": "social_feed",
+          "title": "Recent Social Media Posts",
+          "data_source": "social_feed_service",
+          "dimensions": { "width": 3, "height": 3 }
+      },
+      {
+          "widget_id": "4",
+          "widget_type": "calendar",
+          "title": "Content Scheduling Calendar",
+          "data_source": "calendar_service",
+          "dimensions": { "width": 4, "height": 2 }
+      }
+  ],
+  "rlg_data_widgets": [
+      {
+          "widget_id": "5",
+          "widget_type": "pie_chart",
+          "title": "Audience Demographics",
+          "data_source": "audience_service",
+          "dimensions": { "width": 2, "height": 2 }
+      },
+      {
+          "widget_id": "6",
+          "widget_type": "table",
+          "title": "Top Performing Posts",
+          "data_source": "performance_service",
+          "dimensions": { "width": 3, "height": 2 }
+      },
+      {
+          "widget_id": "10",
+          "widget_type": "heatmap",
+          "title": "Geographical Engagement",
+          "data_source": "geo_service",
+          "dimensions": { "width": 3, "height": 2 }
+      },
+      {
+          "widget_id": "11",
+          "widget_type": "sentiment_analysis",
+          "title": "Audience Sentiment Trends",
+          "data_source": "sentiment_service",
+          "dimensions": { "width": 3, "height": 2 }
+      }
+  ],
+  "rlg_fans_widgets": [
+      {
+          "widget_id": "7",
+          "widget_type": "key_metrics",
+          "title": "Subscriber Growth",
+          "data_source": "subscription_service",
+          "dimensions": { "width": 2, "height": 1 }
+      },
+      {
+          "widget_id": "8",
+          "widget_type": "text_summary",
+          "title": "Fan Engagement Insights",
+          "data_source": "engagement_service",
+          "dimensions": { "width": 3, "height": 1 }
+      },
+      {
+          "widget_id": "9",
+          "widget_type": "trend_chart",
+          "title": "Revenue Trends",
+          "data_source": "revenue_service",
+          "dimensions": { "width": 3, "height": 2 }
+      },
+      {
+          "widget_id": "12",
+          "widget_type": "heatmap",
+          "title": "Top Earning Regions",
+          "data_source": "geo_revenue_service",
+          "dimensions": { "width": 3, "height": 2 }
+      }
+  ],
+  "user_preferences": {
+      "editable_dashboard": true,
+      "default_widgets": ["1", "2", "3", "4"],
+      "recently_viewed_dashboards": [
+          {
+              "dashboard_id": "analytics_dashboard",
+              "title": "Analytics Overview",
+              "last_accessed": "2024-11-25T15:30:00Z"
+          },
+          {
+              "dashboard_id": "fans_dashboard",
+              "title": "Fan Engagement",
+              "last_accessed": "2024-11-26T18:00:00Z"
+          }
+      ],
+      "default_view": "rlg_data",
+      "theme_preference": "dark"
+  },
+  "deepseek_ai": {
+      "enabled": true,
+      "recommended_insights": [
+          "Optimal Posting Times",
+          "Top Converting Content",
+          "Trending Topics Analysis"
+      ]
+  }
+}

@@ -1,0 +1,127 @@
+<!-- pornhub.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pornhub Insights - RLG Fans</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <h1>Pornhub Insights and Monetization</h1>
+        <p>Boost your content visibility, engagement, and revenue with actionable insights tailored for Pornhub creators.</p>
+    </header>
+
+    <!-- Trending Content Section -->
+    <section id="trending-content">
+        <h2>Trending Content</h2>
+        <div id="trending-videos">
+            {% for video in trending_videos %}
+                <div class="video-card">
+                    <img src="{{ video.thumbnail_url }}" alt="Trending Video Thumbnail">
+                    <h3>{{ video.title }}</h3>
+                    <p><strong>Views:</strong> {{ video.views }}</p>
+                    <p><strong>Engagement Rate:</strong> {{ video.engagement_rate }}%</p>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Audience Insights Section -->
+    <section id="audience-insights">
+        <h2>Audience Demographics</h2>
+        <table class="audience-table">
+            <tr>
+                <th>Age Group</th>
+                <th>Percentage</th>
+            </tr>
+            {% for age_group, percentage in audience_data.age_distribution.items() %}
+                <tr>
+                    <td>{{ age_group }}</td>
+                    <td>{{ percentage }}%</td>
+                </tr>
+            {% endfor %}
+        </table>
+
+        <h3>Top Viewing Locations</h3>
+        <ul>
+            {% for location in audience_data.top_locations %}
+                <li>{{ location }}</li>
+            {% endfor %}
+        </ul>
+
+        <h3>Monetization Tips</h3>
+        <ul>
+            {% for tip in monetization_tips %}
+                <li>{{ tip }}</li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <!-- Engagement Metrics Section -->
+    <section id="engagement-metrics">
+        <h2>Engagement Metrics</h2>
+        <div id="engagement-chart"></div> <!-- Placeholder for engagement chart -->
+
+        <h3>Pricing Optimization Recommendations</h3>
+        <ul>
+            {% for recommendation in pricing_recommendations %}
+                <li>{{ recommendation }}</li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <!-- Content Performance Analysis -->
+    <section id="content-performance">
+        <h2>Content Performance Analysis</h2>
+        <div class="performance-overview">
+            {% for metric, value in content_performance.items() %}
+                <p><strong>{{ metric }}:</strong> {{ value }}</p>
+            {% endfor %}
+        </div>
+
+        <h3>Premium Content Suggestions</h3>
+        <ul>
+            {% for suggestion in premium_content_suggestions %}
+                <li>{{ suggestion }}</li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; {{ current_year }} RLG Media. All rights reserved.</p>
+    </footer>
+
+    <!-- JavaScript for Charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Sample data for engagement chart
+        const engagementData = {
+            labels: {{ engagement_data.labels | tojson }},
+            datasets: [{
+                label: 'Engagement Rate',
+                data: {{ engagement_data.values | tojson }},
+                backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 1
+            }]
+        };
+
+        // Render Engagement Chart
+        const ctx = document.getElementById('engagement-chart').getContext('2d');
+        const engagementChart = new Chart(ctx, {
+            type: 'line',
+            data: engagementData,
+            options: {
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

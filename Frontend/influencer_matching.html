@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Influencer Matching - RLG DATA{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">Influencer Matching</h2>
+    <p class="text-muted text-center">Find influencers that match your brand’s criteria.</p>
+
+    <!-- Flash messages for success/error notifications -->
+    {% with messages = get_flashed_messages(with_categories=True) %}
+    {% if messages %}
+    <div class="flash-message mt-3">
+        {% for category, message in messages %}
+        <div class="flash-message {{ category }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+
+    <!-- Influencer Matching Form -->
+    <form method="POST" action="{{ url_for('routes.match_influencers') }}" class="mt-4">
+        <div class="form-group">
+            <label for="criteria" class="form-label">Enter Criteria</label>
+            <textarea name="criteria" id="criteria" class="form-control" rows="5" placeholder="e.g., Audience size, Engagement rate, Niche" required></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-4">Find Influencers</button>
+    </form>
+
+    <!-- Matched Influencers List -->
+    {% if influencers %}
+    <div class="mt-5">
+        <h4>Matched Influencers:</h4>
+        <ul class="list-group">
+            {% for influencer in influencers %}
+            <li class="list-group-item">
+                <strong>Name:</strong> {{ influencer.name }}<br>
+                <strong>Platform:</strong> {{ influencer.platform }}<br>
+                <strong>Audience Size:</strong> {{ influencer.audience_size }}<br>
+                <strong>Engagement Rate:</strong> {{ influencer.engagement_rate }}%
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% else %}
+    <p class="mt-5 text-center text-muted">No influencers matched yet. Use the form above to search for influencers.</p>
+    {% endif %}
+</div>
+{% endblock %}

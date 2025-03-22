@@ -1,0 +1,136 @@
+{
+    "global_policy": {
+      "default_retention_period": "365 days",
+      "action_on_expiry": "archive",
+      "notification_before_expiry": {
+        "enabled": true,
+        "days_before": 30,
+        "notification_channels": ["email", "in-app", "sms"]
+      },
+      "automated_cleanup": {
+        "enabled": true,
+        "schedule": "daily",
+        "time": "02:00 AM"
+      }
+    },
+    "platform_specific_policies": {
+      "RLG_Data": {
+        "analytics_data": {
+          "retention_period": "730 days",
+          "action_on_expiry": "delete",
+          "exceptions": {
+            "retention_for_enterprise_users": "1095 days"
+          }
+        },
+        "user_generated_content": {
+          "retention_period": "365 days",
+          "action_on_expiry": "archive",
+          "notification_before_expiry": {
+            "enabled": true,
+            "days_before": 15
+          }
+        },
+        "audit_logs": {
+          "retention_period": "1825 days",
+          "action_on_expiry": "retain",
+          "access_restrictions": {
+            "access_level": "admin_only"
+          }
+        }
+      },
+      "RLG_Fans": {
+        "media_assets": {
+          "retention_period": "730 days",
+          "action_on_expiry": "archive",
+          "exceptions": {
+            "creator_accounts": "1095 days"
+          }
+        },
+        "social_media_data": {
+          "retention_period": "365 days",
+          "action_on_expiry": "delete",
+          "data_encryption": {
+            "enabled": true,
+            "method": "AES-256"
+          }
+        },
+        "logs": {
+          "retention_period": "1095 days",
+          "action_on_expiry": "delete",
+          "notification_before_expiry": {
+            "enabled": true,
+            "days_before": 60
+          }
+        }
+      }
+    },
+    "social_media_platforms": {
+      "Twitter": {
+        "retention_period": "180 days",
+        "action_on_expiry": "delete",
+        "data_pseudonymization": {
+          "enabled": true
+        }
+      },
+      "Facebook": {
+        "retention_period": "365 days",
+        "action_on_expiry": "archive",
+        "notification_before_expiry": {
+          "enabled": true,
+          "days_before": 7
+        }
+      },
+      "TikTok": {
+        "retention_period": "180 days",
+        "action_on_expiry": "delete"
+      },
+      "Instagram": {
+        "retention_period": "365 days",
+        "action_on_expiry": "delete",
+        "exceptions": {
+          "business_accounts": "730 days"
+        }
+      },
+      "LinkedIn": {
+        "retention_period": "730 days",
+        "action_on_expiry": "archive"
+      },
+      "Reddit": {
+        "retention_period": "365 days",
+        "action_on_expiry": "delete"
+      }
+    },
+    "compliance": {
+      "GDPR": {
+        "right_to_be_forgotten": {
+          "enabled": true,
+          "response_time": "30 days"
+        },
+        "data_portability": {
+          "enabled": true,
+          "formats": ["JSON", "CSV"]
+        }
+      },
+      "CCPA": {
+        "opt_out_of_selling": {
+          "enabled": true
+        },
+        "response_time_for_requests": "45 days"
+      },
+      "HIPAA": {
+        "health_data_retention": {
+          "retention_period": "1800 days",
+          "encryption": {
+            "enabled": true,
+            "method": "RSA-2048"
+          }
+        }
+      }
+    },
+    "recommendations": [
+      "Implement regular audits for compliance with retention policies.",
+      "Provide transparency to users with a 'My Data' dashboard.",
+      "Integrate with a third-party tool for real-time monitoring of policy adherence."
+    ]
+  }
+  

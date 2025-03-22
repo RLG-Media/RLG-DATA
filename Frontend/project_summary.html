@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block title %}Project Summary - {{ project.name }}{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Project Summary: {{ project.name }}</h2>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} mt-3">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <!-- Project Overview Cards -->
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Total Mentions</h5>
+                    <p class="card-text display-4">{{ project.total_mentions }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Positive Sentiment</h5>
+                    <p class="card-text display-4">{{ project.positive_sentiment }}%</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Negative Sentiment</h5>
+                    <p class="card-text display-4">{{ project.negative_sentiment }}%</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mentions by Platform Chart -->
+    <h4 class="mb-3">Mentions by Platform</h4>
+    <div id="mentions_chart" style="width: 100%; height: 400px;"></div>
+
+    <!-- Sentiment Breakdown Chart -->
+    <h4 class="mt-5 mb-3">Sentiment Breakdown</h4>
+    <div id="sentiment_chart" style="width: 100%; height: 400px;"></div>
+
+    <!-- Download Report Button -->
+    <div class="mt-4">
+        <a href="{{ url_for('download_report', project_id=project.id) }}" class="btn btn-primary">Download PDF Report</a>
+    </div>
+</div>
+
+{% block scripts %}
+    <!-- Google Charts Loader -->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    
+    <!-- Mentions by Platform Chart -->
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawMentionsChart);
+
+      function drawMentionsChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Platform', 'Mentions'],
+          ['Twitter', {{ mentions.twitter }}],
+          ['Facebook', {{ mentions.facebook }}],
+          ['Instagram', {{ mentions.instagram }}],
+          ['LinkedIn', {{ mentions.linkedin }}]
+        ]);
+
+        var options = {
+          title: 'Mentions by Platform',
+          pieHole: 0.4
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('mentions_chart'));
+        chart.draw(data, options);
+      }
+    </script>
+
+    <!-- Sentiment Breakdown Chart -->
+    <script type="text/javascript">
+      google.charts.setOnLoadCallback(drawSentimentChart);
+
+      function drawSentimentChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Sentiment', 'Percentage'],
+          ['Positive', {{ project.positive_sentiment }}],
+          ['Neutral', {{ project.neutral_sentiment }}],
+          ['Negative', {{ project.negative_sentiment }}]
+        ]);
+
+        var options = {
+          title: 'Sentiment Breakdown',
+          pieHole: 0.4
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('sentiment_chart'));
+        chart.draw(data, options);
+      }
+    </script>
+{% endblock %}
+{% endblock %}

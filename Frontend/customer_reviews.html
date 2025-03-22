@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Reviews - RLG Data & RLG Fans</title>
+    <meta name="description" content="Read real customer reviews and testimonials about RLG Data & RLG Fans. Discover how businesses leverage AI-powered insights and automation.">
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="scripts.js"></script>
+</head>
+<body>
+    <header>
+        <h1>💬 What Our Customers Say About RLG Data & RLG Fans</h1>
+        <p>Real businesses, real results. See how RLG Data & RLG Fans deliver AI-powered insights and automation.</p>
+    </header>
+
+    <section class="review-summary">
+        <h2>🔍 AI-Powered Review Insights</h2>
+        <div class="ratings-overview">
+            <span class="average-rating">⭐ <span id="average-rating">4.9</span>/5</span>
+            <p>Based on <strong><span id="total-reviews">1,500+</span> verified reviews</strong></p>
+        </div>
+        <div class="key-benefits">
+            <p>✔️ <span id="positive-feedback">90%</span> of users report faster decision-making.</p>
+            <p>✔️ <span id="efficiency-boost">85%</span> of businesses saw a <span id="marketing-boost">30%+</span> increase in marketing efficiency.</p>
+            <p>✔️ <span id="competitor-preference">92%</span> of customers prefer RLG over competitors.</p>
+        </div>
+    </section>
+
+    <section class="customer-reviews">
+        <h2>🌍 Real Reviews from Around the World</h2>
+        <div class="review-filter">
+            <label for="region-select">Filter by Region:</label>
+            <select id="region-select" onchange="filterReviews()">
+                <option value="all">🌍 All Regions</option>
+                <option value="usa">🇺🇸 USA</option>
+                <option value="europe">🇪🇺 Europe</option>
+                <option value="africa">🌍 Africa</option>
+                <option value="asia">🌏 Asia</option>
+            </select>
+
+            <label for="industry-select">Filter by Industry:</label>
+            <select id="industry-select" onchange="filterReviews()">
+                <option value="all">🏢 All Industries</option>
+                <option value="marketing">📈 Marketing</option>
+                <option value="ecommerce">🛒 E-commerce</option>
+                <option value="finance">💰 Finance</option>
+                <option value="media">📺 Media</option>
+            </select>
+        </div>
+
+        <div class="reviews-container" id="reviews-container">
+            <!-- Reviews will be loaded dynamically via API -->
+        </div>
+    </section>
+
+    <section class="video-reviews">
+        <h2>🎥 Watch Video Testimonials</h2>
+        <div class="video-container" id="video-reviews-container">
+            <!-- Video reviews will be loaded dynamically -->
+        </div>
+    </section>
+
+    <section class="cta">
+        <h2>🚀 Join Thousands of Satisfied Customers</h2>
+        <p>Experience **RLG Super Tool** and see the difference yourself.</p>
+        <a href="contact.html" class="cta-button">Start Your Free Trial</a>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 RLG Data & RLG Fans. Trusted AI-powered insights for modern businesses.</p>
+    </footer>
+
+    <script>
+        async function fetchReviews() {
+            try {
+                const response = await fetch('/api/reviews');
+                const data = await response.json();
+
+                const reviewsContainer = document.getElementById('reviews-container');
+                const videoReviewsContainer = document.getElementById('video-reviews-container');
+
+                reviewsContainer.innerHTML = '';
+                videoReviewsContainer.innerHTML = '';
+
+                data.reviews.forEach(review => {
+                    const reviewElement = document.createElement('div');
+                    reviewElement.classList.add('review');
+                    reviewElement.innerHTML = `
+                        <p>"${review.text}"</p>
+                        <p>- <strong>${review.author}, ${review.region}</strong> ⭐⭐⭐⭐⭐</p>
+                    `;
+                    reviewsContainer.appendChild(reviewElement);
+
+                    if (review.video) {
+                        const videoElement = document.createElement('iframe');
+                        videoElement.width = "560";
+                        videoElement.height = "315";
+                        videoElement.src = review.video;
+                        videoElement.title = "Customer Testimonial";
+                        videoReviewsContainer.appendChild(videoElement);
+                    }
+                });
+
+                document.getElementById('average-rating').textContent = data.average_rating;
+                document.getElementById('total-reviews').textContent = data.total_reviews;
+                document.getElementById('positive-feedback').textContent = `${data.positive_feedback}%`;
+                document.getElementById('efficiency-boost').textContent = `${data.efficiency_boost}%`;
+                document.getElementById('marketing-boost').textContent = `${data.marketing_boost}%`;
+                document.getElementById('competitor-preference').textContent = `${data.competitor_preference}%`;
+
+            } catch (error) {
+                console.error('Error fetching reviews:', error);
+            }
+        }
+
+        function filterReviews() {
+            const selectedRegion = document.getElementById('region-select').value;
+            const selectedIndustry = document.getElementById('industry-select').value;
+
+            fetch(`/api/reviews?region=${selectedRegion}&industry=${selectedIndustry}`)
+                .then(response => response.json())
+                .then(data => {
+                    const reviewsContainer = document.getElementById('reviews-container');
+                    reviewsContainer.innerHTML = '';
+
+                    data.reviews.forEach(review => {
+                        const reviewElement = document.createElement('div');
+                        reviewElement.classList.add('review');
+                        reviewElement.innerHTML = `
+                            <p>"${review.text}"</p>
+                            <p>- <strong>${review.author}, ${review.region}</strong> ⭐⭐⭐⭐⭐</p>
+                        `;
+                        reviewsContainer.appendChild(reviewElement);
+                    });
+                })
+                .catch(error => console.error('Error filtering reviews:', error));
+        }
+
+        document.addEventListener('DOMContentLoaded', fetchReviews);
+    </script>
+</body>
+</html>

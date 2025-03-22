@@ -1,0 +1,188 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - RLG Fans{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar Navigation -->
+        <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+            <div class="position-sticky">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('analytics') }}">Analytics</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('content_planning') }}">Content Planning</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('trending_insights') }}">Trending Insights</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('recommendations') }}">Recommendations</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('settings') }}">Settings</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-primary" href="{{ url_for('rlg_data_dashboard') }}">
+                            <strong>Switch to RLG Data</strong>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main Dashboard Content -->
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">Welcome, {{ session['username'] }}</h1>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <a href="{{ url_for('create_project') }}" class="btn btn-sm btn-primary">New Project</a>
+                    <a href="{{ url_for('upload_report') }}" class="btn btn-sm btn-outline-secondary">Upload Report</a>
+                </div>
+            </div>
+
+            <!-- Key Performance Metrics -->
+            <h2>Key Metrics</h2>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="card text-white bg-primary mb-3">
+                        <div class="card-header">Subscribers</div>
+                        <div class="card-body">
+                            <h3 class="card-title">{{ subscriber_count }}</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-white bg-success mb-3">
+                        <div class="card-header">Total Revenue</div>
+                        <div class="card-body">
+                            <h3 class="card-title">${{ total_revenue }}</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-white bg-warning mb-3">
+                        <div class="card-header">Engagement Rate</div>
+                        <div class="card-body">
+                            <h3 class="card-title">{{ engagement_rate }}%</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-white bg-danger mb-3">
+                        <div class="card-header">Trending Content Score</div>
+                        <div class="card-body">
+                            <h3 class="card-title">{{ trending_score }}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visual Analytics -->
+            <div class="row">
+                <div class="col-md-6">
+                    <h2>Platform Breakdown</h2>
+                    <canvas id="platformBreakdownChart" width="400" height="400"></canvas>
+                </div>
+                <div class="col-md-6">
+                    <h2>Revenue Trends</h2>
+                    <canvas id="revenueTrendChart" width="400" height="400"></canvas>
+                </div>
+            </div>
+
+            <!-- Content Performance -->
+            <h2 class="mt-4">Top Performing Content</h2>
+            <div id="content_performance_chart" style="width: 100%; height: 400px;"></div>
+
+            <!-- Content Schedule -->
+            <h2 class="mt-4">Scheduled Posts</h2>
+            <div id="calendar" style="width: 100%; height: 600px;"></div>
+        </main>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<!-- Chart.js for Analytics -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    var ctxPlatform = document.getElementById('platformBreakdownChart').getContext('2d');
+    new Chart(ctxPlatform, {
+        type: 'doughnut',
+        data: {
+            labels: ['OnlyFans', 'Fansly', 'Patreon', 'Other'],
+            datasets: [{
+                data: [40, 30, 20, 10],
+                backgroundColor: ['#3498db', '#e74c3c', '#2ecc71', '#f1c40f']
+            }]
+        }
+    });
+
+    var ctxRevenue = document.getElementById('revenueTrendChart').getContext('2d');
+    new Chart(ctxRevenue, {
+        type: 'line',
+        data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+            datasets: [{
+                label: 'Revenue ($)',
+                data: [1200, 1800, 2200, 2800, 3500],
+                backgroundColor: 'rgba(46, 204, 113, 0.2)',
+                borderColor: '#2ecc71',
+                borderWidth: 2
+            }]
+        },
+        options: {
+            scales: { y: { beginAtZero: true } }
+        }
+    });
+</script>
+
+<!-- Google Charts for Content Performance -->
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script>
+    google.charts.load('current', { 'packages': ['corechart'] });
+    google.charts.setOnLoadCallback(drawContentPerformanceChart);
+
+    function drawContentPerformanceChart() {
+        var data = google.visualization.arrayToDataTable([
+            ['Content Type', 'Engagement'],
+            ['Videos', 1500],
+            ['Photos', 1200],
+            ['Live Streams', 800],
+            ['Text Posts', 500]
+        ]);
+
+        var options = {
+            title: 'Content Performance by Engagement',
+            hAxis: { title: 'Content Type' },
+            vAxis: { title: 'Engagement' },
+            colors: ['#9b59b6']
+        };
+
+        var chart = new google.visualization.ColumnChart(document.getElementById('content_performance_chart'));
+        chart.draw(data, options);
+    }
+</script>
+
+<!-- FullCalendar for Scheduling -->
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.9.0/main.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.9.0/main.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            events: [
+                { title: 'Exclusive Post', start: '2024-11-03' },
+                { title: 'Live Stream Event', start: '2024-11-10' }
+            ]
+        });
+        calendar.render();
+    });
+</script>
+{% endblock %}

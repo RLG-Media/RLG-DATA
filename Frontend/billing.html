@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}Billing - RLG DATA{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Billing & Payment History</h2>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} mt-3">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <!-- Current Subscription Card -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h4 class="card-title">Your Current Plan</h4>
+            <p><strong>Plan:</strong> {{ user.subscription.plan }}</p>
+            <p><strong>Status:</strong> 
+                {% if user.subscription.status == 'active' %}
+                    <span class="badge bg-success">Active</span>
+                {% else %}
+                    <span class="badge bg-warning">Inactive</span>
+                {% endif %}
+            </p>
+            <p><strong>Next Billing Date:</strong> {{ user.subscription.next_billing_date.strftime('%Y-%m-%d') }}</p>
+        </div>
+    </div>
+
+    <!-- Payment History Table -->
+    <h4 class="mt-4 mb-3">Payment History</h4>
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Download Invoice</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for payment in payment_history %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ payment.date.strftime('%Y-%m-%d') }}</td>
+                <td>{{ payment.amount }}</td>
+                <td>
+                    {% if payment.status == 'paid' %}
+                        <span class="badge bg-success">Paid</span>
+                    {% else %}
+                        <span class="badge bg-danger">Failed</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{{ url_for('download_invoice', invoice_id=payment.invoice_id) }}" class="btn btn-sm btn-secondary">Download</a>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="5" class="text-center">No payment history available.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

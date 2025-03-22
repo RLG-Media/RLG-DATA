@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome to RLG DATA{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <!-- Jumbotron Section for Welcome Message -->
+    <div class="jumbotron text-center bg-light p-5 rounded">
+        <h1 class="display-4">Welcome to RLG DATA</h1>
+        <p class="lead">Real-time social media monitoring and analysis at your fingertips.</p>
+        <hr class="my-4">
+        <p>Track your brand, competitors, and trends with real-time insights.</p>
+        <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-lg mr-2">Get Started</a>
+        <a href="{{ url_for('auth.login') }}" class="btn btn-outline-secondary btn-lg">Login</a>
+    </div>
+
+    <!-- Features Section -->
+    <div class="row text-center mt-5">
+        <div class="col-lg-4">
+            <h3>Real-Time Monitoring</h3>
+            <p>Stay ahead with real-time updates on brand mentions, competitor activity, and audience sentiment across platforms.</p>
+        </div>
+        <div class="col-lg-4">
+            <h3>Comprehensive Reports</h3>
+            <p>Generate detailed reports with insights on engagement, reach, sentiment, and more, tailored to your needs.</p>
+        </div>
+        <div class="col-lg-4">
+            <h3>Actionable Insights</h3>
+            <p>Leverage AI-powered analysis to get recommendations on improving your brand's social media presence.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

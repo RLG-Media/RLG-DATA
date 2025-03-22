@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}Subscription Management - RLG DATA{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Manage Your Subscription</h2>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} mt-3">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <!-- Current Subscription Information -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h4 class="card-title">Your Current Subscription</h4>
+            <p><strong>Plan:</strong> {{ user.subscription.plan }}</p>
+            <p><strong>Status:</strong> 
+                {% if user.subscription.status == 'active' %}
+                    <span class="badge bg-success">Active</span>
+                {% else %}
+                    <span class="badge bg-warning">Inactive</span>
+                {% endif %}
+            </p>
+            <p><strong>Next Billing Date:</strong> {{ user.subscription.next_billing_date.strftime('%Y-%m-%d') }}</p>
+        </div>
+    </div>
+
+    <!-- Upgrade/Downgrade Plan Form -->
+    <h4 class="mb-3">Change Your Plan</h4>
+    <form method="POST" action="{{ url_for('subscriptions.change_plan') }}">
+        <div class="form-group mb-3">
+            <label for="plan">Select a Plan</label>
+            <select class="form-control" id="plan" name="plan" required>
+                <option value="basic" {% if user.subscription.plan == 'basic' %}selected{% endif %}>Basic Plan</option>
+                <option value="premium" {% if user.subscription.plan == 'premium' %}selected{% endif %}>Premium Plan</option>
+                <option value="enterprise" {% if user.subscription.plan == 'enterprise' %}selected{% endif %}>Enterprise Plan</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Update Subscription</button>
+    </form>
+
+    <!-- Cancel Subscription -->
+    <div class="mt-4">
+        <form method="POST" action="{{ url_for('subscriptions.cancel') }}">
+            <button type="submit" class="btn btn-danger">Cancel Subscription</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

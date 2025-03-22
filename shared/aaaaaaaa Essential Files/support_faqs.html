@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Support FAQs for RLG Data and RLG Fans">
+    <meta name="author" content="RLG Team">
+    <title>Support FAQs | RLG</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/theme_manager.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" defer></script>
+    <script src="scripts/support_faqs.js" defer></script>
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <a href="dashboard.html">RLG</a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="analytics.html">Analytics</a></li>
+                    <li><a href="support_faqs.html" class="active">Support FAQs</a></li>
+                    <li><a href="settings.html">Settings</a></li>
+                </ul>
+            </nav>
+            <div class="user-profile">
+                <img src="images/user-avatar.png" alt="User Avatar">
+                <div class="dropdown">
+                    <a href="profile.html">Profile</a>
+                    <a href="logout.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="faq-container">
+            <h1>Support FAQs</h1>
+            <div class="search-bar">
+                <input type="text" id="faq-search" placeholder="Search FAQs...">
+                <button id="search-btn"><i class="fas fa-search"></i></button>
+            </div>
+            <div class="faq-list">
+                <!-- FAQs dynamically populated -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 RLG. All rights reserved.</p>
+    </footer>
+</body>
+</html>

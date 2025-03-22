@@ -1,0 +1,33 @@
+<div class="container mt-4">
+    <h2 class="mb-4">Create New User</h2>
+
+    <!-- User Creation Form -->
+    <form method="POST">
+        
+        <!-- Username Field -->
+        <div class="form-group mb-3">
+            <label for="username">Username:</label>
+            <input type="text" class="form-control" id="username" name="username" placeholder="Enter username" required>
+        </div>
+
+        <!-- Password Field -->
+        <div class="form-group mb-3">
+            <label for="password">Password:</label>
+            <input type="password" class="form-control" id="password" name="password" placeholder="Enter password" required>
+        </div>
+
+        <!-- Role Selection -->
+        <div class="form-group mb-4">
+            <label for="role">Role:</label>
+            <select class="form-control" id="role" name="role" required>
+                {% for role in roles %}
+                <option value="{{ role.name }}">{{ role.name }}</option>
+                {% endfor %}
+            </select>
+            <small class="form-text text-muted">Assign a role to the new user (e.g., Admin, Editor, Viewer).</small>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary">Create User</button>
+    </form>
+</div>

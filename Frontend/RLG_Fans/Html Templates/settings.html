@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - RLG Fans</title>
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    
+    <style>
+        .settings-container {
+            margin-top: 20px;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .settings-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #343a40;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="settings-container">
+            <h2 class="settings-title text-center">Account Settings</h2>
+
+            <!-- Account Information -->
+            <section>
+                <h4>Account Information</h4>
+                <form method="POST" action="{{ url_for('update_account') }}">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="username" name="username" value="{{ user.username }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" value="{{ user.email }}" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update Account</button>
+                </form>
+            </section>
+
+            <hr>
+
+            <!-- Password Update -->
+            <section>
+                <h4>Change Password</h4>
+                <form method="POST" action="{{ url_for('change_password') }}">
+                    <div class="mb-3">
+                        <label for="current_password" class="form-label">Current Password</label>
+                        <input type="password" class="form-control" id="current_password" name="current_password" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="new_password" class="form-label">New Password</label>
+                        <input type="password" class="form-control" id="new_password" name="new_password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Change Password</button>
+                </form>
+            </section>
+
+            <hr>
+
+            <!-- Notifications -->
+            <section>
+                <h4>Notification Settings</h4>
+                <form method="POST" action="{{ url_for('update_notifications') }}">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="email_notifications" name="email_notifications" {% if user.email_notifications %}checked{% endif %}>
+                        <label class="form-check-label" for="email_notifications">Email Notifications</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="sms_notifications" name="sms_notifications" {% if user.sms_notifications %}checked{% endif %}>
+                        <label class="form-check-label" for="sms_notifications">SMS Notifications</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-3">Update Notifications</button>
+                </form>
+            </section>
+
+            <hr>
+
+            <!-- Subscription Management -->
+            <section>
+                <h4>Subscription</h4>
+                <div>
+                    <p>Your current plan: <strong>{{ user.subscription.plan }}</strong></p>
+                    {% if user.subscription.status == 'active' %}
+                        <button class="btn btn-danger" onclick="cancelSubscription()">Cancel Subscription</button>
+                    {% else %}
+                        <a href="{{ url_for('subscribe') }}" class="btn btn-primary">Subscribe to Premium</a>
+                    {% endif %}
+                </div>
+            </section>
+
+            <hr>
+
+            <!-- Account Deactivation -->
+            <section>
+                <h4>Account Deactivation</h4>
+                <p>Deactivating your account will remove all of your data and cannot be undone.</p>
+                <form method="POST" action="{{ url_for('deactivate_account') }}" onsubmit="return confirm('Are you sure you want to deactivate your account?');">
+                    <button type="submit" class="btn btn-danger">Deactivate Account</button>
+                </form>
+            </section>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- JavaScript for Cancel Subscription -->
+    <script>
+        function cancelSubscription() {
+            if (confirm("Are you sure you want to cancel your subscription?")) {
+                fetch("{{ url_for('cancel_subscription') }}", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + localStorage.getItem("jwt_token")
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        alert("Subscription canceled successfully.");
+                        location.reload();
+                    } else {
+                        alert("Failed to cancel subscription.");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error canceling subscription:", error);
+                    alert("An error occurred while canceling your subscription.");
+                });
+            }
+        }
+    </script>
+</body>
+</html>

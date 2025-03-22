@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - RLG Solutions</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <!-- Header -->
+    <header class="page-header">
+        <div class="container">
+            <h1>About RLG Solutions</h1>
+            <p>Powering Data Intelligence, Engagement, and Monetization</p>
+        </div>
+    </header>
+
+    <!-- Our Mission -->
+    <section class="about-section">
+        <div class="container">
+            <h2>Our Mission</h2>
+            <p>At RLG Solutions, our goal is to empower businesses, content creators, and brands with cutting-edge tools designed to enhance engagement, optimize monetization, and provide deep insights into audience behavior. Whether through **RLG Data’s real-time analytics and sentiment tracking** or **RLG Fans’ monetization and content optimization tools**, we ensure that our users remain ahead of the competition.</p>
+        </div>
+    </section>
+
+    <!-- RLG Data Overview -->
+    <section class="tool-section">
+        <div class="container">
+            <h2>RLG Data - AI-Powered Data Intelligence</h2>
+            <p>RLG Data is a comprehensive analytics and monitoring platform designed for businesses and influencers looking to optimize their social media strategies. With its **AI-driven insights and real-time tracking**, RLG Data delivers powerful analytics, compliance monitoring, and automation tools.</p>
+            <ul>
+                <li><strong>🔍 Advanced Scraping & Compliance Monitoring:</strong> Automates data collection while ensuring full compliance with platform policies.</li>
+                <li><strong>📊 Real-Time Sentiment Analysis:</strong> Understand audience sentiment, emotions, and trending conversations.</li>
+                <li><strong>📈 Performance & Engagement Metrics:</strong> Track post engagement, brand sentiment, and follower growth across multiple platforms.</li>
+                <li><strong>🎯 AI-Driven Strategy Recommendations:</strong> Optimizes posting schedules, hashtag strategies, and audience targeting.</li>
+                <li><strong>🌍 Regional & Geographic Insights:</strong> Gain location-based insights into audience demographics and trends.</li>
+                <li><strong>📑 Detailed Automated Reports:</strong> Generate easy-to-understand reports that highlight key insights and performance trends.</li>
+            </ul>
+            <p>With **RLG Data**, businesses and influencers can leverage **automation, deep analytics, and AI-powered insights** to make data-driven decisions and maintain a competitive edge.</p>
+        </div>
+    </section>
+
+    <!-- RLG Fans Overview -->
+    <section class="tool-section">
+        <div class="container">
+            <h2>RLG Fans - The Ultimate Monetization Tool</h2>
+            <p>RLG Fans is a powerful tool for content creators looking to maximize earnings on platforms such as **OnlyFans, Patreon, Fansly, and more**. Our AI-driven insights help you **optimize content strategies, engage subscribers, and boost revenue**.</p>
+            <ul>
+                <li><strong>📈 Revenue Optimization:</strong> AI-driven pricing strategies, pay-per-view insights, and tiered subscription models.</li>
+                <li><strong>🚀 Trending Content & Engagement Strategies:</strong> Discover what’s working and replicate successful content.</li>
+                <li><strong>🔗 Platform-Specific Growth Strategies:</strong> Tailored optimization for **OnlyFans, Fansly, Patreon, and more**.</li>
+                <li><strong>📅 Content Scheduling & Auto-Posting:</strong> Automate your posts based on peak engagement times.</li>
+                <li><strong>🎤 Live Stream & Event Analytics:</strong> Track engagement and revenue from live-streams and fan events.</li>
+                <li><strong>🤝 Brand Partnership & Sponsorship Matching:</strong> Connect with brands for lucrative sponsorships.</li>
+                <li><strong>💡 AI-Generated Content Recommendations:</strong> Optimize content themes, captions, and hashtags for higher visibility.</li>
+            </ul>
+            <p>With **RLG Fans**, creators gain access to the **most advanced monetization tools, automation, and AI-driven insights** to build a sustainable income.</p>
+        </div>
+    </section>
+
+    <!-- RLG Super Tool Overview -->
+    <section class="tool-section">
+        <div class="container">
+            <h2>Introducing RLG Super Tool</h2>
+            <p>The **RLG Super Tool** integrates **RLG Data and RLG Fans** into one seamless experience. It provides **automated scraping, AI-powered analytics, compliance monitoring, and monetization strategies** – all in a single platform.</p>
+            <ul>
+                <li><strong>⚡ AI-Powered Automation:</strong> **DeepSeek AI Integration** for advanced content insights and response automation.</li>
+                <li><strong>🔎 Compliance-First Scraping:</strong> Ensures **data collection adheres to platform guidelines and regulations**.</li>
+                <li><strong>📡 Multi-Platform Optimization:</strong> Works across **social media, creator platforms, and subscription-based services**.</li>
+                <li><strong>📈 Real-Time Performance Tracking:</strong> Get **instant analytics on engagement, reach, and revenue growth**.</li>
+                <li><strong>🧠 AI-Generated Insights:</strong> Smart recommendations for **trends, pricing strategies, and audience engagement**.</li>
+            </ul>
+            <p>With **RLG Super Tool**, you no longer need multiple platforms—**it’s your one-stop solution for data intelligence, engagement tracking, and revenue maximization**.</p>
+        </div>
+    </section>
+
+    <!-- Why Choose Us? -->
+    <section class="benefits-section">
+        <div class="container">
+            <h2>Why RLG Solutions?</h2>
+            <p>RLG Solutions offers **a unique blend of automation, AI, and user-focused insights** that make it the ultimate **all-in-one tool** for creators, brands, and businesses. Here’s why we stand out:</p>
+            <ul>
+                <li>🚀 **AI-Powered Analytics** – Deep insights tailored to user preferences.</li>
+                <li>💰 **Proven Monetization Strategies** – Optimized revenue generation for creators.</li>
+                <li>⚖️ **Fully Compliant Scraping & Data Collection** – No risk of violating platform policies.</li>
+                <li>🔄 **Automation at Scale** – Auto-posting, real-time engagement tracking, and scheduled reporting.</li>
+                <li>🌍 **Global Insights with Geolocation Accuracy** – Track regional trends and audience behavior.</li>
+            </ul>
+            <p>Whether you're a **brand looking to optimize engagement**, a **creator trying to maximize revenue**, or a **business seeking powerful analytics**, RLG Solutions is the **most advanced, automated, and scalable platform available**.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; {{ current_year }} RLG Solutions. All rights reserved.</p>
+        <p><a href="{{ url_for('contact') }}">Contact Us</a> | <a href="{{ url_for('privacy_policy') }}">Privacy Policy</a> | <a href="{{ url_for('terms') }}">Terms of Service</a></p>
+    </footer>
+</body>
+</html>

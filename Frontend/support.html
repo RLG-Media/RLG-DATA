@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block title %}Support - RLG DATA{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Support Center</h2>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} mt-3">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <!-- Support Options -->
+    <div class="row">
+        <!-- FAQ Section -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Frequently Asked Questions (FAQs)</h4>
+                    <p class="card-text">Find answers to common questions about RLG DATA, including troubleshooting tips and best practices.</p>
+                    <a href="{{ url_for('faq') }}" class="btn btn-primary">Visit FAQ</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Support Section -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Contact Support</h4>
+                    <p class="card-text">Need help? Our support team is here to assist you with any issues or questions you may have.</p>
+                    <a href="mailto:support@rlgdata.com" class="btn btn-secondary">Email Support</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Guide and Documentation Section -->
+    <h4 class="mt-5 mb-3">Guides & Documentation</h4>
+    <p>Explore our comprehensive guides and documentation to help you get the most out of RLG DATA:</p>
+    <ul class="list-group">
+        <li class="list-group-item">
+            <a href="{{ url_for('guide', guide_id=1) }}">Getting Started with RLG DATA</a>
+        </li>
+        <li class="list-group-item">
+            <a href="{{ url_for('guide', guide_id=2) }}">Managing Projects and Reports</a>
+        </li>
+        <li class="list-group-item">
+            <a href="{{ url_for('guide', guide_id=3) }}">Advanced Analytics and Visualizations</a>
+        </li>
+    </ul>
+
+    <!-- Integrated Chatbot -->
+    <div class="mt-5">
+        <h4 class="mb-3">Live Chat Support</h4>
+        <p>Chat with our virtual assistant or a live support agent for immediate help:</p>
+        <div class="chatbot-container">
+            <iframe src="https://chatbot.rlgdata.com" 
+                    title="RLG Data Chatbot"
+                    width="100%" 
+                    height="400px" 
+                    style="border: none;">
+            </iframe>
+        </div>
+    </div>
+
+    <!-- Additional Support Tools -->
+    <div class="mt-5">
+        <h4 class="mb-3">Additional Resources</h4>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">System Status</h5>
+                        <p class="card-text">Check the current status of RLG DATA services.</p>
+                        <a href="{{ url_for('status_page') }}" class="btn btn-info">View Status</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Feedback</h5>
+                        <p class="card-text">Have suggestions or found an issue? Share your feedback with us.</p>
+                        <a href="{{ url_for('feedback') }}" class="btn btn-warning">Submit Feedback</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">User Community</h5>
+                        <p class="card-text">Join our user forum to discuss and share insights.</p>
+                        <a href="https://forum.rlgdata.com" target="_blank" class="btn btn-success">Visit Forum</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,110 @@
+{
+    "languages": {
+      "en": {
+        "app_name": "RLG Data & Fans",
+        "dashboard": "Dashboard",
+        "analytics": "Analytics",
+        "reports": "Reports",
+        "settings": "Settings",
+        "inbox": "Inbox",
+        "logout": "Logout",
+        "notifications": "Notifications",
+        "help": "Help",
+        "search_placeholder": "Search...",
+        "user_profile": {
+          "welcome_message": "Welcome, {user_name}!",
+          "edit_profile": "Edit Profile",
+          "subscription_status": "Subscription Status: {status}"
+        },
+        "errors": {
+          "network_error": "Network error. Please try again later.",
+          "page_not_found": "Page not found.",
+          "unexpected_error": "An unexpected error occurred. Please contact support."
+        },
+        "social_media": {
+          "facebook": "Facebook",
+          "twitter": "Twitter",
+          "instagram": "Instagram",
+          "tiktok": "TikTok",
+          "linkedin": "LinkedIn",
+          "reddit": "Reddit",
+          "threads": "Threads",
+          "snapchat": "Snapchat",
+          "pinterest": "Pinterest"
+        }
+      },
+      "es": {
+        "app_name": "Datos y Fans de RLG",
+        "dashboard": "Tablero",
+        "analytics": "Analíticas",
+        "reports": "Informes",
+        "settings": "Configuraciones",
+        "inbox": "Bandeja de entrada",
+        "logout": "Cerrar sesión",
+        "notifications": "Notificaciones",
+        "help": "Ayuda",
+        "search_placeholder": "Buscar...",
+        "user_profile": {
+          "welcome_message": "¡Bienvenido, {user_name}!",
+          "edit_profile": "Editar perfil",
+          "subscription_status": "Estado de la suscripción: {status}"
+        },
+        "errors": {
+          "network_error": "Error de red. Por favor, inténtelo de nuevo más tarde.",
+          "page_not_found": "Página no encontrada.",
+          "unexpected_error": "Ocurrió un error inesperado. Por favor, contacte al soporte técnico."
+        },
+        "social_media": {
+          "facebook": "Facebook",
+          "twitter": "Twitter",
+          "instagram": "Instagram",
+          "tiktok": "TikTok",
+          "linkedin": "LinkedIn",
+          "reddit": "Reddit",
+          "threads": "Threads",
+          "snapchat": "Snapchat",
+          "pinterest": "Pinterest"
+        }
+      },
+      "fr": {
+        "app_name": "RLG Données et Fans",
+        "dashboard": "Tableau de bord",
+        "analytics": "Analyses",
+        "reports": "Rapports",
+        "settings": "Paramètres",
+        "inbox": "Boîte de réception",
+        "logout": "Se déconnecter",
+        "notifications": "Notifications",
+        "help": "Aide",
+        "search_placeholder": "Recherche...",
+        "user_profile": {
+          "welcome_message": "Bienvenue, {user_name} !",
+          "edit_profile": "Modifier le profil",
+          "subscription_status": "Statut de l'abonnement : {status}"
+        },
+        "errors": {
+          "network_error": "Erreur réseau. Veuillez réessayer plus tard.",
+          "page_not_found": "Page non trouvée.",
+          "unexpected_error": "Une erreur inattendue s'est produite. Veuillez contacter le support."
+        },
+        "social_media": {
+          "facebook": "Facebook",
+          "twitter": "Twitter",
+          "instagram": "Instagram",
+          "tiktok": "TikTok",
+          "linkedin": "LinkedIn",
+          "reddit": "Reddit",
+          "threads": "Threads",
+          "snapchat": "Snapchat",
+          "pinterest": "Pinterest"
+        }
+      }
+    },
+    "recommendations": [
+      "Add new languages as the user base grows.",
+      "Use placeholders for dynamic content (e.g., {user_name}) to ensure localization consistency.",
+      "Provide a fallback language option in case translations are incomplete.",
+      "Regularly update this file to include new features or platform integrations."
+    ]
+  }
+  

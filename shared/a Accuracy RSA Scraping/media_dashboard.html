@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Media Dashboard for RLG Data and RLG Fans">
+    <meta name="author" content="RLG">
+    <title>Media Dashboard | RLG</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/theme_manager.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chart.js/3.8.0/chart.min.js"></script>
+    <script src="scripts/media_dashboard.js" defer></script>
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <a href="dashboard.html">RLG</a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="analytics.html">Analytics</a></li>
+                    <li><a href="media_dashboard.html" class="active">Media Dashboard</a></li>
+                    <li><a href="alerts_notification.html">Alerts</a></li>
+                    <li><a href="settings.html">Settings</a></li>
+                </ul>
+            </nav>
+            <div class="user-profile">
+                <img src="images/user-avatar.png" alt="User Avatar">
+                <div class="dropdown">
+                    <a href="profile.html">Profile</a>
+                    <a href="logout.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="media-dashboard-container">
+            <header class="dashboard-header">
+                <h1>Media Dashboard</h1>
+                <div class="actions">
+                    <button id="refresh-dashboard" class="btn"><i class="fas fa-sync-alt"></i> Refresh</button>
+                </div>
+            </header>
+
+            <section class="dashboard-overview">
+                <div class="stat">
+                    <h2>Total Mentions</h2>
+                    <p id="total-mentions">Loading...</p>
+                </div>
+                <div class="stat">
+                    <h2>Sentiment Analysis</h2>
+                    <p id="sentiment-overview">Loading...</p>
+                </div>
+                <div class="stat">
+                    <h2>Top Platforms</h2>
+                    <p id="top-platforms">Loading...</p>
+                </div>
+            </section>
+
+            <section class="dashboard-charts">
+                <div class="chart-container">
+                    <canvas id="mention-trend-chart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <canvas id="platform-distribution-chart"></canvas>
+                </div>
+            </section>
+
+            <section class="media-mentions">
+                <h2>Recent Mentions</h2>
+                <ul id="recent-mentions" class="mentions-list">
+                    <!-- Dynamic mentions populated by backend -->
+                    <li class="mention-item">Loading...</li>
+                </ul>
+            </section>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 RLG. All rights reserved.</p>
+    </footer>
+</body>
+</html>

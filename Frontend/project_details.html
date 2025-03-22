@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Project Details - RLG DATA{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <!-- Project Information -->
+    <h2 class="mb-4">{{ project.name }}</h2>
+    
+    <!-- Project Details Card -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Project Information</h5>
+            <p><strong>Description:</strong> {{ project.description }}</p>
+            <p><strong>Keywords:</strong> {{ project.keywords }}</p>
+            <p><strong>Created At:</strong> {{ project.created_at.strftime('%Y-%m-%d') }}</p>
+            <p><strong>Status:</strong> {{ project.status }}</p>
+        </div>
+    </div>
+
+    <!-- Graphs Section -->
+    <h4>Data Visualizations</h4>
+    <div class="row">
+        <div class="col-md-6">
+            <h5>Mentions by Platform</h5>
+            <img src="{{ mentions_graph }}" alt="Mentions by Platform" class="img-fluid">
+        </div>
+        <div class="col-md-6">
+            <h5>Sentiment Breakdown</h5>
+            <img src="{{ sentiment_graph }}" alt="Sentiment Breakdown" class="img-fluid">
+        </div>
+    </div>
+
+    <!-- Project Actions -->
+    <div class="mt-4">
+        <a href="{{ url_for('edit_project', project_id=project.id) }}" class="btn btn-warning">Edit Project</a>
+        <form action="{{ url_for('delete_project', project_id=project.id) }}" method="post" class="d-inline-block">
+            <button type="submit" class="btn btn-danger">Delete Project</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Projects - RLG DATA{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Your Projects</h2>
+
+    <!-- Form to Create a New Project -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Create a New Project</h5>
+            <form method="POST" action="{{ url_for('projects') }}">
+                <div class="form-group mb-3">
+                    <label for="project_name">Project Name</label>
+                    <input type="text" name="project_name" class="form-control" placeholder="Enter project name" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Create Project</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Display Existing Projects -->
+    <h3>Existing Projects</h3>
+    <ul class="list-group mb-4">
+        {% for project in projects %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span>{{ project.name }}</span>
+            <a href="{{ url_for('view_project', project_id=project.id) }}" class="btn btn-sm btn-info">View</a>
+        </li>
+        {% else %}
+        <p class="text-muted">No projects yet. Create one to get started!</p>
+        {% endfor %}
+    </ul>
+
+    <!-- Graph Section (Optional) -->
+    <div class="row">
+        <div class="col-md-6">
+            <h5>Mentions by Platform</h5>
+            <img src="{{ mentions_graph }}" alt="Mentions by Platform" class="img-fluid">
+        </div>
+        <div class="col-md-6">
+            <h5>Sentiment Breakdown</h5>
+            <img src="{{ sentiment_graph }}" alt="Sentiment Breakdown" class="img-fluid">
+        </div>
+    </div>
+</div>
+{% endblock %}

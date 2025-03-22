@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Manage and monitor your tasks efficiently with RLG Data and RLG Fans.">
+    <title>Tasks Management | RLG Platform</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/tasks.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="scripts/tasks.js" defer></script>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="main-header">
+        <div class="container">
+            <h1>Task Management</h1>
+            <p>Organize, monitor, and complete your tasks efficiently.</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Task Filters -->
+        <section class="filters-section">
+            <h2>Filters</h2>
+            <div class="filters">
+                <div class="filter">
+                    <label for="statusFilter">Status</label>
+                    <select id="statusFilter" class="filter-dropdown">
+                        <option value="all">All</option>
+                        <option value="pending">Pending</option>
+                        <option value="in-progress">In Progress</option>
+                        <option value="completed">Completed</option>
+                    </select>
+                </div>
+                <div class="filter">
+                    <label for="priorityFilter">Priority</label>
+                    <select id="priorityFilter" class="filter-dropdown">
+                        <option value="all">All</option>
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                    </select>
+                </div>
+                <button id="applyFilters" class="btn-primary">Apply Filters</button>
+            </div>
+        </section>
+
+        <!-- Task List -->
+        <section class="task-list-section">
+            <h2>Tasks</h2>
+            <ul id="taskList" class="task-list">
+                <!-- Dynamic task items will be loaded here -->
+            </ul>
+        </section>
+
+        <!-- Add New Task -->
+        <section class="add-task-section">
+            <h2>Add New Task</h2>
+            <form id="addTaskForm" class="add-task-form">
+                <div class="form-group">
+                    <label for="taskName">Task Name</label>
+                    <input type="text" id="taskName" name="taskName" required />
+                </div>
+                <div class="form-group">
+                    <label for="taskDescription">Description</label>
+                    <textarea id="taskDescription" name="taskDescription" rows="4"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="taskPriority">Priority</label>
+                    <select id="taskPriority" name="taskPriority">
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="taskDueDate">Due Date</label>
+                    <input type="date" id="taskDueDate" name="taskDueDate" required />
+                </div>
+                <button type="submit" class="btn-primary">Add Task</button>
+            </form>
+        </section>
+    </main>
+
+    <!-- Modal for Task Details -->
+    <div id="taskModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Task Details</h2>
+            <p id="taskDetails"></p>
+            <button id="markComplete" class="btn-primary">Mark as Complete</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <p>&copy; 2025 RLG Platform. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+
+</html>

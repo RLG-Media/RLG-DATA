@@ -1,0 +1,52 @@
+/* user_insights.css */
+
+.user-insights-container {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.user-insights-container h2 {
+    font-size: 1.8em;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.insights-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.insight {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.insight h3 {
+    font-size: 1.2em;
+    color: #007bff;
+    margin-bottom: 8px;
+}
+
+.insight p {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #333;
+}
+
+.loading-spinner, .error-message {
+    text-align: center;
+    font-size: 1.2em;
+    color: #666;
+    padding: 20px;
+}
+
+.error-message {
+    color: #dc3545;
+}

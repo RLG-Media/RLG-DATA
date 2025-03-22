@@ -1,0 +1,67 @@
+# system_requirements.txt
+# This file lists all the Python package dependencies required for the RLG Data and RLG Fans project.
+# It covers:
+#   - Web framework and related extensions for building APIs and user authentication.
+#   - Data scraping, processing, and visualization libraries.
+#   - Scheduling and automation tools.
+#   - Natural language processing (NLP) tools.
+#   - System monitoring and deployment support.
+#
+# For production, ensure that sensitive credentials are not hardcoded but loaded via environment variables or a secrets manager.
+
+Flask==2.2.2
+Flask-Login==0.6.2
+Flask-SQLAlchemy==3.0.2
+SQLAlchemy==1.4.41
+Werkzeug==2.2.2
+requests==2.28.2
+beautifulsoup4==4.11.1
+APScheduler==3.10.1
+nltk==3.8.1
+spacy==3.5.2
+psutil==5.9.1
+PyYAML==6.0
+gunicorn==20.1.0
+python-dotenv==0.21.0
+Flask
+Flask-SQLAlchemy
+Flask-JWT-Extended
+Flask-Mail
+Flask-Migrate
+Flask-SocketIO
+Flask-Limiter
+Flask-Cors
+requests
+redis
+celery
+google-api-python-client
+google-auth
+pytrends
+openai
+textblob
+scikit-learn
+numpy
+matplotlib
+reportlab
+python-dotenv
+tenacity
+geopy
+Babel
+gunicorn
+psycopg2-binary
+loguru
+
+
+# Additional recommendations:
+# - If you plan to use asynchronous processing or task queues for heavy workloads, consider adding Celery:
+#   celery==5.2.7
+#
+# - For advanced visualization on the client side, you might integrate Plotly:
+#   plotly==5.13.0
+#
+# - If you need to perform advanced NLP tasks beyond basic tokenization, lemmatization, and sentiment analysis,
+#   consider installing additional spaCy models and libraries:
+#   python -m spacy download en_core_web_sm
+#
+# - Ensure that your environment uses HTTPS for secure communication and that any sensitive configuration
+#   (e.g., API keys, database credentials) is provided via environment variables.

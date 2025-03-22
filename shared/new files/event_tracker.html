@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Event Tracker Dashboard for monitoring and managing events in real-time.">
+    <meta name="author" content="Your Company Name">
+    <title>Event Tracker</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles/event_tracker.css">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Event Tracker</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Reports</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Notifications</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Settings</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container-fluid mt-4">
+        <div class="row">
+            <!-- Sidebar -->
+            <aside class="col-md-3 bg-light sidebar py-4">
+                <h5 class="text-center">Filters</h5>
+                <form>
+                    <div class="mb-3">
+                        <label for="eventType" class="form-label">Event Type</label>
+                        <select class="form-select" id="eventType">
+                            <option value="all" selected>All</option>
+                            <option value="critical">Critical</option>
+                            <option value="warning">Warning</option>
+                            <option value="info">Info</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="dateRange" class="form-label">Date Range</label>
+                        <input type="date" class="form-control" id="startDate">
+                        <input type="date" class="form-control mt-2" id="endDate">
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Apply Filters</button>
+                </form>
+            </aside>
+
+            <!-- Dashboard -->
+            <section class="col-md-9">
+                <div class="row g-4">
+                    <!-- Event Summary Cards -->
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card text-white bg-primary">
+                            <div class="card-body">
+                                <h5 class="card-title">Total Events</h5>
+                                <p class="card-text fs-4" id="totalEvents">Loading...</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card text-white bg-danger">
+                            <div class="card-body">
+                                <h5 class="card-title">Critical Events</h5>
+                                <p class="card-text fs-4" id="criticalEvents">Loading...</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card text-white bg-warning">
+                            <div class="card-body">
+                                <h5 class="card-title">Warnings</h5>
+                                <p class="card-text fs-4" id="warningEvents">Loading...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Events Table -->
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h5>Event Logs</h5>
+                                <button class="btn btn-primary" id="refreshLogs">Refresh</button>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-striped table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Event Type</th>
+                                            <th>Description</th>
+                                            <th>Date</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="eventLogs">
+                                        <tr>
+                                            <td colspan="5" class="text-center">Loading events...</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Visualization -->
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>Event Trends</h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="eventTrendsChart"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer bg-dark text-center text-white py-3 mt-4">
+        <p>&copy; 2025 Your Company. All rights reserved.</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.6.0/d3.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Simulated data for demonstration
+            const events = [
+                { id: 1, type: "Critical", description: "Server overload detected", date: "2025-01-03", status: "Resolved" },
+                { id: 2, type: "Warning", description: "Disk usage nearing capacity", date: "2025-01-03", status: "Pending" },
+                { id: 3, type: "Info", description: "Scheduled maintenance completed", date: "2025-01-02", status: "Resolved" },
+            ];
+
+            // Populate event logs table
+            const eventLogs = document.getElementById("eventLogs");
+            eventLogs.innerHTML = events.map(event => `
+                <tr>
+                    <td>${event.id}</td>
+                    <td>${event.type}</td>
+                    <td>${event.description}</td>
+                    <td>${event.date}</td>
+                    <td>${event.status}</td>
+                </tr>
+            `).join("");
+
+            // Populate summary cards
+            document.getElementById("totalEvents").textContent = events.length;
+            document.getElementById("criticalEvents").textContent = events.filter(e => e.type === "Critical").length;
+            document.getElementById("warningEvents").textContent = events.filter(e => e.type === "Warning").length;
+
+            // Initialize D3 chart
+            d3.select("#eventTrendsChart").append("svg")
+                .attr("width", "100%")
+                .attr("height", 300)
+                .style("background", "#f8f9fa")
+                .append("text")
+                .attr("x", "50%")
+                .attr("y", "50%")
+                .attr("text-anchor", "middle")
+                .text("Event Trends Chart Placeholder");
+        });
+    </script>
+</body>
+
+</html>

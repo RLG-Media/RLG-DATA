@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Guide - RLG Data & RLG Fans</title>
+    <meta name="description" content="Step-by-step guide to mastering the RLG Data & RLG Fans dashboard with AI-powered insights and automation.">
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="scripts.js"></script>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <h1>🚀 Welcome to RLG Data & RLG Fans</h1>
+        <p>Your AI-powered solution for competitive intelligence, automation, and data-driven growth.</p>
+        <select id="language-select">
+            <option value="en">English</option>
+            <option value="sw">Swahili</option>
+            <option value="zu">Zulu</option>
+            <option value="ha">Hausa</option>
+            <option value="am">Amharic</option>
+            <option value="yo">Yoruba</option>
+            <option value="ig">Igbo</option>
+        </select>
+        <button onclick="speakGuide()">🎙️ Listen</button>
+    </header>
+
+    <!-- Interactive Walkthrough -->
+    <section class="walkthrough">
+        <h2>🔰 Interactive Dashboard Tour</h2>
+        <p>Follow these steps to get started:</p>
+        <div class="steps">
+            <div class="step">
+                <h3>🔑 Step 1: Login & Profile Setup</h3>
+                <p>Customize your settings for personalized insights.</p>
+            </div>
+            <div class="step">
+                <h3>📊 Step 2: Dashboard Navigation</h3>
+                <p>Explore competitor tracking, real-time alerts, and automated reports.</p>
+            </div>
+            <div class="step">
+                <h3>⚙️ Step 3: Configure Data Insights</h3>
+                <p>Set up regional monitoring and automation tools.</p>
+            </div>
+            <div class="step">
+                <h3>🚀 Step 4: Activate AI Super Tool</h3>
+                <p>Enable AI-driven sentiment analysis, compliance tracking, and trend monitoring.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI-Powered Tips -->
+    <section class="ai-tips">
+        <h2>💡 AI-Driven Recommendations</h2>
+        <div class="tips-container">
+            <div class="tip">
+                <h3>📌 Competitor Benchmarking</h3>
+                <p>Track performance and market trends in real-time.</p>
+            </div>
+            <div class="tip">
+                <h3>⚡ Smart Automation</h3>
+                <p>Let AI handle repetitive tasks for maximum efficiency.</p>
+            </div>
+            <div class="tip">
+                <h3>🌍 Region-Specific Insights</h3>
+                <p>Monitor trends and competitor strategies by country, city, or industry.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Tutorials -->
+    <section class="video-tutorials">
+        <h2>🎥 Watch Video Tutorials</h2>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/tutorial_video" frameborder="0" allowfullscreen></iframe>
+    </section>
+
+    <!-- Customization & Settings -->
+    <section class="customization">
+        <h2>🎨 Customize Your Experience</h2>
+        <button onclick="toggleTheme()">🌙 Toggle Dark Mode</button>
+    </section>
+
+    <!-- FAQs -->
+    <section class="faq">
+        <h2>❓ Frequently Asked Questions</h2>
+        <div class="faq-container">
+            <div class="faq-item">
+                <h3>🛠️ How do I set alerts?</h3>
+                <p>Go to **Settings > Alerts** and enable notifications.</p>
+            </div>
+            <div class="faq-item">
+                <h3>📊 How does AI analysis work?</h3>
+                <p>Our AI scans mentions and categorizes sentiment automatically.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+        <h2>🚀 Upgrade for Advanced Features</h2>
+        <p>Unlock AI-powered automation, deeper analytics, and competitor benchmarking.</p>
+        <a href="pricing.html" class="cta-button">Upgrade Now</a>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 RLG Data & RLG Fans. AI-powered intelligence for your success.</p>
+    </footer>
+
+    <script>
+        // Language Translation
+        const translations = {
+            "sw": {
+                "Welcome to RLG Data & RLG Fans": "Karibu kwenye RLG Data & RLG Fans",
+                "Step 1: Login & Profile Setup": "Hatua ya 1: Ingia na Weka Wasifu",
+                "Step 2: Dashboard Navigation": "Hatua ya 2: Jinsi ya Kutumia Dashibodi",
+                "Step 3: Configure Data Insights": "Hatua ya 3: Sanidi Uchambuzi wa Data",
+                "Step 4: Activate AI Super Tool": "Hatua ya 4: Washa Zana ya AI",
+            },
+            "zu": {
+                "Welcome to RLG Data & RLG Fans": "Siyakwamukela ku-RLG Data & RLG Fans",
+                "Step 1: Login & Profile Setup": "Isinyathelo 1: Ngena & Lungiselela Iphrofayili",
+                "Step 2: Dashboard Navigation": "Isinyathelo 2: Ukuhamba Kwedeshibhodi",
+                "Step 3: Configure Data Insights": "Isinyathelo 3: Lungisa Ukuhlaziywa Kwedatha",
+                "Step 4: Activate AI Super Tool": "Isinyathelo 4: Sebenzisa Ithuluzi le-AI",
+            }
+        };
+
+        document.getElementById("language-select").addEventListener("change", function () {
+            let lang = this.value;
+            if (translations[lang]) {
+                document.querySelectorAll("h1, h2, h3, p").forEach(el => {
+                    let text = el.innerText.trim();
+                    if (translations[lang][text]) {
+                        el.innerText = translations[lang][text];
+                    }
+                });
+            }
+        });
+
+        // Voice Guide
+        function speakGuide() {
+            let speech = new SpeechSynthesisUtterance();
+            speech.text = document.querySelector("header h1").innerText + ". " + document.querySelector("header p").innerText;
+            speech.lang = document.getElementById("language-select").value;
+            window.speechSynthesis.speak(speech);
+        }
+
+        // Dark Mode Toggle
+        function toggleTheme() {
+            document.body.classList.toggle("dark-mode");
+        }
+    </script>
+
+</body>
+</html>

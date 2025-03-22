@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot - Khoto Zulu</title>
+    <link rel="stylesheet" href="styles/chatbot.css">
+    <script src="scripts/chatbot.js" defer></script>
+</head>
+<body>
+    <div class="chat-container">
+        <h1>Khoto Zulu - Your Digital Assistant</h1>
+        <div class="chat-box">
+            <div id="chat-messages" class="messages">
+                <!-- Chat messages will appear here -->
+            </div>
+            <form id="chat-form">
+                <input type="text" id="user-input" placeholder="Type your message..." required>
+                <button type="submit">Send</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
+<div id="chat-icon" onclick="toggleChat()">
+    💬
+</div>
+<div id="chat-popup" style="display: none;">
+    <!-- Include chatbot.html content here -->
+</div>
+<script>
+    function toggleChat() {
+        const chatPopup = document.getElementById("chat-popup");
+        chatPopup.style.display =
+            chatPopup.style.display === "none" ? "block" : "none";
+    }
+</script>

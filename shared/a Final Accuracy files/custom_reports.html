@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Custom Reports for RLG Data and RLG Fans">
+    <meta name="author" content="RLG Team">
+    <title>Custom Reports | RLG</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/theme_manager.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" defer></script>
+    <script src="scripts/custom_reports.js" defer></script>
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <a href="dashboard.html">RLG</a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="analytics.html">Analytics</a></li>
+                    <li><a href="inbox.html">Inbox</a></li>
+                    <li><a href="custom_reports.html" class="active">Reports</a></li>
+                    <li><a href="settings.html">Settings</a></li>
+                </ul>
+            </nav>
+            <div class="user-profile">
+                <img src="images/user-avatar.png" alt="User Avatar">
+                <div class="dropdown">
+                    <a href="profile.html">Profile</a>
+                    <a href="logout.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="reports-container">
+            <header class="section-header">
+                <h1>Custom Reports</h1>
+                <button class="generate-btn"><i class="fas fa-plus"></i> Generate New Report</button>
+            </header>
+
+            <section class="report-filters">
+                <h2>Filters</h2>
+                <form id="report-filters-form">
+                    <label for="report-type">Report Type:</label>
+                    <select id="report-type" name="report_type">
+                        <option value="analytics">Analytics</option>
+                        <option value="user-engagement">User Engagement</option>
+                        <option value="revenue">Revenue</option>
+                    </select>
+
+                    <label for="date-range">Date Range:</label>
+                    <input type="date" id="start-date" name="start_date">
+                    <span>to</span>
+                    <input type="date" id="end-date" name="end_date">
+
+                    <label for="platform">Platform:</label>
+                    <select id="platform" name="platform">
+                        <option value="all">All Platforms</option>
+                        <option value="rlg-data">RLG Data</option>
+                        <option value="rlg-fans">RLG Fans</option>
+                    </select>
+
+                    <button type="submit" class="apply-filters-btn">Apply Filters</button>
+                </form>
+            </section>
+
+            <section class="report-results">
+                <h2>Generated Reports</h2>
+                <div class="report-list">
+                    <div class="report-item">
+                        <h3>Weekly Analytics Report</h3>
+                        <p>Generated on: <span>2025-01-20</span></p>
+                        <a href="/downloads/report12345.pdf" class="download-btn"><i class="fas fa-download"></i> Download</a>
+                    </div>
+                    <!-- More dynamically populated reports -->
+                </div>
+            </section>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 RLG. All rights reserved.</p>
+    </footer>
+</body>
+</html>

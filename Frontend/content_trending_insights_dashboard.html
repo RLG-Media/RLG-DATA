@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Content Trending Insights Dashboard for RLG Data & RLG Fans">
+    <meta name="author" content="RLG Data & RLG Fans">
+    <title>Trending Insights | RLG</title>
+    
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/theme_manager.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="scripts/content_trending_insights_dashboard.js" defer></script>
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <a href="dashboard.html">RLG</a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="analytics.html">Analytics</a></li>
+                    <li><a href="content_trending_insights_dashboard.html" class="active">Trending Insights</a></li>
+                    <li><a href="settings.html">Settings</a></li>
+                </ul>
+            </nav>
+            <div class="user-profile">
+                <img src="images/user-avatar.png" alt="User Avatar">
+                <div class="dropdown">
+                    <a href="profile.html">Profile</a>
+                    <a href="logout.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="trending-insights-container">
+            <header class="insights-header">
+                <h2>Content Trending Insights</h2>
+                <div class="insights-controls">
+                    <input type="text" id="searchTrends" placeholder="Search trends...">
+                    <select id="filterPlatform">
+                        <option value="">All Platforms</option>
+                        <option value="facebook">Facebook</option>
+                        <option value="twitter">Twitter</option>
+                        <option value="instagram">Instagram</option>
+                        <option value="tiktok">TikTok</option>
+                        <option value="linkedin">LinkedIn</option>
+                        <option value="reddit">Reddit</option>
+                        <option value="pinterest">Pinterest</option>
+                        <option value="snapchat">Snapchat</option>
+                        <option value="threads">Threads</option>
+                        <option value="youtube">YouTube</option>
+                        <option value="google">Google Trends</option>
+                    </select>
+                    <select id="filterRegion">
+                        <option value="">All Regions</option>
+                    </select>
+                    <button id="refreshTrends"><i class="fas fa-sync-alt"></i> Refresh</button>
+                    <button id="exportCSV"><i class="fas fa-file-csv"></i> Export CSV</button>
+                    <button id="exportPDF"><i class="fas fa-file-pdf"></i> Export PDF</button>
+                </div>
+            </header>
+
+            <div class="trending-data">
+                <canvas id="trendingChart"></canvas>
+                <table class="trends-table">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Topic</th>
+                            <th>Platform</th>
+                            <th>Region</th>
+                            <th>Mentions</th>
+                            <th>Sentiment</th>
+                        </tr>
+                    </thead>
+                    <tbody id="trendingEntries">
+                        <!-- Trending insights will be dynamically populated here -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="pagination">
+                <button id="prevPage" disabled><i class="fas fa-chevron-left"></i> Prev</button>
+                <span id="currentPage">Page 1</span>
+                <button id="nextPage"><i class="fas fa-chevron-right"></i> Next</button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 RLG Data & RLG Fans. All rights reserved.</p>
+    </footer>
+</body>
+</html>

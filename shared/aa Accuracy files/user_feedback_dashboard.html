@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="User Feedback Dashboard for RLG Data and RLG Fans">
+    <meta name="author" content="RLG Data & Fans">
+    <title>User Feedback Dashboard | RLG</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/theme_manager.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" defer></script>
+    <script src="scripts/user_feedback_dashboard.js" defer></script>
+</head>
+
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <a href="dashboard.html">RLG</a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="user_feedback_dashboard.html" class="active">User Feedback</a></li>
+                    <li><a href="settings.html">Settings</a></li>
+                </ul>
+            </nav>
+            <div class="user-profile">
+                <img src="images/user-avatar.png" alt="User Avatar">
+                <div class="dropdown">
+                    <a href="profile.html">Profile</a>
+                    <a href="logout.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="feedback-container">
+            <header class="dashboard-header">
+                <h1>User Feedback Dashboard</h1>
+                <p>Analyze, manage, and respond to user feedback across platforms.</p>
+            </header>
+
+            <div class="feedback-tools">
+                <div class="tool">
+                    <h2>Feedback Overview</h2>
+                    <ul class="overview-list">
+                        <li>Total Feedback: <span id="total-feedback">0</span></li>
+                        <li>Positive Feedback: <span id="positive-feedback">0</span></li>
+                        <li>Negative Feedback: <span id="negative-feedback">0</span></li>
+                        <li>Neutral Feedback: <span id="neutral-feedback">0</span></li>
+                    </ul>
+                </div>
+
+                <div class="tool">
+                    <h2>Platform Insights</h2>
+                    <div class="platform-chart">
+                        <canvas id="feedback-platform-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="feedback-list">
+                <h2>Recent Feedback</h2>
+                <table class="feedback-table">
+                    <thead>
+                        <tr>
+                            <th>Platform</th>
+                            <th>User</th>
+                            <th>Feedback</th>
+                            <th>Sentiment</th>
+                            <th>Received On</th>
+                        </tr>
+                    </thead>
+                    <tbody id="feedback-entries">
+                        <tr>
+                            <td>Facebook</td>
+                            <td>JohnDoe</td>
+                            <td>"Great service! Love the insights."</td>
+                            <td class="positive">Positive</td>
+                            <td>2025-01-15</td>
+                        </tr>
+                        <!-- Additional rows populated dynamically -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="feedback-actions">
+                <h2>Respond to Feedback</h2>
+                <form id="feedback-response-form">
+                    <label for="feedback-id">Select Feedback:</label>
+                    <select id="feedback-id">
+                        <!-- Populated dynamically -->
+                    </select>
+
+                    <label for="response">Your Response:</label>
+                    <textarea id="response" placeholder="Write your response..."></textarea>
+
+                    <button type="submit">Send Response</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 RLG. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Example JavaScript for populating data dynamically
+        $(document).ready(function () {
+            // Fetch and update feedback statistics
+            $.get('/api/feedback/statistics', function (data) {
+                $('#total-feedback').text(data.total);
+                $('#positive-feedback').text(data.positive);
+                $('#negative-feedback').text(data.negative);
+                $('#neutral-feedback').text(data.neutral);
+            });
+
+            // Populate recent feedback
+            $.get('/api/feedback/recent', function (data) {
+                const feedbackEntries = data.map(feedback => `
+                    <tr>
+                        <td>${feedback.platform}</td>
+                        <td>${feedback.user}</td>
+                        <td>${feedback.text}</td>
+                        <td class="${feedback.sentiment.toLowerCase()}">${feedback.sentiment}</td>
+                        <td>${feedback.received_on}</td>
+                    </tr>
+                `).join('');
+                $('#feedback-entries').html(feedbackEntries);
+            });
+
+            // Populate feedback dropdown
+            $.get('/api/feedback/all', function (data) {
+                const feedbackOptions = data.map(feedback => `
+                    <option value="${feedback.id}">${feedback.platform} - ${feedback.user}</option>
+                `).join('');
+                $('#feedback-id').html(feedbackOptions);
+            });
+
+            // Handle feedback response form
+            $('#feedback-response-form').submit(function (e) {
+                e.preventDefault();
+                const feedbackId = $('#feedback-id').val();
+                const response = $('#response').val();
+                $.post(`/api/feedback/respond`, { feedback_id: feedbackId, response }, function () {
+                    alert('Response sent successfully!');
+                    $('#response').val('');
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

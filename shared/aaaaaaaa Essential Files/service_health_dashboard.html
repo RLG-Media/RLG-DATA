@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Service Health Dashboard for RLG Data and RLG Fans">
+    <meta name="author" content="RLG Team">
+    <title>Service Health Dashboard | RLG</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/theme_manager.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.0.0/chart.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" defer></script>
+    <script src="scripts/service_health_dashboard.js" defer></script>
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <a href="dashboard.html">RLG</a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="analytics.html">Analytics</a></li>
+                    <li><a href="service_health_dashboard.html" class="active">Service Health</a></li>
+                    <li><a href="settings.html">Settings</a></li>
+                </ul>
+            </nav>
+            <div class="user-profile">
+                <img src="images/user-avatar.png" alt="User Avatar">
+                <div class="dropdown">
+                    <a href="profile.html">Profile</a>
+                    <a href="logout.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="dashboard-container">
+            <h1>Service Health Dashboard</h1>
+            <div class="overview">
+                <div class="card">
+                    <h2>Service Uptime</h2>
+                    <p id="service-uptime">Loading...</p>
+                </div>
+                <div class="card">
+                    <h2>API Response Time</h2>
+                    <p id="api-response-time">Loading...</p>
+                </div>
+                <div class="card">
+                    <h2>Active Users</h2>
+                    <p id="active-users">Loading...</p>
+                </div>
+            </div>
+
+            <div class="charts">
+                <div class="chart-container">
+                    <h2>Service Availability</h2>
+                    <canvas id="service-availability-chart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h2>API Latency</h2>
+                    <canvas id="api-latency-chart"></canvas>
+                </div>
+            </div>
+
+            <div class="incident-log">
+                <h2>Recent Incidents</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Incident ID</th>
+                            <th>Service</th>
+                            <th>Status</th>
+                            <th>Reported On</th>
+                            <th>Resolved On</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Dynamic incident data populated from backend -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 RLG. All rights reserved.</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Third-Party Integration Management Dashboard for RLG Data and RLG Fans">
+    <meta name="author" content="RLG Data & Fans">
+    <title>Third-Party Integration Management | RLG</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/theme_manager.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" defer></script>
+    <script src="scripts/third_party_integration_management.js" defer></script>
+</head>
+
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <a href="dashboard.html">RLG</a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="integrations.html" class="active">Third-Party Integrations</a></li>
+                    <li><a href="settings.html">Settings</a></li>
+                </ul>
+            </nav>
+            <div class="user-profile">
+                <img src="images/user-avatar.png" alt="User Avatar">
+                <div class="dropdown">
+                    <a href="profile.html">Profile</a>
+                    <a href="logout.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="integration-container">
+            <header class="dashboard-header">
+                <h1>Third-Party Integration Management</h1>
+                <p>Manage, monitor, and optimize integrations with third-party services and platforms.</p>
+            </header>
+
+            <div class="integration-tools">
+                <div class="tool">
+                    <h2>Connected Platforms</h2>
+                    <ul class="platform-list">
+                        <li><i class="fab fa-facebook-square"></i> Facebook</li>
+                        <li><i class="fab fa-twitter-square"></i> Twitter</li>
+                        <li><i class="fab fa-instagram-square"></i> Instagram</li>
+                        <li><i class="fab fa-tiktok"></i> TikTok</li>
+                        <li><i class="fab fa-linkedin"></i> LinkedIn</li>
+                        <li><i class="fab fa-pinterest-square"></i> Pinterest</li>
+                        <li><i class="fab fa-reddit-square"></i> Reddit</li>
+                        <li><i class="fab fa-snapchat-square"></i> Snapchat</li>
+                        <li><i class="fab fa-youtube-square"></i> YouTube</li>
+                        <li><i class="fab fa-threads"></i> Threads</li>
+                    </ul>
+                </div>
+
+                <div class="tool">
+                    <h2>API Configuration</h2>
+                    <form id="api-config-form">
+                        <label for="platform">Select Platform:</label>
+                        <select id="platform">
+                            <option value="facebook">Facebook</option>
+                            <option value="twitter">Twitter</option>
+                            <option value="instagram">Instagram</option>
+                            <option value="tiktok">TikTok</option>
+                            <option value="linkedin">LinkedIn</option>
+                            <option value="pinterest">Pinterest</option>
+                            <option value="reddit">Reddit</option>
+                            <option value="snapchat">Snapchat</option>
+                            <option value="youtube">YouTube</option>
+                            <option value="threads">Threads</option>
+                        </select>
+
+                        <label for="api-key">API Key:</label>
+                        <input type="text" id="api-key" placeholder="Enter API Key">
+
+                        <label for="api-secret">API Secret:</label>
+                        <input type="text" id="api-secret" placeholder="Enter API Secret">
+
+                        <button type="submit">Save Configuration</button>
+                    </form>
+                </div>
+
+                <div class="tool">
+                    <h2>Integration Status</h2>
+                    <table class="status-table">
+                        <thead>
+                            <tr>
+                                <th>Platform</th>
+                                <th>Status</th>
+                                <th>Last Synced</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Facebook</td>
+                                <td class="status connected">Connected</td>
+                                <td>2025-01-15 10:30 AM</td>
+                                <td><button class="sync-btn">Sync Now</button></td>
+                            </tr>
+                            <tr>
+                                <td>Twitter</td>
+                                <td class="status disconnected">Disconnected</td>
+                                <td>2025-01-12 03:45 PM</td>
+                                <td><button class="connect-btn">Connect</button></td>
+                            </tr>
+                            <!-- Additional rows can be dynamically added -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="reports-section">
+                <h2>Integration Performance Reports</h2>
+                <p>View detailed insights on integration performance:</p>
+                <ul>
+                    <li><a href="engagement_reports.html">Engagement Reports</a></li>
+                    <li><a href="api_usage_reports.html">API Usage Statistics</a></li>
+                    <li><a href="alerts_notification.html">Alerts & Notifications</a></li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 RLG. All rights reserved.</p>
+    </footer>
+</body>
+
+</html>

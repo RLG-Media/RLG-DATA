@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Activity Logs - RLG DATA{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Activity Logs</h2>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} mt-3">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <!-- Activity Log Table -->
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Activity Description</th>
+                <th>User</th>
+                <th>Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for log in activity_logs %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ log.description }}</td>
+                <td>{{ log.user.username }}</td>
+                <td>{{ log.date.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                <td>
+                    {% if log.status == 'completed' %}
+                        <span class="badge bg-success">Completed</span>
+                    {% else %}
+                        <span class="badge bg-warning">In Progress</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="5" class="text-center">No activity logs available.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

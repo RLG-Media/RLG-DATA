@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block title %}User Settings - RLG DATA{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">User Settings</h2>
+
+    <!-- Update User Information Form -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h4 class="card-title">Account Information</h4>
+            <form method="POST" action="{{ url_for('auth.update_account') }}">
+                <!-- Username Field -->
+                <div class="form-group mb-3">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" id="username" class="form-control" value="{{ user.username }}" required>
+                </div>
+
+                <!-- Email Field -->
+                <div class="form-group mb-3">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" id="email" class="form-control" value="{{ user.email }}" required>
+                </div>
+
+                <!-- Save Button -->
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Update Notification Preferences Form -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h4 class="card-title">Notification Preferences</h4>
+            <form method="POST" action="{{ url_for('auth.update_notifications') }}">
+                <!-- Email Notifications Checkbox -->
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" id="email_notifications" name="email_notifications" {% if user.email_notifications %}checked{% endif %}>
+                    <label class="form-check-label" for="email_notifications">Receive email notifications</label>
+                </div>
+
+                <!-- SMS Notifications Checkbox (if applicable) -->
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" id="sms_notifications" name="sms_notifications" {% if user.sms_notifications %}checked{% endif %}>
+                    <label class="form-check-label" for="sms_notifications">Receive SMS notifications</label>
+                </div>
+
+                <!-- Save Button -->
+                <button type="submit" class="btn btn-primary">Update Preferences</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Change Password Form -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h4 class="card-title">Change Password</h4>
+            <form method="POST" action="{{ url_for('auth.change_password') }}">
+                <!-- Current Password Field -->
+                <div class="form-group mb-3">
+                    <label for="current_password">Current Password</label>
+                    <input type="password" name="current_password" id="current_password" class="form-control" required>
+                </div>
+
+                <!-- New Password Field -->
+                <div class="form-group mb-3">
+                    <label for="new_password">New Password</label>
+                    <input type="password" name="new_password" id="new_password" class="form-control" required>
+                </div>
+
+                <!-- Confirm New Password Field -->
+                <div class="form-group mb-3">
+                    <label for="confirm_new_password">Confirm New Password</label>
+                    <input type="password" name="confirm_new_password" id="confirm_new_password" class="form-control" required>
+                </div>
+
+                <!-- Change Password Button -->
+                <button type="submit" class="btn btn-warning">Change Password</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

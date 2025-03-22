@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RLG Data Services</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="{{ url_for('static', filename='custom.js') }}" defer></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                <li><a href="{{ url_for('services') }}" class="active">Services</a></li>
+                <li><a href="{{ url_for('account') }}">Account</a></li>
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            </ul>
+        </nav>
+        <h1>RLG Data Services</h1>
+        <p>Select a service below to access detailed data and insights.</p>
+    </header>
+    
+    <main>
+        <section class="services-grid">
+            {% for service in services %}
+            <div class="service-card">
+                <h2>{{ service.name }}</h2>
+                <p>{{ service.description }}</p>
+                <a href="{{ url_for('service_details', service_id=service.id) }}" class="btn">View Details</a>
+            </div>
+            {% endfor %}
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; {{ current_year }} RLG Data. All rights reserved.</p>
+    </footer>
+</body>
+</html>

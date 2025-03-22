@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile Settings - RLG Data & RLG Fans</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Profile Settings</h1>
+        <p>Manage your account details, security settings, and preferences.</p>
+    </header>
+
+    <section id="profile-info">
+        <h2>Account Information</h2>
+        <form id="profile-form">
+            <label for="full-name">Full Name:</label>
+            <input type="text" id="full-name" value="John Doe">
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" value="john.doe@example.com">
+
+            <label for="region">Region:</label>
+            <select id="region">
+                <option value="us">United States</option>
+                <option value="uk">United Kingdom</option>
+                <option value="eu">Europe</option>
+                <option value="africa">Africa</option>
+                <option value="asia">Asia</option>
+            </select>
+
+            <button type="submit">Save Changes</button>
+        </form>
+    </section>
+
+    <section id="security-settings">
+        <h2>Security Settings</h2>
+        <form id="password-form">
+            <label for="current-password">Current Password:</label>
+            <input type="password" id="current-password">
+
+            <label for="new-password">New Password:</label>
+            <input type="password" id="new-password">
+
+            <label for="confirm-password">Confirm Password:</label>
+            <input type="password" id="confirm-password">
+
+            <button type="submit">Update Password</button>
+        </form>
+    </section>
+
+    <section id="preferences">
+        <h2>Preferences</h2>
+        <label>
+            <input type="checkbox" id="email-notifications" checked> Receive email notifications
+        </label>
+        <label>
+            <input type="checkbox" id="sms-notifications"> Receive SMS alerts
+        </label>
+        <label>
+            <input type="checkbox" id="dark-mode"> Enable dark mode
+        </label>
+        <button onclick="savePreferences()">Save Preferences</button>
+    </section>
+
+    <section id="account-actions">
+        <h2>Account Management</h2>
+        <button onclick="logout()">Logout</button>
+        <button onclick="deleteAccount()" class="danger">Delete Account</button>
+    </section>
+
+    <footer>
+        <p>🔐 Your data is secure with end-to-end encryption. | Need help? Contact our support team 24/7.</p>
+    </footer>
+
+    <script>
+        document.getElementById("profile-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+            alert("Profile updated successfully!");
+        });
+
+        document.getElementById("password-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+            alert("Password changed successfully!");
+        });
+
+        function savePreferences() {
+            alert("Preferences saved!");
+        }
+
+        function logout() {
+            alert("Logging out...");
+            window.location.href = "login.html";
+        }
+
+        function deleteAccount() {
+            if (confirm("Are you sure you want to delete your account? This action cannot be undone.")) {
+                alert("Account deletion requested.");
+            }
+        }
+    </script>
+</body>
+</html>

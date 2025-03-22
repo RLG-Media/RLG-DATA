@@ -1,0 +1,88 @@
+#cloud-config
+package_update: true
+package_upgrade: true
+
+packages:
+  - python3
+  - python3-pip
+  - python3-venv
+  - postgresql
+  - redis-server
+  - nginx
+  - docker.io
+  - docker-compose
+  - git
+  - curl
+  - nodejs
+  - npm
+
+runcmd:
+  # Update and install required packages
+  - echo "Updating and installing required packages..."
+  
+  # Add Node.js LTS repository
+  - curl -sL https://deb.nodesource.com/setup_18.x | bash -
+  - apt-get install -y nodejs
+  
+  # Set up PostgreSQL
+  - echo "Configuring PostgreSQL..."
+  - sudo -u postgres psql -c "CREATE DATABASE rlg_data;"
+  - sudo -u postgres psql -c "CREATE DATABASE rlg_fans_data;"
+  - sudo -u postgres psql -c "CREATE USER rlg_user WITH PASSWORD 'secure_password';"
+  - sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE rlg_data TO rlg_user;"
+  - sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE rlg_fans_data TO rlg_user;"
+
+  # Enable and start Redis
+  - echo "Enabling and starting Redis..."
+  - systemctl enable redis
+  - systemctl start redis
+
+  # Clone the repository
+  - echo "Cloning the repository..."
+  - git clone https://github.com/yourusername/RLG-Data-Fans.git /opt/rlg
+  - cd /opt/rlg
+
+  # Backend setup for RLG Data
+  - echo "Setting up backend for RLG Data..."
+  - cd RLGDATA_backend
+  - python3 -m venv venv
+  - . venv/bin/activate
+  - pip install -r requirements.txt
+  - flask db upgrade
+  - deactivate
+  - cd ..
+
+  # Backend setup for RLG Fans
+  - echo "Setting up backend for RLG Fans..."
+  - cd RLGFANS_backend
+  - python3 -m venv venv
+  - . venv/bin/activate
+  - pip install -r requirements.txt
+  - flask db upgrade
+  - deactivate
+  - cd ..
+
+  # Frontend setup
+  - echo "Setting up frontend..."
+  - cd frontend
+  - npm install
+  - npm run build
+  - cd ..
+
+  # Configure Nginx
+  - echo "Configuring Nginx..."
+  - cp /opt/rlg/deployment_and_configuration/nginx.conf /etc/nginx/sites-available/rlg
+  - ln -s /etc/nginx/sites-available/rlg /etc/nginx/sites-enabled/
+  - nginx -t
+  - systemctl restart nginx
+
+  # Docker setup
+  - echo "Starting Docker services..."
+  - docker-compose -f /opt/rlg/deployment_and_configuration/docker-compose.yml up -d
+
+  # Clean up
+  - echo "Cleaning up unused packages..."
+  - apt-get autoremove -y
+
+final_message: "Cloud-init complete. RLG Data & RLG Fans are deployed and ready."
+

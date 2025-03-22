@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Content Performance Dashboard for RLG Data and RLG Fans">
+    <meta name="author" content="RLG Development Team">
+    <title>Content Performance Dashboard | RLG</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/theme_manager.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chart.js/4.2.1/chart.umd.min.js" defer></script>
+    <script src="scripts/content_performance_dashboard.js" defer></script>
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <a href="dashboard.html">RLG</a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="analytics.html">Analytics</a></li>
+                    <li><a href="content_performance_dashboard.html" class="active">Content Performance</a></li>
+                    <li><a href="social_media_dashboard.html">Social Media</a></li>
+                    <li><a href="settings.html">Settings</a></li>
+                </ul>
+            </nav>
+            <div class="user-profile">
+                <img src="images/user-avatar.png" alt="User Avatar">
+                <div class="dropdown">
+                    <a href="profile.html">Profile</a>
+                    <a href="logout.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="dashboard-header">
+            <h1>Content Performance Dashboard</h1>
+            <p>Track, analyze, and optimize the performance of your content across platforms.</p>
+        </section>
+
+        <section class="filters">
+            <h2>Filters</h2>
+            <form id="filter-form">
+                <label for="platform-select">Platform:</label>
+                <select id="platform-select">
+                    <option value="all">All Platforms</option>
+                    <option value="facebook">Facebook</option>
+                    <option value="instagram">Instagram</option>
+                    <option value="twitter">Twitter</option>
+                    <option value="tiktok">TikTok</option>
+                    <option value="linkedin">LinkedIn</option>
+                    <option value="pinterest">Pinterest</option>
+                    <option value="reddit">Reddit</option>
+                    <option value="snapchat">Snapchat</option>
+                    <option value="threads">Threads</option>
+                </select>
+
+                <label for="date-range">Date Range:</label>
+                <input type="date" id="start-date">
+                <span>to</span>
+                <input type="date" id="end-date">
+
+                <button type="submit">Apply Filters</button>
+            </form>
+        </section>
+
+        <section class="charts">
+            <h2>Performance Metrics</h2>
+            <div class="chart-container">
+                <canvas id="engagement-chart"></canvas>
+            </div>
+            <div class="chart-container">
+                <canvas id="reach-chart"></canvas>
+            </div>
+            <div class="chart-container">
+                <canvas id="conversion-chart"></canvas>
+            </div>
+        </section>
+
+        <section class="insights">
+            <h2>Insights</h2>
+            <div class="insights-container">
+                <div class="insight-card">
+                    <h3>Top Performing Content</h3>
+                    <ul id="top-content-list">
+                        <!-- Dynamic content from backend -->
+                    </ul>
+                </div>
+                <div class="insight-card">
+                    <h3>Suggestions for Improvement</h3>
+                    <ul id="improvement-suggestions">
+                        <!-- Dynamic content from backend -->
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-details">
+            <h2>Content Details</h2>
+            <table id="content-details-table">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Platform</th>
+                        <th>Engagement</th>
+                        <th>Reach</th>
+                        <th>Conversion Rate</th>
+                        <th>Date Published</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Dynamic content from backend -->
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 RLG. All rights reserved.</p>
+    </footer>
+</body>
+</html>

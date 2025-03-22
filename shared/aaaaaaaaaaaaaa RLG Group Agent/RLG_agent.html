@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RLG Agent - Marketing AI</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.9.0/main.min.js"></script>
+</head>
+<body>
+    <header class="page-header">
+        <h1>RLG Agent - AI Marketing Manager</h1>
+        <p>Automated Copywriting, SEO, Social Media, and Brand Management</p>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="#dashboard">Dashboard</a></li>
+            <li><a href="#content">Content Creation</a></li>
+            <li><a href="#campaigns">Campaigns</a></li>
+            <li><a href="#analytics">Analytics</a></li>
+            <li><a href="#emails">Email Marketing</a></li>
+        </ul>
+    </nav>
+    
+    <section id="dashboard">
+        <h2>Dashboard Overview</h2>
+        <canvas id="engagementChart"></canvas>
+    </section>
+    
+    <section id="content">
+        <h2>Content Generation</h2>
+        <textarea id="contentInput" placeholder="Enter campaign topic..."></textarea>
+        <button onclick="generateContent()">Generate Content</button>
+        <p id="generatedContent"></p>
+    </section>
+    
+    <section id="campaigns">
+        <h2>Marketing Campaigns</h2>
+        <div id="calendar"></div>
+    </section>
+    
+    <section id="analytics">
+        <h2>Performance Analytics</h2>
+        <canvas id="trafficChart"></canvas>
+    </section>
+    
+    <section id="emails">
+        <h2>Email Marketing</h2>
+        <button onclick="sendEmails()">Send Newsletter</button>
+        <p>Status: <span id="emailStatus">Not Sent</span></p>
+    </section>
+    
+    <script>
+        function generateContent() {
+            document.getElementById("generatedContent").innerText = "Generating content...";
+            fetch('/generate-content', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ topic: document.getElementById("contentInput").value })
+            })
+            .then(response => response.json())
+            .then(data => document.getElementById("generatedContent").innerText = data.content);
+        }
+
+        function sendEmails() {
+            document.getElementById("emailStatus").innerText = "Sending...";
+            fetch('/send-emails', { method: 'POST' })
+            .then(response => response.json())
+            .then(data => document.getElementById("emailStatus").innerText = data.status);
+        }
+    </script>
+</body>
+</html>

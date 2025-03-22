@@ -1,0 +1,233 @@
+/* Mobile Stylesheet for Responsive Design */
+
+/* General Reset */
+body, h1, h2, h3, h4, h5, h6, p, ul, ol, li, a, button, input, textarea {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body and General Typography */
+body {
+    font-family: 'Roboto', Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #333;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+}
+
+/* Links */
+a {
+    text-decoration: none;
+    color: #007bff;
+}
+a:hover, a:focus {
+    text-decoration: underline;
+}
+
+/* Buttons */
+button {
+    display: inline-block;
+    padding: 10px 16px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+}
+button:hover, button:focus {
+    background-color: #0056b3;
+}
+
+/* Header */
+header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: #343a40;
+    color: #fff;
+    padding: 10px 15px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+header h1 {
+    font-size: 1.5rem;
+    margin: 0;
+}
+
+/* Navigation Menu */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    background-color: #343a40;
+    color: #fff;
+}
+.navbar a {
+    color: #fff;
+    font-size: 14px;
+    padding: 8px 10px;
+}
+.navbar a:hover {
+    background-color: #495057;
+    border-radius: 4px;
+}
+
+/* Forms */
+input, textarea, select {
+    width: 100%;
+    padding: 8px 12px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+/* Cards */
+.card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    padding: 15px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+.card h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+.card p {
+    font-size: 14px;
+    color: #555;
+}
+
+/* Grid Layout */
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.container > * {
+    flex: 1 1 calc(100% - 10px);
+    margin: 5px;
+}
+@media (min-width: 600px) {
+    .container > * {
+        flex: 1 1 calc(50% - 10px);
+    }
+}
+@media (min-width: 900px) {
+    .container > * {
+        flex: 1 1 calc(33.333% - 10px);
+    }
+}
+
+/* Tables */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 15px;
+}
+.table th, .table td {
+    padding: 8px;
+    border: 1px solid #ddd;
+    text-align: left;
+    font-size: 14px;
+}
+.table th {
+    background-color: #f1f1f1;
+}
+.table-responsive {
+    overflow-x: auto;
+}
+
+/* Footer */
+footer {
+    background-color: #343a40;
+    color: #fff;
+    text-align: center;
+    padding: 10px 15px;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    font-size: 14px;
+}
+
+/* Utility Classes */
+.text-center {
+    text-align: center;
+}
+.text-right {
+    text-align: right;
+}
+.text-bold {
+    font-weight: bold;
+}
+.hidden {
+    display: none;
+}
+.visible {
+    display: block;
+}
+.mt-10 {
+    margin-top: 10px;
+}
+.mb-10 {
+    margin-bottom: 10px;
+}
+.p-10 {
+    padding: 10px;
+}
+
+/* Animations */
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    body {
+        color: #f1f1f1;
+        background-color: #121212;
+    }
+    .card {
+        background-color: #1e1e1e;
+        border-color: #333;
+    }
+    .navbar {
+        background-color: #1e1e1e;
+    }
+    .footer {
+        background-color: #1e1e1e;
+    }
+    input, textarea, select {
+        background-color: #1e1e1e;
+        color: #f1f1f1;
+        border-color: #333;
+    }
+    input:focus, textarea:focus, select:focus {
+        border-color: #007bff;
+    }
+}
+
+/* Accessibility Improvements */
+a:focus, button:focus {
+    outline: 3px dashed #007bff;
+    outline-offset: 2px;
+}

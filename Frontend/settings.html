@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Customize your account settings and tool preferences on RLG DATA.">
+    <title>Settings - RLG DATA</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="main.js"></script>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="index.html" class="navbar-brand">RLG DATA</a>
+        <div class="navbar-links">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="logout.html">Log Out</a>
+        </div>
+    </nav>
+
+    <!-- Settings Page -->
+    <div class="container">
+        <h1>Settings</h1>
+        <p>Manage your account information, preferences, and tool customizations.</p>
+
+        <div class="settings-form">
+            <!-- Personal Information -->
+            <h2>Personal Information</h2>
+            <form id="personal-info-form" action="/update-profile" method="POST">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" class="form-control" placeholder="John Doe" value="John Doe" required>
+
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" class="form-control" placeholder="you@example.com" value="john.doe@example.com" required>
+
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+            </form>
+
+            <hr>
+
+            <!-- Password Update -->
+            <h2>Change Password</h2>
+            <form id="password-change-form" action="/update-password" method="POST">
+                <label for="current-password">Current Password</label>
+                <input type="password" id="current-password" name="current-password" class="form-control" placeholder="Enter your current password" required>
+
+                <label for="new-password">New Password</label>
+                <input type="password" id="new-password" name="new-password" class="form-control" placeholder="Enter a new password" required>
+
+                <label for="confirm-new-password">Confirm New Password</label>
+                <input type="password" id="confirm-new-password" name="confirm-new-password" class="form-control" placeholder="Re-enter the new password" required>
+
+                <button type="submit" class="btn btn-primary">Update Password</button>
+            </form>
+
+            <hr>
+
+            <!-- Notification Preferences -->
+            <h2>Notification Preferences</h2>
+            <form id="notification-settings-form" action="/update-notifications" method="POST">
+                <div class="form-check">
+                    <input type="checkbox" id="email-notifications" name="email-notifications" checked>
+                    <label for="email-notifications">Receive email notifications</label>
+                </div>
+
+                <div class="form-check">
+                    <input type="checkbox" id="sms-notifications" name="sms-notifications">
+                    <label for="sms-notifications">Receive SMS notifications</label>
+                </div>
+
+                <div class="form-check">
+                    <input type="checkbox" id="real-time-notifications" name="real-time-notifications" checked>
+                    <label for="real-time-notifications">Enable real-time notifications</label>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Save Preferences</button>
+            </form>
+
+            <hr>
+
+            <!-- Tool Customization -->
+            <h2>Tool Customization</h2>
+            <form id="tool-customization-form" action="/update-tool-preferences" method="POST">
+                <label for="theme">Theme</label>
+                <select id="theme" name="theme" class="form-control">
+                    <option value="light" selected>Light</option>
+                    <option value="dark">Dark</option>
+                </select>
+
+                <label for="dashboard-layout">Dashboard Layout</label>
+                <select id="dashboard-layout" name="dashboard-layout" class="form-control">
+                    <option value="standard" selected>Standard</option>
+                    <option value="compact">Compact</option>
+                </select>
+
+                <label for="data-refresh-rate">Data Refresh Rate</label>
+                <input type="number" id="data-refresh-rate" name="data-refresh-rate" class="form-control" value="10" min="1" max="60"> <small>Refresh rate in seconds</small>
+
+                <button type="submit" class="btn btn-primary">Save Customizations</button>
+            </form>
+
+            <hr>
+
+            <!-- API Key Management -->
+            <h2>API Key Management</h2>
+            <form id="api-key-form" action="/update-api-key" method="POST">
+                <label for="api-key">API Key</label>
+                <input type="text" id="api-key" name="api-key" class="form-control" placeholder="Enter your API key" required>
+
+                <button type="submit" class="btn btn-primary">Update API Key</button>
+            </form>
+
+            <hr>
+
+            <!-- Account Deletion -->
+            <h2>Delete Account</h2>
+            <p class="warning-text">Deleting your account is permanent and cannot be undone. All your data will be removed.</p>
+            <form id="delete-account-form" action="/delete-account" method="POST">
+                <button type="submit" class="btn btn-outline">Delete Account</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2025 RLG DATA. All rights reserved. <a href="privacy.html">Privacy Policy</a></p>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        document.getElementById('password-change-form').addEventListener('submit', function (e) {
+            const newPassword = document.getElementById('new-password').value;
+            const confirmNewPassword = document.getElementById('confirm-new-password').value;
+
+            if (newPassword !== confirmNewPassword) {
+                e.preventDefault();
+                alert("New passwords do not match. Please try again.");
+            }
+        });
+
+        document.getElementById('delete-account-form').addEventListener('submit', function (e) {
+            if (!confirm("Are you sure you want to delete your account? This action cannot be undone.")) {
+                e.preventDefault();
+            }
+        });
+    </script>
+</body>
+</html>

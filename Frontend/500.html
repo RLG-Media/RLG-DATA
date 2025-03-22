@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}500 - Server Error | RLG{% endblock %}
+
+{% block content %}
+<div class="container text-center mt-5">
+    <!-- Error Heading -->
+    <h1 class="display-1 text-danger fw-bold">500</h1>
+    <h2 class="mb-4">Oops! Something went wrong.</h2>
+    <p class="lead mb-4">
+        An unexpected error occurred on our end. Our team has been notified and is working to resolve the issue as quickly as possible.
+    </p>
+
+    <!-- Animated Illustration -->
+    <div class="mb-4">
+        <img src="{{ url_for('static', filename='images/500-illustration.svg') }}" 
+             alt="Server Error Illustration" 
+             class="img-fluid" 
+             style="max-width: 350px;">
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="mb-4">
+        <a href="{{ url_for('index') }}" class="btn btn-primary btn-lg shadow-sm me-2">Go Back to Home</a>
+        <a href="{{ url_for('support') }}" class="btn btn-secondary btn-lg shadow-sm">Contact Support</a>
+    </div>
+
+    <!-- Suggested Links -->
+    <div class="mt-4">
+        <h4>You may find these pages helpful:</h4>
+        <ul class="list-unstyled">
+            <li><a href="{{ url_for('about') }}">About Us</a></li>
+            <li><a href="{{ url_for('services') }}">Our Services</a></li>
+            <li><a href="{{ url_for('faq') }}">Frequently Asked Questions</a></li>
+            <li><a href="{{ url_for('pricing') }}">View Pricing</a></li>
+            <li><a href="{{ url_for('contact') }}">Contact Us</a></li>
+        </ul>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="text-center mt-5">
+    <p class="text-muted">&copy; 2025 RLG. All Rights Reserved.</p>
+    <small class="text-muted">Both RLG Data and RLG Fans are trademarks of RLG Solutions.</small>
+</footer>
+{% endblock %}

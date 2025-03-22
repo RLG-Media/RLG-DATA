@@ -1,0 +1,105 @@
+version: '3.8'
+
+services:
+  rlg_backend:
+    container_name: rlg_backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - rlg_db
+      - redis
+    restart: always
+    networks:
+      - rlg_network
+
+  rlg_frontend:
+    container_name: rlg_frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+    depends_on:
+      - rlg_backend
+    restart: always
+    networks:
+      - rlg_network
+
+  rlg_db:
+    container_name: rlg_db
+    image: postgres:latest
+    restart: always
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - rlg_network
+
+  redis:
+    container_name: rlg_redis
+    image: redis:latest
+    restart: always
+    ports:
+      - "6379:6379"
+    networks:
+      - rlg_network
+
+  rlg_scraper:
+    container_name: rlg_scraper
+    build:
+      context: ./scraper
+      dockerfile: Dockerfile
+    volumes:
+      - ./scraper:/app
+    depends_on:
+      - rlg_backend
+    restart: always
+    networks:
+      - rlg_network
+
+  rlg_compliance:
+    container_name: rlg_compliance
+    build:
+      context: ./compliance
+      dockerfile: Dockerfile
+    volumes:
+      - ./compliance:/app
+    depends_on:
+      - rlg_backend
+    restart: always
+    networks:
+      - rlg_network
+
+  rlg_super_tool:
+    container_name: rlg_super_tool
+    build:
+      context: ./super_tool
+      dockerfile: Dockerfile
+    volumes:
+      - ./super_tool:/app
+    depends_on:
+      - rlg_backend
+      - rlg_scraper
+      - rlg_compliance
+    restart: always
+    networks:
+      - rlg_network
+
+volumes:
+  db_data:
+
+networks:
+  rlg_network:
+    driver: bridge

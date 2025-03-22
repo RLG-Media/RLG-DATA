@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI Insights Dashboard providing advanced analytics, trends, and predictive analysis for your data.">
+    <title>AI Insights Dashboard</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="/static/images/favicon.ico">
+
+    <!-- CSS Frameworks -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/dashboard.css">
+
+    <!-- JavaScript Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.2.1/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.1/d3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+    <!-- Custom Scripts -->
+    <script src="/static/js/dashboard.js" defer></script>
+</head>
+
+<body>
+    <div id="dashboard-container" class="container-fluid p-0">
+        <!-- Sidebar -->
+        <nav id="sidebar" class="bg-dark text-light d-flex flex-column p-3">
+            <div class="mb-4">
+                <h3 class="text-light">AI Insights</h3>
+            </div>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a href="#overview-section" class="nav-link text-light"><i class="fa fa-chart-pie me-2"></i>Overview</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#trends-section" class="nav-link text-light"><i class="fa fa-chart-line me-2"></i>Trends</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#predictive-section" class="nav-link text-light"><i class="fa fa-brain me-2"></i>Predictive Analysis</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#recommendations-section" class="nav-link text-light"><i class="fa fa-lightbulb me-2"></i>Recommendations</a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main id="main-content" class="p-4">
+            <!-- Header -->
+            <header class="d-flex justify-content-between align-items-center mb-4">
+                <h1>AI Insights Dashboard</h1>
+                <button id="download-report" class="btn btn-primary"><i class="fa fa-download me-2"></i>Download Report</button>
+            </header>
+
+            <!-- Overview Section -->
+            <section id="overview-section" class="mb-5">
+                <h2>Overview</h2>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="card bg-primary text-white text-center p-3">
+                            <h3 id="total-users">0</h3>
+                            <p>Total Users</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card bg-success text-white text-center p-3">
+                            <h3 id="active-sessions">0</h3>
+                            <p>Active Sessions</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card bg-warning text-white text-center p-3">
+                            <h3 id="conversion-rate">0%</h3>
+                            <p>Conversion Rate</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card bg-danger text-white text-center p-3">
+                            <h3 id="bounce-rate">0%</h3>
+                            <p>Bounce Rate</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Trends Section -->
+            <section id="trends-section" class="mb-5">
+                <h2>Trends</h2>
+                <canvas id="trends-chart" class="w-100" height="400"></canvas>
+            </section>
+
+            <!-- Predictive Analysis Section -->
+            <section id="predictive-section" class="mb-5">
+                <h2>Predictive Analysis</h2>
+                <div id="predictive-table" class="table-responsive">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Metric</th>
+                                <th>Prediction</th>
+                                <th>Confidence</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Revenue Growth</td>
+                                <td>15%</td>
+                                <td>90%</td>
+                            </tr>
+                            <tr>
+                                <td>Churn Rate</td>
+                                <td>5%</td>
+                                <td>85%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Recommendations Section -->
+            <section id="recommendations-section" class="mb-5">
+                <h2>Recommendations</h2>
+                <ul class="list-group">
+                    <li class="list-group-item">Enhance customer onboarding flow for a 10% reduction in churn.</li>
+                    <li class="list-group-item">Invest in targeted marketing campaigns to boost engagement by 20%.</li>
+                    <li class="list-group-item">Optimize product pages to increase conversion rates.</li>
+                </ul>
+            </section>
+        </main>
+    </div>
+
+    <!-- Dynamic Script to Populate Data -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Populate cards with data
+            document.getElementById("total-users").textContent = "1,200";
+            document.getElementById("active-sessions").textContent = "325";
+            document.getElementById("conversion-rate").textContent = "25%";
+            document.getElementById("bounce-rate").textContent = "10%";
+
+            // Trends Chart
+            const ctx = document.getElementById("trends-chart").getContext("2d");
+            new Chart(ctx, {
+                type: "line",
+                data: {
+                    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+                    datasets: [{
+                        label: "User Engagement",
+                        data: [10, 20, 15, 30, 25, 35],
+                        borderColor: "blue",
+                        fill: false,
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: true }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

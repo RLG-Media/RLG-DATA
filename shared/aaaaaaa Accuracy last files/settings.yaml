@@ -1,0 +1,140 @@
+# Application and Environment Settings
+app:
+  name: "RLG Data & RLG Fans Analytics Platform"
+  version: "1.0.0"
+  environment: "production"  # Options: 'development', 'testing', 'production'
+
+# General Configurations
+general:
+  timezone: "UTC"
+  debug: false  # Set to false for production
+  allowed_hosts: ["*"]
+  secret_key: !ENV SECRET_KEY
+  session_timeout: 3600  # Session timeout in seconds (1 hour)
+
+# Database Configurations
+database:
+  engine: "postgresql"
+  name: "rlg_data"
+  user: !ENV DB_USER
+  password: !ENV DB_PASSWORD
+  host: "localhost"
+  port: 5432
+  pool_size: 20
+  max_retries: 3
+
+# Caching Configurations (Redis)
+caching:
+  enabled: true
+  host: "localhost"
+  port: 6379
+  db: 0
+  password: !ENV CACHE_PASSWORD
+
+# Celery Configurations for Background Tasks
+celery:
+  broker_url: "redis://localhost:6379/0"
+  result_backend: "redis://localhost:6379/0"
+  timezone: "UTC"
+  worker_prefetch_multiplier: 1
+
+# Security and Encryption Settings
+security:
+  hmac_secret: !ENV HMAC_SECRET  # Secret key for HMAC
+  jwt_secret: !ENV JWT_SECRET  # Secret key for JWT
+  salt_length: 16  # Salt length for password hashing
+  jwt_expiration: 3600  # Token expiration in seconds (1 hour)
+  token_prefix: "Bearer"
+
+# Email Configurations
+email:
+  smtp_server: "smtp.mailtrap.io"
+  port: 587
+  use_tls: true
+  username: !ENV EMAIL_USER
+  password: !ENV EMAIL_PASSWORD
+  default_sender: "no-reply@rlgdata.com"
+
+# Logging Configurations
+logging:
+  level: "DEBUG"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  handlers:
+    - type: "file"
+      filename: "logs/rlg_data.log"
+      max_bytes: 10MB
+      backup_count: 5
+    - type: "stream"
+
+# Monitoring & Healthcheck Settings
+monitoring:
+  prometheus: 
+    enabled: true
+    host: "localhost"
+    port: 9090
+  uptime_check: 
+    enabled: true
+    url: "/health"
+    interval: 60  # Interval in seconds
+
+# API Rate Limiting Configurations
+rate_limiting:
+  enabled: true
+  limit: 100  # Requests per minute
+  key: "ip"
+
+# External API Integration Configurations
+external_api:
+  service_1:
+    base_url: "https://api.example.com/v1/"
+    api_key: !ENV EXTERNAL_API_KEY
+  service_2:
+    base_url: "https://api.anotherexample.com/v2/"
+    api_key: !ENV ANOTHER_EXTERNAL_API_KEY
+
+# File Storage Settings
+file_storage:
+  provider: "S3"
+  bucket_name: "rlgdata"
+  region: "us-east-1"
+  access_key_id: !ENV AWS_ACCESS_KEY
+  secret_access_key: !ENV AWS_SECRET_KEY
+  endpoint_url: "https://s3.amazonaws.com"
+
+# Localization and Language Settings
+localization:
+  default_locale: "en_US"
+  supported_locales: ["en_US", "es_ES", "fr_FR"]
+
+# API Rate Limiting (Custom Rules)
+rate_limiting_custom:
+  endpoints:
+    - path: "/api/data"
+      limit: 50  # Requests per minute
+      burst: 10
+    - path: "/api/fans"
+      limit: 75  # Requests per minute
+      burst: 20
+
+# Recovery & Backup Settings
+recovery:
+  backup_path: "/var/backups/rlg_data/"
+  backup_schedule: "daily"
+  retention_days: 7  # Number of days to retain backups
+
+# Versioning & Deployment
+deployment:
+  strategy: "blue-green"  # Deployment strategy
+  versioning_enabled: true
+  release_notes_path: "/releases/notes.md"
+
+# Additional Options & Customization
+options:
+  enable_auto_scaling: true
+  use_https_redirect: true
+  enable_cross_origin_requests: true
+
+# Secrets Management
+secrets:
+  encryption_key: !ENV SECRETS_ENCRYPTION_KEY
+  iv: !ENV SECRETS_IV

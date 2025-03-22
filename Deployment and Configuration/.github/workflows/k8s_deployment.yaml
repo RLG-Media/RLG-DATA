@@ -1,0 +1,190 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rlg-deployment
+  labels:
+    app: rlg-media
+spec:
+  replicas: 3  # Adjust based on load requirements
+  selector:
+    matchLabels:
+      app: rlg-media
+  template:
+    metadata:
+      labels:
+        app: rlg-media
+    spec:
+      containers:
+        # Backend Container for RLG DATA
+        - name: rlg-backend-data
+          image: your-docker-registry/rlg-backend-data:latest  # Update with your image path
+          ports:
+            - containerPort: 5000
+          envFrom:
+            - configMapRef:
+                name: rlg-config
+            - secretRef:
+                name: rlg-secrets
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 10
+            periodSeconds: 15
+          volumeMounts:
+            - name: shared-storage
+              mountPath: /app/shared
+
+        # Backend Container for RLG FANS
+        - name: rlg-backend-fans
+          image: your-docker-registry/rlg-backend-fans:latest  # Update with your image path
+          ports:
+            - containerPort: 5001
+          envFrom:
+            - configMapRef:
+                name: rlg-config
+            - secretRef:
+                name: rlg-secrets
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 5001
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 5001
+            initialDelaySeconds: 10
+            periodSeconds: 15
+          volumeMounts:
+            - name: shared-storage
+              mountPath: /app/shared
+
+        # Frontend Container
+        - name: rlg-frontend
+          image: your-docker-registry/rlg-frontend:latest  # Update with your image path
+          ports:
+            - containerPort: 80
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 15
+          volumeMounts:
+            - name: shared-storage
+              mountPath: /usr/share/nginx/html
+
+        # Redis Container
+        - name: redis
+          image: redis:6-alpine
+          ports:
+            - containerPort: 6379
+
+        # Postgres Container for RLG DATA
+        - name: postgres-data
+          image: postgres:13-alpine
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: rlg-secrets
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: rlg-secrets
+                  key: POSTGRES_PASSWORD
+            - name: POSTGRES_DB
+              value: rlg_data
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: postgres-data-storage
+              mountPath: /var/lib/postgresql/data
+
+        # Postgres Container for RLG FANS
+        - name: postgres-fans
+          image: postgres:13-alpine
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: rlg-secrets
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: rlg-secrets
+                  key: POSTGRES_PASSWORD
+            - name: POSTGRES_DB
+              value: rlg_fans
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: postgres-fans-storage
+              mountPath: /var/lib/postgresql/data
+
+      volumes:
+        - name: shared-storage
+          persistentVolumeClaim:
+            claimName: shared-storage-claim
+        - name: postgres-data-storage
+          persistentVolumeClaim:
+            claimName: postgres-data-pvc
+        - name: postgres-fans-storage
+          persistentVolumeClaim:
+            claimName: postgres-fans-pvc
+
+      initContainers:
+        - name: db-migrate-data
+          image: your-docker-registry/rlg-backend-data:latest
+          command: ["flask", "db", "upgrade"]
+          envFrom:
+            - configMapRef:
+                name: rlg-config
+            - secretRef:
+                name: rlg-secrets
+        - name: db-migrate-fans
+          image: your-docker-registry/rlg-backend-fans:latest
+          command: ["flask", "db", "upgrade"]
+          envFrom:
+            - configMapRef:
+                name: rlg-config
+            - secretRef:
+                name: rlg-secrets
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rlg-service
+  labels:
+    app: rlg-media
+spec:
+  type: LoadBalancer
+  selector:
+    app: rlg-media
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80  # Frontend
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000  # Backend (RLG DATA)
+    - protocol: TCP
+      port: 5001
+      targetPort: 5001  # Backend (RLG FANS)

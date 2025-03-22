@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Users - RLG DATA{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Manage Users</h2>
+
+    <!-- Create New User Button -->
+    <a href="{{ url_for('admin.create_user') }}" class="btn btn-primary mb-4">Create New User</a>
+
+    <!-- List of Users -->
+    <ul class="list-group">
+        {% for user in users %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span>{{ user.username }} - Role: {{ user.roles[0].name }}</span>
+            <div>
+                <a href="{{ url_for('admin.edit_user', user_id=user.id) }}" class="btn btn-sm btn-warning">Edit</a>
+                <form action="{{ url_for('admin.delete_user', user_id=user.id) }}" method="post" class="d-inline">
+                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                </form>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

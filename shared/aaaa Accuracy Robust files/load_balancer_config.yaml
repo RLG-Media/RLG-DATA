@@ -1,0 +1,111 @@
+# Load Balancer Configuration for RLG Data and RLG Fans
+
+# General settings
+load_balancer:
+  name: rlg-load-balancer
+  type: application  # Options: application, network
+  region: us-east-1  # Adjust based on deployment region
+  availability_zones:
+    - us-east-1a
+    - us-east-1b
+    - us-east-1c
+
+# Backend target group configuration
+target_groups:
+  - name: rlg-target-group
+    protocol: HTTP
+    port: 80
+    health_check:
+      protocol: HTTP
+      path: /health
+      interval: 30  # Health check interval in seconds
+      timeout: 5    # Health check timeout in seconds
+      unhealthy_threshold: 3
+      healthy_threshold: 2
+    targets:
+      - ip_address: 192.168.1.101
+        port: 80
+      - ip_address: 192.168.1.102
+        port: 80
+      - ip_address: 192.168.1.103
+        port: 80
+
+# Listener configuration
+listeners:
+  - protocol: HTTP
+    port: 80
+    default_action:
+      type: forward
+      target_group: rlg-target-group
+  - protocol: HTTPS
+    port: 443
+    ssl_certificate: arn:aws:acm:us-east-1:123456789012:certificate/abcd1234-efgh5678-ijkl9101-mnop1121
+    default_action:
+      type: forward
+      target_group: rlg-target-group
+
+# Security policies
+security:
+  allowed_ips:
+    - 203.0.113.0/24
+    - 198.51.100.0/24
+  ssl_policy: ELBSecurityPolicy-2016-08  # Recommended SSL policy
+  enforce_https: true
+
+# Traffic routing rules
+routing_rules:
+  - path: /api/*
+    target_group: rlg-target-group
+  - path: /static/*
+    static_files:
+      directory: /var/www/static
+      cache_control: "max-age=3600"
+  - path: /admin/*
+    target_group: rlg-admin-group
+
+# Logging and monitoring
+logging:
+  access_logs:
+    enabled: true
+    bucket: rlg-logs-bucket
+    prefix: load-balancer/access/
+  error_logs:
+    enabled: true
+    bucket: rlg-logs-bucket
+    prefix: load-balancer/errors/
+
+# Auto-scaling configuration
+auto_scaling:
+  enabled: true
+  min_instances: 2
+  max_instances: 10
+  scaling_policies:
+    - metric: CPUUtilization
+      threshold: 75
+      adjustment_type: ChangeInCapacity
+      scaling_adjustment: 2
+      cooldown: 300
+    - metric: MemoryUtilization
+      threshold: 80
+      adjustment_type: ChangeInCapacity
+      scaling_adjustment: 2
+      cooldown: 300
+
+# Advanced features
+advanced:
+  session_stickiness:
+    enabled: true
+    duration: 3600  # Sticky sessions duration in seconds
+  cross_zone_load_balancing: true
+  idle_timeout: 60  # Connection idle timeout in seconds
+  connection_draining:
+    enabled: true
+    timeout: 30  # Draining timeout in seconds
+
+# Recommendations
+recommendations:
+  - Enable WebSocket support for real-time applications.
+  - Regularly rotate SSL certificates to ensure security.
+  - Utilize WAF (Web Application Firewall) for added protection.
+  - Implement dynamic IP whitelisting for better security.
+  - Use a Content Delivery Network (CDN) for faster asset delivery globally.

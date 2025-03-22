@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Email Response Service</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+    <header>
+        <h1>AI Email Response Service</h1>
+    </header>
+
+    <main>
+        <section id="response-generator">
+            <h2>Generate Email Responses</h2>
+            <form id="email-response-form">
+                <label for="email-prompt">Enter Prompt:</label>
+                <textarea id="email-prompt" name="email-prompt" rows="5" placeholder="Type your prompt here..."></textarea>
+                <button type="submit">Generate Response</button>
+            </form>
+
+            <div id="response-output">
+                <h3>Generated Response:</h3>
+                <p id="response-text">Your response will appear here.</p>
+            </div>
+        </section>
+
+        <section id="history">
+            <h2>Response History</h2>
+            <ul id="history-list">
+                <!-- Dynamic history items will be appended here -->
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 RLG Data. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.getElementById('email-response-form').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const prompt = document.getElementById('email-prompt').value;
+            if (!prompt.trim()) {
+                alert('Please enter a prompt.');
+                return;
+            }
+
+            const responseTextElement = document.getElementById('response-text');
+            responseTextElement.textContent = 'Generating response...';
+
+            try {
+                const response = await fetch('/generate-response', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ prompt })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to generate response.');
+                }
+
+                const data = await response.json();
+                responseTextElement.textContent = data.response || 'No response generated.';
+
+                const historyList = document.getElementById('history-list');
+                const historyItem = document.createElement('li');
+                historyItem.textContent = data.response || 'No response generated.';
+                historyList.appendChild(historyItem);
+            } catch (error) {
+                responseTextElement.textContent = 'Error: Unable to generate response.';
+                console.error(error);
+            }
+        });
+    </script>
+</body>
+
+</html>

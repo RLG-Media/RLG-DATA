@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}Pricing - RLG Data & RLG Fans{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">Flexible & Competitive Pricing</h2>
+
+    {% if user.location %}
+        <!-- User's Region-Based Pricing -->
+        <div class="card mb-4 shadow-sm">
+            <div class="card-body text-center">
+                <h4 class="card-title">Your Pricing Plan</h4>
+                <h3 class="mb-3">
+                    {% if user.location == 'IL' %}
+                        <strong>Special Region Pricing: ${{ price }}</strong>
+                    {% elif user.location in africa_sadc_countries %}
+                        <strong>Africa & SADC Region Pricing: ${{ price }}</strong>
+                    {% else %}
+                        <strong>Global Pricing: ${{ price }}</strong>
+                    {% endif %}
+                </h3>
+
+                <p>
+                    {% if user.location == 'IL' %}
+                        Exclusive Pricing for Special Region:
+                        <br><strong>CREATOR</strong>: $99 Monthly / $35 Weekly
+                        <br><strong>PRO</strong>: $199 Monthly / $65 Weekly
+                        <br><strong>ENTERPRISE</strong>: $699 Monthly
+                        <br><strong>RLG Media Pack</strong>: $2500 Monthly
+                    {% elif user.location in africa_sadc_countries %}
+                        Special Africa & SADC Pricing:
+                        <br><strong>CREATOR</strong>: $49 Monthly / $12 Weekly
+                        <br><strong>PRO</strong>: $149 Monthly / $40 Weekly
+                        <br><strong>ENTERPRISE</strong>: $499 Monthly
+                        <br><strong>RLG Media Pack</strong>: $1999 Monthly
+                    {% else %}
+                        Choose the best plan for your needs.
+                    {% endif %}
+                </p>
+
+                <!-- Pricing Options -->
+                <form method="POST" action="{{ url_for('pricing.select_tier') }}" class="text-center">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    
+                    {% for plan, amount in pricing_tiers[user.location] %}
+                        <button type="submit" name="pricing_option" value="{{ plan }}" class="btn btn-primary mb-2">
+                            {{ plan | upper }} - ${{ amount }}
+                        </button>
+                    {% endfor %}
+                </form>
+            </div>
+        </div>
+    {% else %}
+        <!-- Location Selection -->
+        <div class="card mb-4 shadow-sm">
+            <div class="card-body text-center">
+                <h4 class="card-title">Select Your Location</h4>
+                <p>Please choose your location to view the pricing plans. Your location will be locked after registration.</p>
+                
+                <form method="POST" action="{{ url_for('pricing.select_location') }}">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <div class="mb-3">
+                        <label for="location" class="form-label">Choose your location:</label>
+                        <select id="location" name="location" class="form-select" required>
+                            <option value="" disabled selected>Select a location</option>
+                            <option value="US">United States</option>
+                            <option value="IL">Israel</option>
+                            <option value="UK">United Kingdom</option>
+                            <option value="CA">Canada</option>
+                            <option value="AU">Australia</option>
+                            <option value="AF">Africa & SADC Region</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Confirm Location</button>
+                </form>
+            </div>
+        </div>
+    {% endif %}
+
+    <!-- Pricing Information -->
+    <div class="text-center mt-4">
+        <small class="text-muted">
+            Pricing is determined by your location and locked upon registration.
+            <br>If you need assistance, please <a href="{{ url_for('support.contact') }}">contact support</a>.
+        </small>
+    </div>
+</div>
+{% endblock %}

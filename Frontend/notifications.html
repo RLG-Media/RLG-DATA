@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Notifications - RLG DATA{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Notifications</h2>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} mt-3">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <!-- Notifications List -->
+    <ul class="list-group">
+        {% for notification in notifications %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span>{{ notification.message }}</span>
+            <span class="badge bg-secondary">{{ notification.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</span>
+        </li>
+        {% else %}
+        <p class="text-muted">No notifications available.</p>
+        {% endfor %}
+    </ul>
+
+    <!-- Clear Notifications Button -->
+    {% if notifications %}
+    <form method="POST" action="{{ url_for('notifications.clear') }}" class="mt-4">
+        <button type="submit" class="btn btn-danger">Clear All Notifications</button>
+    </form>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - RLG Fans</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+
+    <style>
+        .register-container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 40px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+        .form-group label {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container mt-5">
+        <div class="register-container">
+            <h2 class="text-center">Register for RLG Fans</h2>
+            <p class="text-muted text-center">Create your account and start maximizing your reach.</p>
+
+            <!-- Registration Form -->
+            <form action="{{ url_for('auth.register') }}" method="POST" novalidate>
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" class="form-control" id="username" placeholder="Enter your username" required>
+                </div>
+
+                <div class="form-group mt-3">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" class="form-control" id="email" placeholder="Enter your email" required>
+                </div>
+
+                <div class="form-group mt-3">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" class="form-control" id="password" placeholder="Create a password" required>
+                </div>
+
+                <div class="form-group mt-3">
+                    <label for="confirm_password">Confirm Password</label>
+                    <input type="password" name="confirm_password" class="form-control" id="confirm_password" placeholder="Confirm your password" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block mt-4">Register</button>
+            </form>
+
+            <!-- Redirect to Login -->
+            <div class="text-center mt-3">
+                <p>Already have an account? <a href="{{ url_for('auth.login') }}">Log in</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Form Validation Script -->
+    <script>
+        document.querySelector('form').addEventListener('submit', function (event) {
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm_password').value;
+
+            if (password !== confirmPassword) {
+                event.preventDefault();
+                alert('Passwords do not match.');
+            }
+        });
+    </script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

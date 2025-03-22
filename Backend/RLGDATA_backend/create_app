@@ -1,0 +1,96 @@
+from datetime import timedelta
+from flask import Flask, jsonify, request
+from flask_sqlalchemy import SQLAlchemy
+from flask_jwt_extended import JWTManager
+from flask_mail import Mail
+from flask_socketio import SocketIO
+from flask_limiter import Limiter
+from flask_migrate import Migrate
+from flask_cors import CORS
+from celery import Celery
+from dotenv import load_dotenv
+import os
+import logging
+
+# Initialize extensions
+db = SQLAlchemy()
+jwt = JWTManager()
+mail = Mail()
+socketio = SocketIO()
+limiter = Limiter(key_func=lambda: request.remote_addr)
+migrate = Migrate()
+celery = Celery(__name__)
+
+def create_app():
+    # Load environment variables from the .env file
+    load_dotenv()
+
+    # Initialize Flask app
+    app = Flask(__name__)
+
+    # Load configuration from environment variables
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')
+    app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=1)
+    app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=30)
+    app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER')
+    app.config['MAIL_PORT'] = os.getenv('MAIL_PORT')
+    app.config['MAIL_USE_TLS'] = os.getenv('MAIL_USE_TLS') == 'True'
+    app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
+    app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
+    app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_DEFAULT_SENDER')
+    app.config['CELERY_BROKER_URL'] = os.getenv('REDIS_URL', 'redis://localhost:6379/0')
+    app.config['CELERY_RESULT_BACKEND'] = os.getenv('REDIS_URL', 'redis://localhost:6379/0')
+    app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+    
+    # Initialize extensions
+    db.init_app(app)
+    jwt.init_app(app)
+    mail.init_app(app)
+    socketio.init_app(app)
+    limiter.init_app(app)
+    migrate.init_app(app, db)
+    celery.conf.update(app.config)
+    
+    # Enable CORS (Cross-Origin Resource Sharing)
+    CORS(app)
+
+    # Set up logging
+    logging.basicConfig(level=logging.INFO, filename='rlg_data.log')
+
+    # Register Blueprints for routes and APIs
+    from .routes import routes_blueprint
+    from .search import search_blueprint
+    from .data_export import export_blueprint
+
+    app.register_blueprint(routes_blueprint)
+    app.register_blueprint(search_blueprint)
+    app.register_blueprint(export_blueprint)
+
+    # Error handling
+    from .error_handling import log_error
+
+    @app.errorhandler(Exception)
+    def handle_exception(error):
+        log_error(error)
+        return jsonify({'error': 'An internal server error occurred. Our team has been notified.'}), 500
+
+    return app
+
+# Celery setup for background tasks
+def make_celery(app):
+    celery = Celery(app.import_name, broker=app.config['CELERY_BROKER_URL'])
+    celery.conf.update(app.config)
+    
+    # Celery task context
+    class ContextTask(celery.Task):
+        def __call__(self, *args, **kwargs):
+            with app.app_context():
+                return self.run(*args, **kwargs)
+    
+    celery.Task = ContextTask
+    return celery
+
+# Initialize Celery
+celery = make_celery(create_app())

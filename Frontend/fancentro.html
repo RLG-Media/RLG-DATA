@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2>FanCentro Data Fetch</h2>
+    <p>Enter a FanCentro username below to retrieve the associated data.</p>
+
+    <!-- Form for fetching FanCentro user data -->
+    <form id="fancentroForm" action="{{ url_for('routes.fetch_fancentro_data') }}" method="GET">
+        <div class="form-group">
+            <label for="username">FanCentro Username</label>
+            <input type="text" id="username" name="username" class="form-control" placeholder="Enter username" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Fetch Data</button>
+    </form>
+
+    <!-- Section for displaying results -->
+    <div id="fancentroResults" class="mt-4" style="display: none;">
+        <h4>Results</h4>
+        <div id="resultsContent"></div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('fancentroForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        const username = document.getElementById('username').value;
+
+        // Fetch data from FanCentro service via the Flask API endpoint
+        fetch(`/fancentro/fetch/${username}`)
+            .then(response => response.json())
+            .then(data => {
+                const resultsContainer = document.getElementById('fancentroResults');
+                const resultsContent = document.getElementById('resultsContent');
+
+                if (data) {
+                    resultsContent.innerHTML = `
+                        <p><strong>Username:</strong> ${data.username || 'N/A'}</p>
+                        <p><strong>Followers:</strong> ${data.followers || 'N/A'}</p>
+                        <p><strong>Posts:</strong> ${data.posts || 'N/A'}</p>
+                        <p><strong>Subscription Price:</strong> ${data.subscription_price || 'N/A'}</p>
+                    `;
+                } else {
+                    resultsContent.innerHTML = `<p>No data available for username: ${username}</p>`;
+                }
+                
+                resultsContainer.style.display = 'block';
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+                alert('An error occurred while fetching data. Please try again.');
+            });
+    });
+</script>
+{% endblock %}

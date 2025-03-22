@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Compliance Audits Dashboard for RLG Data and RLG Fans">
+    <meta name="author" content="RLG Development Team">
+    <title>Compliance Audits Dashboard | RLG Data & RLG Fans</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/theme_manager.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="scripts/compliance_audits_dashboard.js" defer></script>
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <a href="dashboard.html">RLG</a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="analytics.html">Analytics</a></li>
+                    <li><a href="compliance_audits_dashboard.html" class="active">Compliance Audits</a></li>
+                    <li><a href="settings.html">Settings</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="compliance-audits-dashboard">
+            <h1>Compliance Audits Dashboard</h1>
+            <p>This dashboard provides detailed compliance audit reports and monitoring for RLG Data and RLG Fans, ensuring adherence to legal, regulatory, and platform-specific standards.</p>
+
+            <div class="dashboard-widgets">
+                <div class="widget">
+                    <h2>Audit Summary</h2>
+                    <div class="widget-content">
+                        <p><strong>Total Audits:</strong> <span id="total-audits">0</span></p>
+                        <p><strong>Pending Issues:</strong> <span id="pending-issues">0</span></p>
+                        <p><strong>Resolved Issues:</strong> <span id="resolved-issues">0</span></p>
+                    </div>
+                </div>
+
+                <div class="widget">
+                    <h2>Platform Compliance</h2>
+                    <ul>
+                        <li>Twitter: <span id="twitter-compliance">0%</span></li>
+                        <li>Instagram: <span id="instagram-compliance">0%</span></li>
+                        <li>Facebook: <span id="facebook-compliance">0%</span></li>
+                        <li>TikTok: <span id="tiktok-compliance">0%</span></li>
+                        <li>LinkedIn: <span id="linkedin-compliance">0%</span></li>
+                        <li>Pinterest: <span id="pinterest-compliance">0%</span></li>
+                        <li>Reddit: <span id="reddit-compliance">0%</span></li>
+                        <li>Snapchat: <span id="snapchat-compliance">0%</span></li>
+                        <li>Threads: <span id="threads-compliance">0%</span></li>
+                    </ul>
+                </div>
+
+                <div class="widget">
+                    <h2>Recent Audits</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Audit ID</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Issues Found</th>
+                                <th>Resolution</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recent-audits">
+                            <!-- Dynamic audit data will be inserted here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button id="run-audit" class="btn">Run New Audit</button>
+                <button id="export-report" class="btn">Export Report</button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 RLG. All rights reserved.</p>
+    </footer>
+</body>
+</html>

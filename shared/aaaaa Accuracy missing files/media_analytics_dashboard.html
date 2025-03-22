@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Media Analytics Dashboard for RLG Data and RLG Fans">
+    <meta name="author" content="RLG Development Team">
+    <title>Media Analytics Dashboard | RLG Data & RLG Fans</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/theme_manager.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="scripts/media_analytics_dashboard.js" defer></script>
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <a href="dashboard.html">RLG</a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="analytics.html" class="active">Analytics</a></li>
+                    <li><a href="media_analytics_dashboard.html">Media Analytics</a></li>
+                    <li><a href="settings.html">Settings</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="media-analytics-dashboard">
+            <h1>Media Analytics Dashboard</h1>
+            <p>This dashboard provides in-depth analytics on media performance, social media engagement, and content effectiveness for RLG Data and RLG Fans.</p>
+
+            <div class="dashboard-widgets">
+                <div class="widget">
+                    <h2>Overview</h2>
+                    <div class="widget-content">
+                        <p><strong>Total Impressions:</strong> <span id="total-impressions">0</span></p>
+                        <p><strong>Total Engagements:</strong> <span id="total-engagements">0</span></p>
+                        <p><strong>Total Reach:</strong> <span id="total-reach">0</span></p>
+                    </div>
+                </div>
+
+                <div class="widget">
+                    <h2>Platform Performance</h2>
+                    <ul>
+                        <li>Twitter: <span id="twitter-performance">0%</span></li>
+                        <li>Instagram: <span id="instagram-performance">0%</span></li>
+                        <li>Facebook: <span id="facebook-performance">0%</span></li>
+                        <li>TikTok: <span id="tiktok-performance">0%</span></li>
+                        <li>LinkedIn: <span id="linkedin-performance">0%</span></li>
+                        <li>Pinterest: <span id="pinterest-performance">0%</span></li>
+                        <li>Reddit: <span id="reddit-performance">0%</span></li>
+                        <li>Snapchat: <span id="snapchat-performance">0%</span></li>
+                        <li>Threads: <span id="threads-performance">0%</span></li>
+                    </ul>
+                </div>
+
+                <div class="widget">
+                    <h2>Top Performing Content</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Content</th>
+                                <th>Platform</th>
+                                <th>Impressions</th>
+                                <th>Engagements</th>
+                                <th>CTR</th>
+                            </tr>
+                        </thead>
+                        <tbody id="top-performing-content">
+                            <!-- Dynamic content data will be inserted here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <h2>Engagement Trends</h2>
+                <canvas id="engagement-trends-chart"></canvas>
+            </div>
+
+            <div class="actions">
+                <button id="generate-report" class="btn">Generate Report</button>
+                <button id="export-analytics" class="btn">Export Analytics</button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 RLG. All rights reserved.</p>
+    </footer>
+</body>
+</html>

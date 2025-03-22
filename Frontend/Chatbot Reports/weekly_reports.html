@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly Reports | RLG Data</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <a href="dashboard.html">RLG Data</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="analytics.html">Analytics</a></li>
+                <li><a href="daily_reports.html">Daily Reports</a></li>
+                <li><a href="weekly_reports.html" class="active">Weekly Reports</a></li>
+                <li><a href="settings.html">Settings</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <h1>Weekly Reports</h1>
+        <p>Explore insights and trends for the past week, including performance metrics, issue resolutions, and user feedback.</p>
+
+        <!-- Summary Section -->
+        <section class="summary">
+            <h2>Weekly Summary</h2>
+            <div class="metric-cards">
+                <div class="card">
+                    <h3>Total Queries</h3>
+                    <p id="weekly-total-queries">Loading...</p>
+                </div>
+                <div class="card">
+                    <h3>Resolved Issues</h3>
+                    <p id="weekly-resolved-issues">Loading...</p>
+                </div>
+                <div class="card">
+                    <h3>Average Resolution Time</h3>
+                    <p id="weekly-avg-resolution-time">Loading...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Trends Section -->
+        <section class="trends">
+            <h2>Weekly Trends</h2>
+            <canvas id="trends-chart"></canvas>
+        </section>
+
+        <!-- Detailed Logs Section -->
+        <section class="logs">
+            <h2>Detailed Weekly Logs</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Category</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>Resolution Time</th>
+                    </tr>
+                </thead>
+                <tbody id="weekly-report-logs">
+                    <!-- Data will be dynamically inserted -->
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 RLG Media. All rights reserved.</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="scripts/reports.js"></script>
+    <script>
+        // Weekly Trends Chart
+        const ctx = document.getElementById('trends-chart').getContext('2d');
+        const trendsChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+                datasets: [
+                    {
+                        label: 'Resolved Issues',
+                        data: [10, 15, 8, 12, 20, 5, 7],
+                        backgroundColor: '#4CAF50',
+                    },
+                    {
+                        label: 'New Queries',
+                        data: [15, 20, 12, 18, 25, 10, 14],
+                        backgroundColor: '#FF5733',
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top'
+                    }
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Day of the Week'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Count'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Placeholder Data
+        document.getElementById('weekly-total-queries').innerText = '320';
+        document.getElementById('weekly-resolved-issues').innerText = '280';
+        document.getElementById('weekly-avg-resolution-time').innerText = '2h 45m';
+    </script>
+</body>
+</html>

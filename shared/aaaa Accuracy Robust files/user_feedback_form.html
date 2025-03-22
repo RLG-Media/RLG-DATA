@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="User Feedback Form for RLG Data and RLG Fans">
+    <title>User Feedback Form</title>
+    <link rel="stylesheet" href="styles/theme_manager.css">
+    <link rel="stylesheet" href="styles/form_styles.css">
+    <script src="scripts/form_validation.js" defer></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/" class="logo">RLG</a>
+            <ul class="navigation">
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="/support">Support</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="feedback-form-section">
+            <h1>We Value Your Feedback</h1>
+            <p>Please share your thoughts, suggestions, or issues you’ve encountered. Your feedback helps us improve!</p>
+
+            <form id="feedbackForm" action="/submit-feedback" method="POST" novalidate>
+                <!-- User Information -->
+                <fieldset>
+                    <legend>Your Information</legend>
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" placeholder="Your Email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="user_type">I am a:</label>
+                        <select id="user_type" name="user_type" required>
+                            <option value="">Select an option</option>
+                            <option value="client">Client</option>
+                            <option value="admin">Admin</option>
+                            <option value="partner">Partner</option>
+                        </select>
+                    </div>
+                </fieldset>
+
+                <!-- Feedback Details -->
+                <fieldset>
+                    <legend>Your Feedback</legend>
+                    <div class="form-group">
+                        <label for="feedback_type">Type of Feedback:</label>
+                        <select id="feedback_type" name="feedback_type" required>
+                            <option value="">Select an option</option>
+                            <option value="suggestion">Suggestion</option>
+                            <option value="issue">Issue</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="feedback_message">Message:</label>
+                        <textarea id="feedback_message" name="feedback_message" rows="5" placeholder="Describe your feedback here..." required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="attachments">Attach Files (optional):</label>
+                        <input type="file" id="attachments" name="attachments" accept=".jpg,.png,.pdf,.docx,.xlsx">
+                    </div>
+                </fieldset>
+
+                <!-- Submission -->
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Submit Feedback</button>
+                    <button type="reset" class="btn btn-secondary">Reset</button>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 RLG Data and RLG Fans. All rights reserved.</p>
+    </footer>
+</body>
+</html>

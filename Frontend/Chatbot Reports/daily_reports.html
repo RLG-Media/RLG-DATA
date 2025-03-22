@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Reports | RLG Data</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <a href="dashboard.html">RLG Data</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="analytics.html">Analytics</a></li>
+                <li><a href="daily_reports.html" class="active">Daily Reports</a></li>
+                <li><a href="settings.html">Settings</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <h1>Daily Reports</h1>
+        <p>Get detailed insights into daily operations, logged queries, resolved issues, and overall platform performance.</p>
+
+        <!-- Report Filters -->
+        <section class="filters">
+            <h2>Filter Reports</h2>
+            <form id="filter-form">
+                <label for="date">Select Date:</label>
+                <input type="date" id="date" name="date" required>
+
+                <label for="category">Category:</label>
+                <select id="category" name="category">
+                    <option value="all">All</option>
+                    <option value="queries">Queries</option>
+                    <option value="errors">Errors</option>
+                    <option value="feedback">Feedback</option>
+                </select>
+
+                <button type="submit" class="btn">Apply Filters</button>
+            </form>
+        </section>
+
+        <!-- Key Metrics Section -->
+        <section class="metrics">
+            <h2>Key Metrics</h2>
+            <div class="metric-cards">
+                <div class="card">
+                    <h3>Total Queries</h3>
+                    <p id="total-queries">Loading...</p>
+                </div>
+                <div class="card">
+                    <h3>Resolved Issues</h3>
+                    <p id="resolved-issues">Loading...</p>
+                </div>
+                <div class="card">
+                    <h3>Average Resolution Time</h3>
+                    <p id="avg-resolution-time">Loading...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Graph Section -->
+        <section class="charts">
+            <h2>Performance Over Time</h2>
+            <canvas id="performance-chart"></canvas>
+        </section>
+
+        <!-- Detailed Table Section -->
+        <section class="report-table">
+            <h2>Detailed Logs</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Category</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>Resolution Time</th>
+                    </tr>
+                </thead>
+                <tbody id="report-logs">
+                    <!-- Data will be dynamically loaded -->
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 RLG Media. All rights reserved.</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="scripts/reports.js"></script>
+    <script>
+        // Sample chart rendering
+        const ctx = document.getElementById('performance-chart').getContext('2d');
+        const performanceChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+                datasets: [{
+                    label: 'Resolved Issues',
+                    data: [12, 19, 3, 5, 2],
+                    borderColor: '#4CAF50',
+                    borderWidth: 2,
+                    fill: false
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: true
+                    }
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Day of the Week'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Number of Issues'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Placeholder: Fetch data dynamically
+        document.getElementById('total-queries').innerText = '120';
+        document.getElementById('resolved-issues').innerText = '115';
+        document.getElementById('avg-resolution-time').innerText = '3h 15m';
+    </script>
+</body>
+</html>

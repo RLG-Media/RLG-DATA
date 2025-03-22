@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Reports - RLG DATA{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Reports</h2>
+
+    <!-- Create New Report Button (if applicable) -->
+    <a href="{{ url_for('reports.create') }}" class="btn btn-primary mb-4">Generate New Report</a>
+
+    <!-- Reports Table -->
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Report Name</th>
+                <th>Created At</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for report in reports %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ report.name }}</td>
+                <td>{{ report.created_at.strftime('%Y-%m-%d') }}</td>
+                <td>
+                    {% if report.status == 'completed' %}
+                        <span class="badge bg-success">Completed</span>
+                    {% else %}
+                        <span class="badge bg-warning">In Progress</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{{ url_for('reports.view', report_id=report.id) }}" class="btn btn-sm btn-info">View</a>
+                    <a href="{{ url_for('reports.download', report_id=report.id) }}" class="btn btn-sm btn-secondary">Download</a>
+                    <form action="{{ url_for('reports.delete', report_id=report.id) }}" method="post" class="d-inline">
+                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="5" class="text-center">No reports available. Generate a new report to get started!</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

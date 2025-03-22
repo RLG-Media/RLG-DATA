@@ -1,0 +1,104 @@
+<!-- analytics.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% extends "base.html" %}
+    {% block title %}Analytics - RLG Tools{% endblock %}
+    
+    {% block head %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/analytics.css') }}">
+        <script src="https://www.gstatic.com/charts/loader.js"></script> <!-- Google Charts -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Chart.js -->
+        <script src="{{ url_for('static', filename='js/charts.js') }}"></script>
+    {% endblock %}
+</head>
+<body>
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="text-center">Analytics Dashboard</h1>
+    
+    <!-- Overview Cards -->
+    <div class="overview-cards row">
+        <div class="col-md-4">
+            <div class="card text-white bg-primary mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Total Mentions</h5>
+                    <p class="card-text">{{ total_mentions }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-success mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Positive Sentiment</h5>
+                    <p class="card-text">{{ positive_sentiment }}%</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-warning mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Engagement Rate</h5>
+                    <p class="card-text">{{ engagement_rate }}%</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Platform Mentions Chart -->
+    <h3>Mentions by Platform</h3>
+    <div id="mentionsChart" class="chart-container"></div>
+
+    <!-- Sentiment Analysis Chart -->
+    <h3>Sentiment Breakdown</h3>
+    <canvas id="sentimentChart" class="chart-container"></canvas>
+
+    <!-- Engagement Rate Over Time -->
+    <h3>Engagement Rate Over Time</h3>
+    <canvas id="engagementChart" class="chart-container"></canvas>
+
+    <!-- Detailed Metrics Table -->
+    <h3>Detailed Metrics</h3>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Platform</th>
+                    <th>Mentions</th>
+                    <th>Positive (%)</th>
+                    <th>Neutral (%)</th>
+                    <th>Negative (%)</th>
+                    <th>Engagement Rate (%)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for metric in metrics %}
+                <tr>
+                    <td>{{ metric.platform }}</td>
+                    <td>{{ metric.mentions }}</td>
+                    <td>{{ metric.positive }}</td>
+                    <td>{{ metric.neutral }}</td>
+                    <td>{{ metric.negative }}</td>
+                    <td>{{ metric.engagement_rate }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+<!-- Chart Scripts -->
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        drawMentionsChart();
+        drawSentimentChart();
+        drawEngagementChart();
+    });
+</script>
+{% endblock %}
+
+</body>
+</html>

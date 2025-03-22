@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}User Dashboard - RLG DATA{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Welcome, {{ session['username'] }}!</h2>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} mt-3">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <!-- Dashboard Overview Cards -->
+    <div class="row">
+        <!-- Projects Card -->
+        <div class="col-md-4 mb-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Your Projects</h5>
+                    <p class="card-text">Manage and track all your ongoing projects.</p>
+                    <a href="{{ url_for('projects') }}" class="btn btn-primary">View Projects</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reports Card -->
+        <div class="col-md-4 mb-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Reports</h5>
+                    <p class="card-text">Generate detailed reports for your projects.</p>
+                    <a href="{{ url_for('reports') }}" class="btn btn-secondary">View Reports</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Card -->
+        <div class="col-md-4 mb-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Account Settings</h5>
+                    <p class="card-text">Update your profile, preferences, and subscription.</p>
+                    <a href="{{ url_for('user_settings') }}" class="btn btn-warning">Manage Settings</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Activity Section -->
+    <h4 class="mt-5 mb-3">Recent Activity</h4>
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Activity</th>
+                <th>Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for activity in recent_activities %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ activity.description }}</td>
+                <td>{{ activity.date.strftime('%Y-%m-%d') }}</td>
+                <td>
+                    {% if activity.status == 'completed' %}
+                        <span class="badge bg-success">Completed</span>
+                    {% else %}
+                        <span class="badge bg-warning">In Progress</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="4" class="text-center">No recent activity.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

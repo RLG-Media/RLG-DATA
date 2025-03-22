@@ -1,0 +1,139 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: "RLG Data & RLG Fans API Documentation"
+  description: "API documentation for RLG Data and RLG Fans platform, covering all services and endpoints."
+
+host: "api.rlgdata.com"
+basePath: "/api/v1"
+schemes:
+  - "https"
+produces:
+  - "application/json"
+consumes:
+  - "application/json"
+
+paths:
+  /data:
+    get:
+      summary: "Fetch Data"
+      description: "Retrieve data from the platform based on specified filters."
+      responses:
+        200:
+          description: "Successful data retrieval."
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/DataItem"
+        400:
+          description: "Invalid request parameters."
+        500:
+          description: "Internal server error."
+
+  /fans:
+    get:
+      summary: "Fetch Fans"
+      description: "Retrieve fans' information based on given criteria."
+      responses:
+        200:
+          description: "Successful retrieval of fans information."
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/FanItem"
+        400:
+          description: "Invalid request parameters."
+        500:
+          description: "Internal server error."
+
+  /login:
+    post:
+      summary: "User Login"
+      description: "Authenticate a user and return a JWT token upon successful login."
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/LoginRequest"
+      responses:
+        200:
+          description: "Successful login."
+          schema:
+            type: "object"
+            properties:
+              token:
+                type: "string"
+        401:
+          description: "Unauthorized access."
+        500:
+          description: "Internal server error."
+
+definitions:
+  DataItem:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+        description: "Unique identifier of the data item."
+      value:
+        type: "string"
+        description: "The actual data value."
+      created_at:
+        type: "string"
+        format: "date-time"
+        description: "Timestamp of when the data item was created."
+
+  FanItem:
+    type: "object"
+    properties:
+      fan_id:
+        type: "string"
+        description: "Unique identifier of the fan."
+      fan_name:
+        type: "string"
+        description: "Name of the fan."
+      fan_since:
+        type: "string"
+        format: "date-time"
+        description: "Timestamp of when the fan started following."
+
+  LoginRequest:
+    type: "object"
+    properties:
+      username:
+        type: "string"
+        description: "User's username."
+      password:
+        type: "string"
+        description: "User's password."
+
+securityDefinitions:
+  ApiKeyAuth:
+    type: "apiKey"
+    in: "header"
+    name: "Authorization"
+
+security:
+  - ApiKeyAuth: []
+
+# Additional Information about APIs
+tags:
+  - name: "Data"
+    description: "APIs related to data management and retrieval."
+  - name: "Fans"
+    description: "APIs related to fan information and interactions."
+  - name: "Authentication"
+    description: "APIs for user login and authorization."
+
+# Example of error responses
+responses:
+  401:
+    description: "Unauthorized - You do not have access to this resource."
+  403:
+    description: "Forbidden - Access is not allowed."
+  404:
+    description: "Not Found - The resource you are looking for does not exist."
+  500:
+    description: "Internal Server Error - An unexpected error occurred."
+

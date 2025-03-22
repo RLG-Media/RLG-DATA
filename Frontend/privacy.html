@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Privacy Policy - RLG DATA{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Privacy Policy</h2>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} mt-3">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <!-- Privacy Policy Content -->
+    <p>Your privacy is important to us at RLG DATA. This policy explains how we collect, use, and protect your personal information when you use our platform.</p>
+
+    <h4 class="mt-4">1. Information We Collect</h4>
+    <p>We collect personal information such as your name, email address, and usage data to improve our services and provide a better user experience.</p>
+
+    <h4 class="mt-4">2. How We Use Your Information</h4>
+    <p>Your information is used to provide, maintain, and improve RLG DATA. We may also use your information to send you notifications or updates about your account and projects.</p>
+
+    <h4 class="mt-4">3. Data Security</h4>
+    <p>We take reasonable measures to protect your personal information from unauthorized access, disclosure, or alteration. However, we cannot guarantee the complete security of your data.</p>
+
+    <h4 class="mt-4">4. Sharing Your Information</h4>
+    <p>We do not sell or share your personal information with third parties, except as required by law or to protect our platform from harm.</p>
+
+    <h4 class="mt-4">5. Cookies</h4>
+    <p>We use cookies to enhance your experience on RLG DATA. You can control the use of cookies through your browser settings.</p>
+
+    <h4 class="mt-4">6. Your Rights</h4>
+    <p>You have the right to access, update, or delete your personal information at any time. Contact us at <a href="mailto:support@rlgdata.com">support@rlgdata.com</a> for assistance.</p>
+
+    <h4 class="mt-4">7. Changes to This Policy</h4>
+    <p>We may update this privacy policy from time to time. Changes will be posted on this page, and your continued use of RLG DATA constitutes acceptance of these changes.</p>
+
+    <p class="mt-5">If you have any questions about this policy, please contact us at <a href="mailto:support@rlgdata.com">support@rlgdata.com</a>.</p>
+</div>
+{% endblock %}

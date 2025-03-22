@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2>AdultNode Data Fetch</h2>
+    <p>Enter the username of an AdultNode creator below to retrieve their profile data.</p>
+
+    <!-- Form to fetch AdultNode creator data -->
+    <form id="adultNodeForm" action="{{ url_for('routes.fetch_adultnode_data') }}" method="GET">
+        <div class="form-group">
+            <label for="username">AdultNode Username</label>
+            <input type="text" id="username" name="username" class="form-control" placeholder="Enter username" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Fetch Data</button>
+    </form>
+
+    <!-- Displaying results -->
+    <div id="adultNodeResults" class="mt-4" style="display: none;">
+        <h4>Results</h4>
+        <div id="resultsContent"></div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('adultNodeForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        const username = document.getElementById('username').value;
+
+        // Fetch data from AdultNode service via Flask API endpoint
+        fetch(`/adultnode/fetch/${username}`)
+            .then(response => response.json())
+            .then(data => {
+                const resultsContainer = document.getElementById('adultNodeResults');
+                const resultsContent = document.getElementById('resultsContent');
+
+                if (data) {
+                    resultsContent.innerHTML = `
+                        <p><strong>Creator Name:</strong> ${data.creator_name || 'N/A'}</p>
+                        <p><strong>Followers:</strong> ${data.followers || 'N/A'}</p>
+                        <p><strong>Content Categories:</strong> ${data.categories || 'N/A'}</p>
+                        <p><strong>Revenue:</strong> ${data.revenue || 'N/A'}</p>
+                    `;
+                } else {
+                    resultsContent.innerHTML = `<p>No data available for username: ${username}</p>`;
+                }
+                
+                resultsContainer.style.display = 'block';
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+                alert('An error occurred while fetching data. Please try again.');
+            });
+    });
+</script>
+{% endblock %}

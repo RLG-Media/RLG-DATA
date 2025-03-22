@@ -1,0 +1,152 @@
+<!-- facebook.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook Analytics - RLG Fans</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+
+    <!-- Chart.js for Analytics Charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a class="navbar-brand" href="{{ url_for('index') }}">RLG Fans</a>
+        <ul class="navbar-nav">
+            <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+            <li><a href="{{ url_for('services') }}">Services</a></li>
+            <li><a href="{{ url_for('support') }}">Support</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+        <h1>Facebook Analytics</h1>
+        <p>Unlock insights into your Facebook engagement, audience growth, and content trends to maximize reach and revenue potential.</p>
+
+        <!-- Analytics Overview -->
+        <div class="analytics-overview">
+            <div class="metric-card">
+                <h2>Total Followers</h2>
+                <p id="totalFollowers">Loading...</p>
+            </div>
+            <div class="metric-card">
+                <h2>Total Engagement</h2>
+                <p id="totalEngagement">Loading...</p>
+            </div>
+            <div class="metric-card">
+                <h2>Reach Growth</h2>
+                <p id="reachGrowth">Loading...</p>
+            </div>
+        </div>
+
+        <!-- Engagement and Audience Charts -->
+        <div class="charts-section">
+            <h2>Engagement Over Time</h2>
+            <canvas id="engagementChart" class="chart-container"></canvas>
+
+            <h2>Audience Demographics</h2>
+            <canvas id="audienceChart" class="chart-container"></canvas>
+        </div>
+
+        <!-- Recommendations Section -->
+        <div class="recommendations-section">
+            <h2>Recommendations for Optimized Engagement</h2>
+            <ul id="recommendationsList">
+                <li>Loading recommendations...</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Fetch data from backend APIs and update the page with Facebook metrics
+        async function loadFacebookMetrics() {
+            try {
+                const response = await fetch('/api/facebook/metrics');
+                const data = await response.json();
+
+                document.getElementById('totalFollowers').innerText = data.followers;
+                document.getElementById('totalEngagement').innerText = data.engagement;
+                document.getElementById('reachGrowth').innerText = data.reachGrowth + '%';
+
+                updateEngagementChart(data.engagementData);
+                updateAudienceChart(data.audienceDemographics);
+                loadRecommendations(data.recommendations);
+            } catch (error) {
+                console.error('Error loading Facebook metrics:', error);
+            }
+        }
+
+        // Draws engagement chart using data from the backend
+        function updateEngagementChart(engagementData) {
+            const ctx = document.getElementById('engagementChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: engagementData.dates,
+                    datasets: [{
+                        label: 'Engagement Rate',
+                        data: engagementData.values,
+                        borderColor: '#4267B2',
+                        backgroundColor: 'rgba(66, 103, 178, 0.2)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: { beginAtZero: true }
+                    },
+                    plugins: {
+                        legend: { position: 'top' }
+                    }
+                }
+            });
+        }
+
+        // Draws audience demographics pie chart
+        function updateAudienceChart(audienceData) {
+            const ctx = document.getElementById('audienceChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: audienceData.labels,
+                    datasets: [{
+                        data: audienceData.values,
+                        backgroundColor: ['#4285F4', '#DB4437', '#F4B400', '#0F9D58', '#AB47BC']
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    }
+                }
+            });
+        }
+
+        // Loads recommendations for optimized engagement
+        function loadRecommendations(recommendations) {
+            const recommendationsList = document.getElementById('recommendationsList');
+            recommendationsList.innerHTML = '';
+
+            recommendations.forEach(rec => {
+                const item = document.createElement('li');
+                item.innerText = rec;
+                recommendationsList.appendChild(item);
+            });
+        }
+
+        // Load all metrics on page load
+        document.addEventListener('DOMContentLoaded', loadFacebookMetrics);
+    </script>
+
+</body>
+</html>

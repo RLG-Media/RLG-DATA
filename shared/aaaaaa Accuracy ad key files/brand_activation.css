@@ -1,0 +1,226 @@
+/* Brand Activation CSS for RLG Data and RLG Fans */
+
+/* Global Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+    line-height: 1.6;
+}
+
+h1, h2, h3 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+p {
+    margin-bottom: 15px;
+}
+
+/* Container */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #ffffff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+/* Header Section */
+.header {
+    text-align: center;
+    padding: 20px 0;
+}
+
+.header h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+.header p {
+    font-size: 1.2rem;
+    color: #7f8c8d;
+}
+
+/* Form Section */
+.brand-activation-form {
+    background: #fdfdfd;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.brand-activation-form label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+    color: #34495e;
+}
+
+.brand-activation-form input,
+.brand-activation-form textarea,
+.brand-activation-form select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    background: #f9f9f9;
+    transition: border 0.3s;
+}
+
+.brand-activation-form input:focus,
+.brand-activation-form textarea:focus,
+.brand-activation-form select:focus {
+    border-color: #3498db;
+    outline: none;
+    background: #fff;
+}
+
+.brand-activation-form button {
+    background-color: #3498db;
+    color: #fff;
+    font-size: 1rem;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.brand-activation-form button:hover {
+    background-color: #2980b9;
+}
+
+/* Campaign List Section */
+.campaigns-section {
+    margin-top: 30px;
+}
+
+.campaigns-section h2 {
+    font-size: 2rem;
+    margin-bottom: 15px;
+}
+
+.campaign {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background: #fafafa;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.campaign:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.campaign h3 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #2c3e50;
+}
+
+.campaign p {
+    margin: 10px 0;
+    color: #7f8c8d;
+    font-size: 0.9rem;
+}
+
+.campaign .btn-secondary {
+    background-color: #95a5a6;
+    color: #fff;
+    padding: 8px 15px;
+    font-size: 0.9rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.campaign .btn-secondary:hover {
+    background-color: #7f8c8d;
+}
+
+/* Analytics Section */
+.analytics-section {
+    margin-top: 40px;
+}
+
+.analytics-section h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.analytics-summary {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background: #f7f7f7;
+}
+
+.analytics-summary h4 {
+    font-size: 1.2rem;
+    color: #34495e;
+}
+
+.analytics-summary p {
+    color: #7f8c8d;
+    margin: 5px 0;
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 1rem;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+.btn-primary {
+    background-color: #3498db;
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background-color: #2980b9;
+}
+
+.btn-secondary {
+    background-color: #95a5a6;
+    color: #fff;
+}
+
+.btn-secondary:hover {
+    background-color: #7f8c8d;
+}
+
+/* Utility Classes */
+.text-center {
+    text-align: center;
+}
+
+.margin-bottom {
+    margin-bottom: 20px;
+}
+
+.hidden {
+    display: none;
+}

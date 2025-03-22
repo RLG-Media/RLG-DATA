@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="API Documentation for RLG Data and RLG Fans">
+    <meta name="author" content="RLG Development Team">
+    <title>API Documentation | RLG Data & RLG Fans</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/theme_manager.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <a href="dashboard.html">RLG</a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="analytics.html">Analytics</a></li>
+                    <li><a href="inbox.html">Inbox</a></li>
+                    <li><a href="api_documentation.html" class="active">API Documentation</a></li>
+                    <li><a href="settings.html">Settings</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="api-documentation">
+            <h1>API Documentation</h1>
+            <p>Welcome to the API documentation for RLG Data and RLG Fans. This documentation provides detailed information on how to interact with our APIs, enabling you to integrate, manage, and utilize our services effectively.</p>
+
+            <article class="api-section">
+                <h2>Authentication</h2>
+                <p>All API requests require authentication using an API key. You can obtain your API key from the settings page in your RLG account.</p>
+                <pre><code>GET /auth/token
+Headers: {
+    "Authorization": "Bearer YOUR_API_KEY"
+}</code></pre>
+            </article>
+
+            <article class="api-section">
+                <h2>User Management</h2>
+                <h3>Create User</h3>
+                <pre><code>POST /api/users
+Headers: {
+    "Authorization": "Bearer YOUR_API_KEY",
+    "Content-Type": "application/json"
+}
+Body: {
+    "username": "example_user",
+    "email": "example@example.com",
+    "password": "securepassword"
+}</code></pre>
+
+                <h3>Get User Details</h3>
+                <pre><code>GET /api/users/{user_id}
+Headers: {
+    "Authorization": "Bearer YOUR_API_KEY"
+}</code></pre>
+            </article>
+
+            <article class="api-section">
+                <h2>Social Media Integrations</h2>
+                <h3>Fetch Social Media Mentions</h3>
+                <pre><code>GET /api/social/mentions
+Headers: {
+    "Authorization": "Bearer YOUR_API_KEY"
+}
+Query Parameters: {
+    "platform": "twitter|instagram|facebook|tiktok|linkedin|pinterest|reddit|snapchat|threads",
+    "keyword": "search_term",
+    "limit": 50
+}</code></pre>
+
+                <h3>Post to Social Media</h3>
+                <pre><code>POST /api/social/post
+Headers: {
+    "Authorization": "Bearer YOUR_API_KEY",
+    "Content-Type": "application/json"
+}
+Body: {
+    "platform": "twitter",
+    "content": "This is a post example.",
+    "media_url": "optional_media_url"
+}</code></pre>
+            </article>
+
+            <article class="api-section">
+                <h2>Data Analytics</h2>
+                <h3>Fetch Analytics Data</h3>
+                <pre><code>GET /api/analytics
+Headers: {
+    "Authorization": "Bearer YOUR_API_KEY"
+}
+Query Parameters: {
+    "date_range": "YYYY-MM-DD to YYYY-MM-DD",
+    "metric": "impressions|clicks|engagement"
+}</code></pre>
+            </article>
+
+            <article class="api-section">
+                <h2>Reporting</h2>
+                <h3>Generate Custom Reports</h3>
+                <pre><code>POST /api/reports/generate
+Headers: {
+    "Authorization": "Bearer YOUR_API_KEY",
+    "Content-Type": "application/json"
+}
+Body: {
+    "report_type": "engagement|performance|seo",
+    "parameters": {
+        "platform": "twitter",
+        "date_range": "YYYY-MM-DD to YYYY-MM-DD"
+    }
+}</code></pre>
+            </article>
+
+            <article class="api-section">
+                <h2>Push Notifications</h2>
+                <h3>Send Push Notifications</h3>
+                <pre><code>POST /api/notifications/send
+Headers: {
+    "Authorization": "Bearer YOUR_API_KEY",
+    "Content-Type": "application/json"
+}
+Body: {
+    "user_id": "user_123",
+    "title": "Notification Title",
+    "message": "Notification message."
+}</code></pre>
+            </article>
+
+            <article class="api-section">
+                <h2>Error Codes</h2>
+                <p>All API responses include HTTP status codes to indicate success or failure. Common status codes:</p>
+                <ul>
+                    <li><strong>200 OK</strong>: Request was successful.</li>
+                    <li><strong>201 Created</strong>: Resource was successfully created.</li>
+                    <li><strong>400 Bad Request</strong>: Invalid request parameters.</li>
+                    <li><strong>401 Unauthorized</strong>: Authentication failed.</li>
+                    <li><strong>500 Internal Server Error</strong>: An error occurred on the server.</li>
+                </ul>
+            </article>
+
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 RLG. All rights reserved.</p>
+    </footer>
+</body>
+</html>

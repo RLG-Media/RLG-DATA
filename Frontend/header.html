@@ -1,0 +1,85 @@
+<!-- header.html -->
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <!-- Logo/Brand Name -->
+            <a class="navbar-brand" href="{{ url_for('index') }}">RLG Platform</a>
+            
+            <!-- Toggle button for mobile view -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <!-- Home Link -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('index') }}">Home</a>
+                    </li>
+
+                    <!-- Services Dropdown for RLG Data and RLG Fans -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Services
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="servicesDropdown">
+                            <!-- RLG Data Services -->
+                            <h6 class="dropdown-header">RLG Data</h6>
+                            <a class="dropdown-item" href="{{ url_for('content_planning') }}">Content Planning</a>
+                            <a class="dropdown-item" href="{{ url_for('content_scheduling') }}">Content Scheduling</a>
+                            <a class="dropdown-item" href="{{ url_for('influencer_matching') }}">Influencer Matching</a>
+                            <a class="dropdown-item" href="{{ url_for('brand_health') }}">Brand Health</a>
+                            <a class="dropdown-item" href="{{ url_for('crisis_management') }}">Crisis Management</a>
+                            <a class="dropdown-item" href="{{ url_for('analytics') }}">Analytics</a>
+                            <div class="dropdown-divider"></div>
+                            
+                            <!-- RLG Fans Services -->
+                            <h6 class="dropdown-header">RLG Fans</h6>
+                            <a class="dropdown-item" href="{{ url_for('fansify') }}">Fansify</a>
+                            <a class="dropdown-item" href="{{ url_for('sheer') }}">Sheer</a>
+                            <a class="dropdown-item" href="{{ url_for('pornhub') }}">PornHub</a>
+                            <a class="dropdown-item" href="{{ url_for('feetfinder') }}">FeetFinder</a>
+                            <a class="dropdown-item" href="{{ url_for('youfanly') }}">YouFanly</a>
+                            <a class="dropdown-item" href="{{ url_for('alua') }}">Alua</a>
+                            <a class="dropdown-item" href="{{ url_for('fansify') }}">Fansify</a>
+                        </div>
+                    </li>
+
+                    <!-- Dashboard Link -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('dashboard') }}">Dashboard</a>
+                    </li>
+
+                    <!-- Account/Login/Logout Links -->
+                    {% if 'username' in session %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Welcome, {{ session['username'] }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('auth.login') }}">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('auth.register') }}">Register</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+<div id="chat-icon" onclick="toggleChat()">💬</div>
+<div id="chat-popup" style="display: none;">
+    <iframe src="chatbot.html" frameborder="0" width="100%" height="100%"></iframe>
+</div>
+<script src="scripts/chatbot.js"></script>
+<script>
+    function toggleChat() {
+        const chatPopup = document.getElementById("chat-popup");
+        chatPopup.style.display =
+            chatPopup.style.display === "none" ? "block" : "none";
+    }
+</script>

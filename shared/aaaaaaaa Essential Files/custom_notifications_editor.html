@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Custom Notifications Editor for RLG Data and RLG Fans">
+    <meta name="author" content="RLG Team">
+    <title>Custom Notifications Editor | RLG</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/theme_manager.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" defer></script>
+    <script src="https://cdn.ckeditor.com/4.20.0/standard/ckeditor.js" defer></script>
+    <script src="scripts/custom_notifications_editor.js" defer></script>
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <a href="dashboard.html">RLG</a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="notifications.html">Notifications</a></li>
+                    <li><a href="custom_notifications_editor.html" class="active">Custom Notifications Editor</a></li>
+                    <li><a href="settings.html">Settings</a></li>
+                </ul>
+            </nav>
+            <div class="user-profile">
+                <img src="images/user-avatar.png" alt="User Avatar">
+                <div class="dropdown">
+                    <a href="profile.html">Profile</a>
+                    <a href="logout.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="dashboard-container">
+            <h1>Custom Notifications Editor</h1>
+            <form id="notification-editor-form">
+                <div class="form-group">
+                    <label for="notification-title">Notification Title:</label>
+                    <input type="text" id="notification-title" name="notification-title" placeholder="Enter the notification title" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="notification-type">Notification Type:</label>
+                    <select id="notification-type" name="notification-type" required>
+                        <option value="email">Email</option>
+                        <option value="sms">SMS</option>
+                        <option value="push">Push Notification</option>
+                        <option value="in-app">In-App Notification</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="notification-content">Notification Content:</label>
+                    <textarea id="notification-content" name="notification-content" placeholder="Enter the notification content"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="audience">Target Audience:</label>
+                    <select id="audience" name="audience" required>
+                        <option value="all-users">All Users</option>
+                        <option value="rlg-data-users">RLG Data Users</option>
+                        <option value="rlg-fans-users">RLG Fans Users</option>
+                        <option value="custom-group">Custom Group</option>
+                    </select>
+                </div>
+
+                <div class="form-group audience-group" id="custom-group-selector" style="display: none;">
+                    <label for="custom-group">Custom Group:</label>
+                    <input type="text" id="custom-group" name="custom-group" placeholder="Enter custom group name">
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary"><i class="fas fa-save"></i> Save Notification</button>
+                    <button type="reset" class="btn-secondary"><i class="fas fa-times"></i> Clear</button>
+                </div>
+            </form>
+
+            <div class="saved-notifications">
+                <h2>Saved Notifications</h2>
+                <table id="saved-notifications-table" class="display">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Type</th>
+                            <th>Audience</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Dynamic notification entries populated by backend -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 RLG. All rights reserved.</p>
+    </footer>
+</body>
+</html>

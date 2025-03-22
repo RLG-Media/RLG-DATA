@@ -1,0 +1,54 @@
+{
+    "version": 1,
+    "disable_existing_loggers": false,
+    "formatters": {
+        "detailed": {
+            "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+        },
+        "simple": {
+            "format": "%(levelname)s - %(message)s"
+        }
+    },
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "level": "DEBUG",
+            "formatter": "simple"
+        },
+        "file": {
+            "class": "logging.FileHandler",
+            "level": "INFO",
+            "formatter": "detailed",
+            "filename": "application.log",
+            "encoding": "utf8"
+        },
+        "error_file": {
+            "class": "logging.FileHandler",
+            "level": "ERROR",
+            "formatter": "detailed",
+            "filename": "errors.log",
+            "encoding": "utf8"
+        }
+    },
+    "loggers": {
+        "rlg_data": {
+            "level": "DEBUG",
+            "handlers": ["console", "file"],
+            "propagate": false
+        },
+        "rlg_fans": {
+            "level": "DEBUG",
+            "handlers": ["console", "file"],
+            "propagate": false
+        },
+        "error_logger": {
+            "level": "ERROR",
+            "handlers": ["error_file"],
+            "propagate": false
+        }
+    },
+    "root": {
+        "level": "WARNING",
+        "handlers": ["console", "file"]
+    }
+}

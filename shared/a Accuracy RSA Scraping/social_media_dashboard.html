@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Social Media Dashboard for RLG Data and RLG Fans">
+    <meta name="author" content="RLG">
+    <title>Social Media Dashboard | RLG</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/theme_manager.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chart.js/3.8.0/chart.min.js"></script>
+    <script src="scripts/social_media_dashboard.js" defer></script>
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <a href="dashboard.html">RLG</a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="analytics.html">Analytics</a></li>
+                    <li><a href="social_media_dashboard.html" class="active">Social Media</a></li>
+                    <li><a href="reporting_dashboard.html">Reports</a></li>
+                    <li><a href="settings.html">Settings</a></li>
+                </ul>
+            </nav>
+            <div class="user-profile">
+                <img src="images/user-avatar.png" alt="User Avatar">
+                <div class="dropdown">
+                    <a href="profile.html">Profile</a>
+                    <a href="logout.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="social-media-dashboard-container">
+            <header class="dashboard-header">
+                <h1>Social Media Dashboard</h1>
+                <div class="actions">
+                    <button id="refresh-dashboard" class="btn"><i class="fas fa-sync-alt"></i> Refresh</button>
+                </div>
+            </header>
+
+            <section class="platform-overview">
+                <h2>Platform Overview</h2>
+                <div class="platform-stats">
+                    <div class="stat">
+                        <h3>Twitter</h3>
+                        <p id="twitter-mentions">Loading...</p>
+                    </div>
+                    <div class="stat">
+                        <h3>Instagram</h3>
+                        <p id="instagram-mentions">Loading...</p>
+                    </div>
+                    <div class="stat">
+                        <h3>Facebook</h3>
+                        <p id="facebook-mentions">Loading...</p>
+                    </div>
+                    <div class="stat">
+                        <h3>LinkedIn</h3>
+                        <p id="linkedin-mentions">Loading...</p>
+                    </div>
+                    <div class="stat">
+                        <h3>Pinterest</h3>
+                        <p id="pinterest-mentions">Loading...</p>
+                    </div>
+                    <div class="stat">
+                        <h3>TikTok</h3>
+                        <p id="tiktok-mentions">Loading...</p>
+                    </div>
+                    <div class="stat">
+                        <h3>Reddit</h3>
+                        <p id="reddit-mentions">Loading...</p>
+                    </div>
+                    <div class="stat">
+                        <h3>Snapchat</h3>
+                        <p id="snapchat-mentions">Loading...</p>
+                    </div>
+                    <div class="stat">
+                        <h3>Threads</h3>
+                        <p id="threads-mentions">Loading...</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mention-trends">
+                <h2>Mention Trends</h2>
+                <div class="chart-container">
+                    <canvas id="mention-trend-chart"></canvas>
+                </div>
+            </section>
+
+            <section class="recent-posts">
+                <h2>Recent Posts</h2>
+                <ul id="recent-posts" class="posts-list">
+                    <!-- Dynamic posts populated by backend -->
+                    <li class="post-item">Loading...</li>
+                </ul>
+            </section>
+
+            <section class="sentiment-analysis">
+                <h2>Sentiment Analysis</h2>
+                <div class="chart-container">
+                    <canvas id="sentiment-chart"></canvas>
+                </div>
+            </section>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 RLG. All rights reserved.</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,24 @@
+# robots.txt for RLG Data
+
+# Allow all web crawlers full access to the main site
+User-agent: *
+Allow: /
+
+# Disallow indexing of sensitive or irrelevant pages
+Disallow: /admin/
+Disallow: /login/
+Disallow: /register/
+Disallow: /api/
+Disallow: /user-settings/
+Disallow: /dashboard/
+
+# Block specific file types
+Disallow: /*.json$
+Disallow: /*.env$
+Disallow: /*.log$
+
+# Block crawling of internal search results
+Disallow: /search?
+
+# Sitemap declaration
+Sitemap: https://yourdomain.com/sitemap.xml

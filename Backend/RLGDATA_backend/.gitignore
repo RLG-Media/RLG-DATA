@@ -1,0 +1,96 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment variables and configuration files
+.env
+*.env
+
+# Flask / Django cache and debug files
+*.log
+*.sqlite3
+instance/
+
+# Database
+*.db
+*.sqlite3
+*.pgdata
+
+# Docker-related files
+*.log
+docker-compose*.yml
+Dockerfile
+.dockerignore
+
+# Pytest cache
+.pytest_cache/
+.tox/
+.nox/
+coverage.xml
+*.cover
+*.coverage
+*.pytest_cache
+.cache
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# Python virtual environment folders
+venv/
+env/
+ENV/
+.idea/
+
+# Visual Studio Code settings
+.vscode/
+
+# Dependency directories
+node_modules/
+build/
+dist/
+
+# Celery worker-related files
+celerybeat-schedule
+celerybeat.pid
+celerybeat.lock
+
+# Static and media uploads (if applicable)
+static/uploads/
+media/
+
+# Google API client secrets or service account keys
+client_secrets.json
+credentials.json
+
+# PyCharm project settings
+.idea/
+
+# Logs
+logs/
+*.log
+*.out
+
+# Ignore database migrations (if needed)
+migrations/
+
+# Ignore compiled JavaScript and CSS
+*.min.js
+*.min.css
+
+# Ignore compiled wheels
+*.whl
+
+# Ignore coverage reports
+htmlcov/
+.coverage
+
+# Ignore Sentry error tracking settings (if applicable)
+.sentrycli
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+desktop.ini

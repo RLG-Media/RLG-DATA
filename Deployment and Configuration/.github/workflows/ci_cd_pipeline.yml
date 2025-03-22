@@ -1,0 +1,128 @@
+# CI/CD Pipeline Configuration for RLG Data and RLG Fans
+
+stages:
+  - build
+  - test
+  - deploy-data
+  - deploy-fans
+  - update-shared-storage
+  - post-deploy-monitoring
+  - cleanup
+
+variables:
+  DOCKER_REGISTRY: your-docker-registry
+  IMAGE_TAG: latest
+  KUBECONFIG: /path/to/your/kubeconfig
+  SHARED_STORAGE_CLAIM: shared-storage-claim
+  POSTGRES_DATA_PVC: postgres-pvc-data
+  POSTGRES_FANS_PVC: postgres-pvc-fans
+  FRONTEND_DIR: ./frontend
+  RLG_DATA_BACKEND_DIR: ./rlg-backend-data
+  RLG_FANS_BACKEND_DIR: ./rlg-backend-fans
+  K8S_DIR: ./k8s
+  POSTGRES_DATA_YML: ${K8S_DIR}/postgres-data.yml
+  POSTGRES_FANS_YML: ${K8S_DIR}/postgres-fans.yml
+  REDIS_YML: ${K8S_DIR}/redis.yml
+  SHARED_STORAGE_YML: ${K8S_DIR}/shared-storage-pvc.yml
+  SHARED_STORAGE_DEPLOY_YML: ${K8S_DIR}/shared-storage-deployment.yml
+
+# Build Stage: Build Docker images for Backend and Frontend
+build:
+  stage: build
+  script:
+    - echo "Building RLG Data Backend Docker Image..."
+    - docker build -t ${DOCKER_REGISTRY}/rlg-backend-data:${IMAGE_TAG} ${RLG_DATA_BACKEND_DIR}
+    - echo "Building RLG Fans Backend Docker Image..."
+    - docker build -t ${DOCKER_REGISTRY}/rlg-backend-fans:${IMAGE_TAG} ${RLG_FANS_BACKEND_DIR}
+    - echo "Building Frontend Docker Image..."
+    - docker build -t ${DOCKER_REGISTRY}/rlg-frontend:${IMAGE_TAG} ${FRONTEND_DIR}
+  tags:
+    - docker
+
+# Test Stage: Run Unit Tests for Backend and Frontend
+test:
+  stage: test
+  script:
+    - echo "Running Unit Tests for RLG Data Backend..."
+    - docker run --rm ${DOCKER_REGISTRY}/rlg-backend-data:${IMAGE_TAG} pytest /app/tests
+    - echo "Running Unit Tests for RLG Fans Backend..."
+    - docker run --rm ${DOCKER_REGISTRY}/rlg-backend-fans:${IMAGE_TAG} pytest /app/tests
+    - echo "Running Unit Tests for Frontend..."
+    - docker run --rm ${DOCKER_REGISTRY}/rlg-frontend:${IMAGE_TAG} npm test
+  tags:
+    - test
+
+# Deploy RLG Data Backend, Database, and Redis
+deploy-data:
+  stage: deploy-data
+  script:
+    - echo "Deploying RLG Data Backend to Kubernetes..."
+    - kubectl --kubeconfig=${KUBECONFIG} apply -f ${K8S_DIR}/deployment-data.yml
+    - echo "Deploying PostgreSQL for RLG Data to Kubernetes..."
+    - kubectl --kubeconfig=${KUBECONFIG} apply -f ${POSTGRES_DATA_YML}
+    - echo "Deploying Redis for RLG Data to Kubernetes..."
+    - kubectl --kubeconfig=${KUBECONFIG} apply -f ${REDIS_YML}
+  tags:
+    - deploy
+
+# Deploy RLG Fans Backend, Database, and Redis
+deploy-fans:
+  stage: deploy-fans
+  script:
+    - echo "Deploying RLG Fans Backend to Kubernetes..."
+    - kubectl --kubeconfig=${KUBECONFIG} apply -f ${K8S_DIR}/deployment-fans.yml
+    - echo "Deploying PostgreSQL for RLG Fans to Kubernetes..."
+    - kubectl --kubeconfig=${KUBECONFIG} apply -f ${POSTGRES_FANS_YML}
+    - echo "Deploying Redis for RLG Fans to Kubernetes..."
+    - kubectl --kubeconfig=${KUBECONFIG} apply -f ${REDIS_YML}
+  tags:
+    - deploy
+
+# Update Shared Storage (PVC & Deployment)
+update-shared-storage:
+  stage: update-shared-storage
+  script:
+    - echo "Updating Shared Storage Persistent Volume Claim..."
+    - kubectl --kubeconfig=${KUBECONFIG} apply -f ${SHARED_STORAGE_YML}
+    - echo "Deploying Shared Storage Deployment..."
+    - kubectl --kubeconfig=${KUBECONFIG} apply -f ${SHARED_STORAGE_DEPLOY_YML}
+  tags:
+    - deploy
+
+# Post-Deployment Monitoring: Ensure Services are Running and Healthy
+post-deploy-monitoring:
+  stage: post-deploy-monitoring
+  script:
+    - echo "Checking RLG Data Deployment Health..."
+    - kubectl --kubeconfig=${KUBECONFIG} rollout status deployment/rlg-backend-data --timeout=5m
+    - echo "Checking RLG Fans Deployment Health..."
+    - kubectl --kubeconfig=${KUBECONFIG} rollout status deployment/rlg-backend-fans --timeout=5m
+    - echo "Checking PostgreSQL for RLG Data Health..."
+    - kubectl --kubeconfig=${KUBECONFIG} rollout status deployment/postgres-data --timeout=5m
+    - echo "Checking PostgreSQL for RLG Fans Health..."
+    - kubectl --kubeconfig=${KUBECONFIG} rollout status deployment/postgres-fans --timeout=5m
+    - echo "Checking Redis Deployment Health..."
+    - kubectl --kubeconfig=${KUBECONFIG} rollout status deployment/redis --timeout=5m
+  when: always
+  tags:
+    - monitoring
+
+# Cleanup: Clean up resources and images after deployment
+cleanup:
+  stage: cleanup
+  script:
+    - echo "Removing old Docker images..."
+    - docker image prune -f
+    - echo "Cleaning up Kubernetes resources..."
+    - kubectl --kubeconfig=${KUBECONFIG} delete -f ${K8S_DIR}/deployment-data.yml
+    - kubectl --kubeconfig=${KUBECONFIG} delete -f ${K8S_DIR}/deployment-fans.yml
+  tags:
+    - cleanup
+  only:
+    - master  # Only run cleanup on the master branch
+
+# Additional recommendations:
+# - Build and deploy in parallel when possible to speed up the pipeline.
+# - Add alerts and notifications for failed deployments or unhealthy services.
+# - Implement rollback procedures in case of failed deployments.
+# - Store deployment configurations in version-controlled files for traceability.

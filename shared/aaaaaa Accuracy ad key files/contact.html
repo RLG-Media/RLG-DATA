@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block title %}Contact Us - RLG {% if platform == 'Data' %}Data{% else %}Fans{% endif %}{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="text-center">
+        <h1 class="display-4">Contact Us</h1>
+        <p class="lead">We'd love to hear from you. Whether you have questions, feedback, or need assistance, we're here to help.</p>
+    </div>
+
+    <!-- Contact Form -->
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-8 col-lg-6">
+            <form id="contactForm" method="POST" action="{{ url_for('submit_contact_form') }}">
+                <!-- Name Field -->
+                <div class="form-group">
+                    <label for="name" class="form-label">Your Name</label>
+                    <input 
+                        type="text" 
+                        id="name" 
+                        name="name" 
+                        class="form-control" 
+                        placeholder="Enter your name" 
+                        required>
+                </div>
+
+                <!-- Email Field -->
+                <div class="form-group mt-3">
+                    <label for="email" class="form-label">Your Email</label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        class="form-control" 
+                        placeholder="Enter your email address" 
+                        required>
+                </div>
+
+                <!-- Subject Field -->
+                <div class="form-group mt-3">
+                    <label for="subject" class="form-label">Subject</label>
+                    <input 
+                        type="text" 
+                        id="subject" 
+                        name="subject" 
+                        class="form-control" 
+                        placeholder="Enter the subject of your message" 
+                        required>
+                </div>
+
+                <!-- Message Field -->
+                <div class="form-group mt-3">
+                    <label for="message" class="form-label">Message</label>
+                    <textarea 
+                        id="message" 
+                        name="message" 
+                        rows="6" 
+                        class="form-control" 
+                        placeholder="Write your message here" 
+                        required></textarea>
+                </div>
+
+                <!-- Platform Hidden Input -->
+                <input type="hidden" name="platform" value="{{ platform }}">
+
+                <!-- Submit Button -->
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        Send Message
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Alternative Contact Methods -->
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-8 text-center">
+            <h3>Prefer to Contact Us Directly?</h3>
+            <p class="mt-3">
+                You can reach us at:
+            </p>
+            <ul class="list-unstyled">
+                <li><strong>Email:</strong> support@rlg{{ platform.lower() }}.com</li>
+                <li><strong>Phone:</strong> +1 (123) 456-7890</li>
+                <li><strong>Address:</strong> 123 Innovation Lane, Tech City, TX 75001</li>
+            </ul>
+            <p class="mt-4">Our team is available Monday through Friday, 9:00 AM to 6:00 PM (CST).</p>
+        </div>
+    </div>
+
+    <!-- Map Section -->
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-10">
+            <div class="map-responsive">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.8354345096185!2d144.95373631531686!3d-37.81627944201448!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad642af0f11fd81%3A0xf577e59bb1fd6c0!2sTech%20City!5e0!3m2!1sen!2sus!4v1685051522098!5m2!1sen!2sus" 
+                    width="100%" 
+                    height="450" 
+                    style="border:0;" 
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Custom JavaScript for Validation -->
+<script>
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const message = document.getElementById('message').value.trim();
+
+        if (!name || !email || !message) {
+            e.preventDefault();
+            alert('Please fill out all required fields before submitting.');
+        }
+    });
+</script>
+
+{% endblock %}

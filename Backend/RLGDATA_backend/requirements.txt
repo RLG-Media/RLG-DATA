@@ -1,0 +1,131 @@
+aiohappyeyeballs==2.4.3
+aiohttp==3.10.10
+aiosignal==1.3.1
+alembic==1.13.3
+amqp==5.2.0
+aniso8601==9.0.1
+annotated-types==0.7.0
+attrs==24.2.0
+beautifulsoup4==4.12.3  # For HTML parsing and scraping
+bidict==0.23.1
+billiard==4.2.1
+bitarray==2.9.3
+blinker==1.8.2
+blurhash==1.1.4
+cachelib==0.9.0
+cachetools==5.5.0
+celery==5.4.0
+certifi==2024.8.30
+chardet==5.2.0
+charset-normalizer==3.4.0
+click==8.1.7
+click-didyoumean==0.3.1
+click-plugins==1.1.1
+click-repl==0.3.0
+colorama==0.4.6
+cycler==0.12.1
+decorator==5.1.1
+Deprecated==1.2.14
+eth-account==0.13.4
+eth-hash==0.7.0
+eth-keyfile==0.8.1
+eth-keys==0.5.1
+eth-rlp==2.1.0
+eth-typing==5.0.0
+eth-utils==5.0.0
+eth_abi==5.1.0
+Flask==3.0.3
+Flask-Caching==2.3.0
+Flask-Cors==5.0.0
+Flask-JWT-Extended==4.6.0
+Flask-Limiter==3.8.0
+Flask-Mail==0.10.0
+Flask-Migrate==4.0.7
+Flask-RESTful==0.3.10
+Flask-SocketIO==5.4.1
+Flask-SQLAlchemy==3.1.1
+fonttools==4.54.1
+fsspec==2024.9.0
+google-api-core==2.21.0
+google-auth==2.35.0
+google-cloud-bigquery==3.26.0  # For BigQuery integrations
+google-cloud-core==2.4.1
+google-crc32c==1.6.0
+google-resumable-media==2.7.2
+googleapis-common-protos==1.65.0
+greenlet==3.1.1
+grpcio==1.66.2
+grpcio-status==1.66.2
+h11==0.14.0
+hexbytes==1.2.1
+huggingface-hub==0.25.2
+idna==3.10
+importlib_resources==6.4.5
+itsdangerous==2.2.0
+Jinja2==3.1.4
+joblib==1.4.2
+kiwisolver==1.4.7
+kombu==5.4.2
+limits==3.13.0
+Mako==1.3.5
+markdown-it-py==3.0.0
+MarkupSafe==3.0.1
+Mastodon.py==1.8.1
+matplotlib==3.9.2  # For additional visualizations
+mdurl==0.1.2
+multidict==6.1.0
+numpy==2.1.2
+oauthlib==3.2.2
+ordered-set==4.1.0
+packaging==24.1
+parsimonious==0.10.0
+pillow==10.4.0
+prompt_toolkit==3.0.48
+propcache==0.2.0
+proto-plus==1.24.0
+protobuf==5.28.2
+psycopg2-binary==2.9.9  # PostgreSQL driver
+pyasn1==0.6.1
+pyasn1_modules==0.4.1
+pycryptodome==3.21.0
+pydantic==2.9.2
+Pygments==2.18.0
+PyJWT==2.9.0
+pyotp==2.9.0
+pyparsing==3.1.4
+python-dateutil==2.9.0.post0
+python-dotenv==1.0.1  # For environment variable loading
+python-engineio==4.9.1
+python-magic-bin==0.4.14
+python-socketio==5.11.4
+pytz==2024.2
+redis==5.1.1  # Required for Celery and caching
+regex==2024.9.11
+reportlab==4.2.5  # PDF generation
+requests==2.32.3
+requests-oauthlib==1.3.1
+rich==13.9.2
+rlp==4.0.1
+rsa==4.9
+safetensors==0.4.5
+scikit-learn==1.5.2
+scipy==1.14.1
+sentry-sdk==2.16.0  # Error monitoring
+simple-websocket==1.1.0
+six==1.16.0
+SQLAlchemy==2.0.35
+stripe==11.1.0  # Payment processing
+tqdm==4.66.5
+transformers==4.45.2  # NLP and AI integrations
+tweepy==4.14.0  # Twitter API
+types-requests==2.32.0.20240914
+typing_extensions==4.12.2
+urllib3==2.2.3
+vine==5.1.0
+wcwidth==0.2.13
+web3==7.3.0  # Web3 and blockchain
+websockets==13.1
+Werkzeug==3.0.4
+wrapt==1.16.0
+wsproto==1.2.0
+yarl==1.14.0

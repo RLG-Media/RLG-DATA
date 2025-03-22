@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}403 Forbidden - RLG DATA{% endblock %}
+
+{% block content %}
+<div class="container text-center mt-5">
+    <h1 class="display-3">403</h1>
+    <h2>Access Forbidden</h2>
+    <p class="lead">You do not have permission to access this page.</p>
+    <p>If you believe this is an error, please contact your administrator or <a href="mailto:support@rlgdata.com">support@rlgdata.com</a>.</p>
+    <a href="{{ url_for('index') }}" class="btn btn-primary mt-4">Return to Home</a>
+</div>
+{% endblock %}

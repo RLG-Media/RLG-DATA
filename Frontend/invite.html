@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}Invite New Users - RLG DATA{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Invite New Users</h2>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} mt-3">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <!-- Invitation Form -->
+    <form method="POST" action="{{ url_for('invite.send') }}">
+        <div class="form-group mb-3">
+            <label for="email">Email Address</label>
+            <input type="email" name="email" class="form-control" placeholder="Enter email to send invitation" required>
+        </div>
+        <div class="form-group mb-3">
+            <label for="role">Assign Role</label>
+            <select name="role" class="form-control">
+                <option value="user">User</option>
+                <option value="admin">Admin</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Send Invitation</button>
+    </form>
+
+    <!-- Pending Invitations -->
+    <h4 class="mt-5 mb-3">Pending Invitations</h4>
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Date Sent</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for invite in pending_invites %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ invite.email }}</td>
+                <td>{{ invite.role }}</td>
+                <td>{{ invite.date_sent.strftime('%Y-%m-%d') }}</td>
+                <td>
+                    {% if invite.status == 'pending' %}
+                        <span class="badge bg-warning">Pending</span>
+                    {% elif invite.status == 'accepted' %}
+                        <span class="badge bg-success">Accepted</span>
+                    {% else %}
+                        <span class="badge bg-danger">Expired</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <form action="{{ url_for('invite.resend', invite_id=invite.id) }}" method="POST" style="display:inline;">
+                        <button type="submit" class="btn btn-sm btn-secondary">Resend</button>
+                    </form>
+                    <form action="{{ url_for('invite.delete', invite_id=invite.id) }}" method="POST" style="display:inline;">
+                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="6" class="text-center">No pending invitations.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

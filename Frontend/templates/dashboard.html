@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - RLG Data{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar Navigation -->
+        <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+            <div class="position-sticky">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('analytics') }}">Analytics</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('data_insights') }}">Data Insights</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('geo_analysis') }}">Geographical Analysis</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('reports') }}">Reports</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('settings') }}">Settings</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-primary" href="{{ url_for('rlg_fans_dashboard') }}">
+                            <strong>Switch to RLG Fans</strong>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main Dashboard Content -->
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">Welcome, {{ session['username'] }}</h1>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <a href="{{ url_for('create_report') }}" class="btn btn-sm btn-primary">Generate Report</a>
+                    <a href="{{ url_for('export_data') }}" class="btn btn-sm btn-outline-secondary">Export Data</a>
+                </div>
+            </div>
+
+            <!-- Key Performance Metrics -->
+            <h2>Key Metrics</h2>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="card text-white bg-primary mb-3">
+                        <div class="card-header">Total Users</div>
+                        <div class="card-body">
+                            <h3 class="card-title">{{ total_users }}</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-white bg-success mb-3">
+                        <div class="card-header">Active Sessions</div>
+                        <div class="card-body">
+                            <h3 class="card-title">{{ active_sessions }}</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-white bg-warning mb-3">
+                        <div class="card-header">Reports Generated</div>
+                        <div class="card-body">
+                            <h3 class="card-title">{{ reports_generated }}</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-white bg-danger mb-3">
+                        <div class="card-header">Errors Logged</div>
+                        <div class="card-body">
+                            <h3 class="card-title">{{ errors_logged }}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts and Insights -->
+            <div class="row">
+                <div class="col-md-6">
+                    <h2>Data Trends</h2>
+                    <div id="data_trends_chart" style="width: 100%; height: 400px;"></div>
+                </div>
+                <div class="col-md-6">
+                    <h2>Geographical Breakdown</h2>
+                    <canvas id="geoBreakdownChart" width="400" height="400"></canvas>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<!-- Google Charts for Data Trends -->
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script>
+    google.charts.load('current', { 'packages': ['corechart'] });
+    google.charts.setOnLoadCallback(drawDataTrendsChart);
+    function drawDataTrendsChart() {
+        var data = google.visualization.arrayToDataTable([
+            ['Date', 'Users', 'Sessions'],
+            ['Jan', 1200, 5000],
+            ['Feb', 1400, 6000],
+            ['Mar', 1800, 7500],
+            ['Apr', 2000, 8200],
+            ['May', 2500, 9500]
+        ]);
+        var options = {
+            title: 'User Growth & Session Trends',
+            hAxis: { title: 'Month' },
+            vAxis: { title: 'Count' },
+            colors: ['#1b9e77', '#d95f02'],
+            legend: { position: 'bottom' }
+        };
+        var chart = new google.visualization.LineChart(document.getElementById('data_trends_chart'));
+        chart.draw(data, options);
+    }
+</script>
+
+<!-- Chart.js for Geographical Breakdown -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    var ctx = document.getElementById('geoBreakdownChart').getContext('2d');
+    var geoChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['North America', 'Europe', 'Asia', 'South America', 'Africa'],
+            datasets: [{
+                data: [35, 25, 20, 10, 10],
+                backgroundColor: ['#3498db', '#e74c3c', '#2ecc71', '#f1c40f', '#9b59b6']
+            }]
+        }
+    });
+</script>
+{% endblock %}

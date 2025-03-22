@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Content Planning - RLG DATA{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">Content Planning</h2>
+    <p class="text-muted text-center">Generate content ideas and plan your campaigns effectively.</p>
+
+    <!-- Flash messages for success/error notifications -->
+    {% with messages = get_flashed_messages(with_categories=True) %}
+    {% if messages %}
+    <div class="flash-message mt-3">
+        {% for category, message in messages %}
+        <div class="flash-message {{ category }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+
+    <!-- Content Idea Generator Form -->
+    <form method="POST" action="{{ url_for('routes.generate_content_ideas') }}" class="mt-4">
+        <div class="form-group">
+            <label for="topic" class="form-label">Enter a Topic or Theme</label>
+            <input type="text" name="topic" id="topic" class="form-control" placeholder="Enter topic to generate ideas" required>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Generate Ideas</button>
+    </form>
+
+    <!-- Display Generated Content Ideas -->
+    {% if ideas %}
+    <div class="mt-5">
+        <h4>Generated Content Ideas:</h4>
+        <ul class="list-group">
+            {% for idea in ideas %}
+            <li class="list-group-item">{{ idea }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% else %}
+    <p class="mt-5 text-center text-muted">No content ideas generated yet. Use the form above to generate ideas.</p>
+    {% endif %}
+</div>
+{% endblock %}

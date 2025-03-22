@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}Content Scheduling - RLG DATA{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">Content Scheduling</h2>
+    <p class="text-muted text-center">Schedule your content across platforms efficiently.</p>
+
+    <!-- Flash messages for success/error notifications -->
+    {% with messages = get_flashed_messages(with_categories=True) %}
+    {% if messages %}
+    <div class="flash-message mt-3">
+        {% for category, message in messages %}
+        <div class="flash-message {{ category }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+
+    <!-- Content Scheduling Form -->
+    <form method="POST" action="{{ url_for('routes.schedule_content') }}" class="mt-4">
+        <div class="form-group">
+            <label for="platform" class="form-label">Select Platform</label>
+            <select name="platform" id="platform" class="form-control" required>
+                <option value="" disabled selected>Select a platform</option>
+                <option value="twitter">Twitter</option>
+                <option value="facebook">Facebook</option>
+                <option value="instagram">Instagram</option>
+                <option value="linkedin">LinkedIn</option>
+            </select>
+        </div>
+
+        <div class="form-group mt-3">
+            <label for="content" class="form-label">Content</label>
+            <textarea name="content" id="content" class="form-control" rows="5" placeholder="Enter your content" required></textarea>
+        </div>
+
+        <div class="form-group mt-3">
+            <label for="schedule_time" class="form-label">Schedule Date & Time</label>
+            <input type="datetime-local" name="schedule_time" id="schedule_time" class="form-control" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-4">Schedule Content</button>
+    </form>
+
+    <!-- Scheduled Content List -->
+    {% if scheduled_content %}
+    <div class="mt-5">
+        <h4>Scheduled Content:</h4>
+        <ul class="list-group">
+            {% for content in scheduled_content %}
+            <li class="list-group-item">
+                <strong>Platform:</strong> {{ content.platform }}<br>
+                <strong>Content:</strong> {{ content.content }}<br>
+                <strong>Scheduled for:</strong> {{ content.schedule_time }}
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% else %}
+    <p class="mt-5 text-center text-muted">No content scheduled yet. Use the form above to schedule content.</p>
+    {% endif %}
+</div>
+{% endblock %}

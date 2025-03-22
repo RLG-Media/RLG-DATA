@@ -1,0 +1,39 @@
+{% if user.location %}
+  <!-- If the user has already selected a location, show a message and pricing options -->
+  <div class="location-locked">
+    <h3>Your Current Location: {{ user.location }}</h3>
+    <p>Your pricing tiers are locked based on your location. You cannot change your location after registration.</p>
+
+    <!-- Display available pricing options -->
+    <h3>Your Pricing Options:</h3>
+    <form method="GET" action="/pricing_page">
+      <button type="submit" name="pricing_option" value="monthly" class="btn btn-primary">
+        Monthly (${{ monthly_price }})
+      </button>
+      <button type="submit" name="pricing_option" value="weekly" class="btn btn-secondary">
+        Weekly (${{ weekly_price }})
+      </button>
+    </form>
+  </div>
+{% else %}
+  <!-- If the user has not selected a location, prompt them to select one -->
+  <div class="location-selection">
+    <h3>Select Your Location to Continue:</h3>
+    <p>Please choose your location to lock in your pricing options. Once you register, your location cannot be changed.</p>
+
+    <form method="POST" action="/select_location">
+      <div class="mb-3">
+        <label for="location" class="form-label">Choose your location:</label>
+        <select id="location" name="location" class="form-select" required>
+          <option value="">-- Select a Country/Region --</option>
+          <option value="US">United States</option>
+          <option value="IL">Israel</option>
+          <option value="UK">United Kingdom</option>
+          <option value="CA">Canada</option>
+          <!-- Add other countries or regions here -->
+        </select>
+      </div>
+      <button type="submit" class="btn btn-success">Confirm Location</button>
+    </form>
+  </div>
+{% endif %}

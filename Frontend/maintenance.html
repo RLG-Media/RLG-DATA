@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="This page informs users that the system is undergoing maintenance.">
+    <title>Maintenance in Progress</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #007bff, #6c757d);
+            color: #ffffff;
+            text-align: center;
+        }
+        .container {
+            max-width: 600px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 0.5em;
+        }
+        p {
+            font-size: 1.2em;
+            margin-bottom: 1em;
+            line-height: 1.6;
+        }
+        .countdown {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin: 1em 0;
+        }
+        .contact-section {
+            margin-top: 1.5em;
+        }
+        .contact-section a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .contact-section a:hover {
+            text-decoration: underline;
+        }
+        footer {
+            margin-top: 2em;
+            font-size: 0.9em;
+            color: #cccccc;
+        }
+        .spinner {
+            margin: 1.5em auto;
+            width: 40px;
+            height: 40px;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-top: 5px solid #ffffff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>We'll Be Back Soon!</h1>
+        <p>
+            Our system is currently undergoing scheduled maintenance to bring you new and improved features.
+            Thank you for your patience!
+        </p>
+        <div class="spinner" aria-hidden="true"></div>
+        <p class="countdown" id="countdown">
+            Estimated time remaining: <span id="time-remaining">Loading...</span>
+        </p>
+        <div class="contact-section">
+            <p>If you need immediate assistance, please contact us:</p>
+            <a href="mailto:support@example.com" aria-label="Email Support">support@example.com</a> | 
+            <a href="tel:+123456789" aria-label="Call Support">+1 (234) 567-89</a>
+        </div>
+        <footer>
+            &copy; 2025 Your Company Name. All Rights Reserved.
+        </footer>
+    </div>
+
+    <script>
+        // Countdown Timer
+        const countdownElement = document.getElementById('time-remaining');
+        
+        // Set the maintenance end date/time (example: January 4, 2025, 6:00 PM UTC)
+        const maintenanceEndTime = new Date('2025-01-04T18:00:00Z').getTime();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = maintenanceEndTime - now;
+
+            if (distance > 0) {
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                countdownElement.textContent = `${hours}h ${minutes}m ${seconds}s`;
+            } else {
+                countdownElement.textContent = 'Maintenance complete!';
+                clearInterval(countdownInterval);
+            }
+        }
+
+        const countdownInterval = setInterval(updateCountdown, 1000);
+        updateCountdown();
+    </script>
+</body>
+</html>

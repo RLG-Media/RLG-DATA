@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Data Insights Dashboard for RLG Data and RLG Fans">
+    <meta name="author" content="RLG Team">
+    <title>Data Insights Dashboard | RLG</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/theme_manager.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.0.0/chart.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" defer></script>
+    <script src="scripts/data_insights_dashboard.js" defer></script>
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <a href="dashboard.html">RLG</a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="analytics.html">Analytics</a></li>
+                    <li><a href="data_insights_dashboard.html" class="active">Data Insights</a></li>
+                    <li><a href="settings.html">Settings</a></li>
+                </ul>
+            </nav>
+            <div class="user-profile">
+                <img src="images/user-avatar.png" alt="User Avatar">
+                <div class="dropdown">
+                    <a href="profile.html">Profile</a>
+                    <a href="logout.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="dashboard-container">
+            <h1>Data Insights Dashboard</h1>
+            <div class="filters">
+                <div class="filter-group">
+                    <label for="date-range">Date Range:</label>
+                    <input type="date" id="start-date" name="start-date">
+                    <span>to</span>
+                    <input type="date" id="end-date" name="end-date">
+                </div>
+                <div class="filter-group">
+                    <label for="platform">Platform:</label>
+                    <select id="platform" name="platform">
+                        <option value="all">All</option>
+                        <option value="rlg-data">RLG Data</option>
+                        <option value="rlg-fans">RLG Fans</option>
+                        <option value="social-media">Social Media</option>
+                        <option value="custom">Custom Platform</option>
+                    </select>
+                </div>
+                <button class="btn-primary" id="apply-filters">Apply Filters</button>
+            </div>
+
+            <div class="insights-overview">
+                <div class="card">
+                    <h2>Total Users</h2>
+                    <p id="total-users">Loading...</p>
+                </div>
+                <div class="card">
+                    <h2>Engagement Rate</h2>
+                    <p id="engagement-rate">Loading...</p>
+                </div>
+                <div class="card">
+                    <h2>Region-Specific Insights</h2>
+                    <p id="region-insights">Loading...</p>
+                </div>
+            </div>
+
+            <div class="charts">
+                <div class="chart-container">
+                    <h2>Audience Demographics</h2>
+                    <canvas id="audience-demographics-chart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h2>Engagement Trends</h2>
+                    <canvas id="engagement-trends-chart"></canvas>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <h2>Detailed Insights</h2>
+                <table id="detailed-insights-table">
+                    <thead>
+                        <tr>
+                            <th>Metric</th>
+                            <th>Value</th>
+                            <th>Platform</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Dynamic content populated by backend -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 RLG. All rights reserved.</p>
+    </footer>
+</body>
+</html>

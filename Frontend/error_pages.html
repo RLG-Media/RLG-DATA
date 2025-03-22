@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error - RLG Data & RLG Fans</title>
+    <meta name="description" content="Error page for RLG Data & RLG Fans. Get solutions and troubleshooting steps for your issue.">
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="scripts.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Oops! Something went wrong 🚨</h1>
+        <p id="error-message">We're sorry, but an unexpected error has occurred.</p>
+        <select id="language-select">
+            <option value="en">English</option>
+            <option value="sw">Swahili</option>
+            <option value="zu">Zulu</option>
+            <option value="ha">Hausa</option>
+            <option value="am">Amharic</option>
+            <option value="yo">Yoruba</option>
+            <option value="ig">Igbo</option>
+        </select>
+        <button onclick="speakError()">🎙️ Listen</button>
+    </header>
+
+    <section class="error-container">
+        <h2 id="error-title">Error Details</h2>
+        <p id="error-description">Our AI has detected an issue and is working to resolve it.</p>
+        <div class="error-actions">
+            <button onclick="window.location.href='index.html'">🏠 Go to Home</button>
+            <button onclick="window.location.reload()">🔄 Refresh</button>
+            <button onclick="contactSupport()">📩 Contact Support</button>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 RLG Data & RLG Fans | AI-Powered Intelligence</p>
+    </footer>
+
+    <script>
+        function speakError() {
+            let speech = new SpeechSynthesisUtterance();
+            speech.text = document.getElementById("error-message").innerText;
+            speech.lang = document.getElementById("language-select").value;
+            window.speechSynthesis.speak(speech);
+        }
+
+        function contactSupport() {
+            alert("Our support team has been notified. Expect a response soon!");
+        }
+    </script>
+</body>
+</html>

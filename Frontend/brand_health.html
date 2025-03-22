@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Brand Health Analysis - RLG DATA{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">Brand Health Analysis</h2>
+    <p class="text-muted text-center">Analyze the health of your brand based on audience sentiment and social media mentions.</p>
+
+    <!-- Flash messages for success/error notifications -->
+    {% with messages = get_flashed_messages(with_categories=True) %}
+    {% if messages %}
+    <div class="flash-message mt-3">
+        {% for category, message in messages %}
+        <div class="flash-message {{ category }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+
+    <!-- Brand Health Analysis Form -->
+    <form method="POST" action="{{ url_for('routes.analyze_brand_health') }}" class="mt-4">
+        <div class="form-group">
+            <label for="brand_name" class="form-label">Enter Brand Name</label>
+            <input type="text" name="brand_name" id="brand_name" class="form-control" placeholder="e.g., Coca Cola, Nike" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-4">Analyze Brand Health</button>
+    </form>
+
+    <!-- Analysis Results -->
+    {% if brand_health %}
+    <div class="mt-5">
+        <h4>Brand Health Results for "{{ brand_name }}":</h4>
+        <ul class="list-group">
+            <li class="list-group-item">
+                <strong>Positive Mentions:</strong> {{ brand_health.positive_mentions }}<br>
+                <strong>Neutral Mentions:</strong> {{ brand_health.neutral_mentions }}<br>
+                <strong>Negative Mentions:</strong> {{ brand_health.negative_mentions }}<br>
+            </li>
+            <li class="list-group-item">
+                <strong>Overall Sentiment Score:</strong> {{ brand_health.sentiment_score }}
+            </li>
+        </ul>
+    </div>
+    {% else %}
+    <p class="mt-5 text-center text-muted">No analysis available yet. Enter a brand name to analyze its health.</p>
+    {% endif %}
+</div>
+{% endblock %}

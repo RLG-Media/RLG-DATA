@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Custom Theme Editor for RLG Data and RLG Fans.">
+    <meta name="author" content="RLG Team">
+    <title>Custom Theme Editor | RLG</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/theme_manager.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="scripts/theme_editor.js" defer></script>
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <a href="dashboard.html">RLG</a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="content_performance_dashboard.html">Content Performance</a></li>
+                    <li><a href="custom_theme_editor.html" class="active">Theme Editor</a></li>
+                    <li><a href="settings.html">Settings</a></li>
+                </ul>
+            </nav>
+            <div class="user-profile">
+                <img src="images/user-avatar.png" alt="User Avatar">
+                <div class="dropdown">
+                    <a href="profile.html">Profile</a>
+                    <a href="logout.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="theme-editor-container">
+            <header class="editor-header">
+                <h1>Custom Theme Editor</h1>
+                <p>Customize your RLG interface theme for both Data and Fans platforms.</p>
+            </header>
+
+            <section class="editor-toolbar">
+                <button id="reset-theme" class="btn btn-warning">Reset to Default</button>
+                <button id="save-theme" class="btn btn-primary">Save Theme</button>
+            </section>
+
+            <section class="theme-preview">
+                <h2>Preview</h2>
+                <iframe id="theme-preview-frame" src="theme_preview.html" title="Theme Preview"></iframe>
+            </section>
+
+            <section class="theme-options">
+                <h2>Theme Options</h2>
+
+                <div class="option-group">
+                    <label for="primary-color">Primary Color</label>
+                    <input type="color" id="primary-color" value="#007BFF">
+                </div>
+
+                <div class="option-group">
+                    <label for="secondary-color">Secondary Color</label>
+                    <input type="color" id="secondary-color" value="#6C757D">
+                </div>
+
+                <div class="option-group">
+                    <label for="font-family">Font Family</label>
+                    <select id="font-family">
+                        <option value="Arial, sans-serif">Arial</option>
+                        <option value="'Times New Roman', serif">Times New Roman</option>
+                        <option value="'Courier New', monospace">Courier New</option>
+                        <option value="'Roboto', sans-serif">Roboto</option>
+                        <option value="'Lato', sans-serif">Lato</option>
+                    </select>
+                </div>
+
+                <div class="option-group">
+                    <label for="font-size">Base Font Size</label>
+                    <input type="range" id="font-size" min="10" max="24" value="16">
+                    <span id="font-size-value">16px</span>
+                </div>
+
+                <div class="option-group">
+                    <label for="custom-css">Custom CSS</label>
+                    <textarea id="custom-css" rows="8" placeholder="Add your custom CSS here..."></textarea>
+                </div>
+            </section>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 RLG. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.getElementById('font-size').addEventListener('input', function () {
+            document.getElementById('font-size-value').textContent = this.value + 'px';
+        });
+
+        document.getElementById('save-theme').addEventListener('click', function () {
+            alert('Theme settings saved successfully!');
+        });
+
+        document.getElementById('reset-theme').addEventListener('click', function () {
+            if (confirm('Are you sure you want to reset to default settings?')) {
+                location.reload();
+            }
+        });
+    </script>
+</body>
+</html>

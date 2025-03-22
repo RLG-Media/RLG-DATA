@@ -1,0 +1,232 @@
+{
+    "default_settings": {
+      "responsive": true,
+      "maintainAspectRatio": false,
+      "plugins": {
+        "legend": {
+          "display": true,
+          "position": "top",
+          "labels": {
+            "font": {
+              "size": 12
+            },
+            "color": "#333"
+          }
+        },
+        "tooltip": {
+          "enabled": true,
+          "mode": "index",
+          "intersect": false,
+          "backgroundColor": "#000",
+          "titleFont": {
+            "size": 14
+          },
+          "bodyFont": {
+            "size": 12
+          },
+          "footerFont": {
+            "size": 10
+          }
+        }
+      },
+      "scales": {
+        "x": {
+          "grid": {
+            "display": false
+          },
+          "title": {
+            "display": true,
+            "text": "X-Axis",
+            "font": {
+              "size": 14
+            },
+            "color": "#666"
+          }
+        },
+        "y": {
+          "grid": {
+            "color": "#e0e0e0",
+            "lineWidth": 1
+          },
+          "title": {
+            "display": true,
+            "text": "Y-Axis",
+            "font": {
+              "size": 14
+            },
+            "color": "#666"
+          }
+        }
+      }
+    },
+    "chart_types": {
+      "line": {
+        "type": "line",
+        "options": {
+          "elements": {
+            "line": {
+              "tension": 0.4,
+              "borderWidth": 2
+            },
+            "point": {
+              "radius": 4,
+              "hoverRadius": 6
+            }
+          }
+        }
+      },
+      "bar": {
+        "type": "bar",
+        "options": {
+          "elements": {
+            "bar": {
+              "borderWidth": 1
+            }
+          },
+          "scales": {
+            "x": {
+              "stacked": true
+            },
+            "y": {
+              "stacked": true
+            }
+          }
+        }
+      },
+      "pie": {
+        "type": "pie",
+        "options": {
+          "plugins": {
+            "legend": {
+              "position": "right"
+            }
+          }
+        }
+      },
+      "doughnut": {
+        "type": "doughnut",
+        "options": {
+          "cutout": "50%",
+          "plugins": {
+            "legend": {
+              "position": "bottom"
+            }
+          }
+        }
+      },
+      "radar": {
+        "type": "radar",
+        "options": {
+          "elements": {
+            "line": {
+              "borderWidth": 2
+            }
+          },
+          "scales": {
+            "r": {
+              "grid": {
+                "color": "#e0e0e0"
+              },
+              "angleLines": {
+                "color": "#e0e0e0"
+              },
+              "pointLabels": {
+                "font": {
+                  "size": 12
+                },
+                "color": "#666"
+              }
+            }
+          }
+        }
+      },
+      "polarArea": {
+        "type": "polarArea",
+        "options": {
+          "scales": {
+            "r": {
+              "grid": {
+                "color": "#e0e0e0"
+              }
+            }
+          }
+        }
+      },
+      "scatter": {
+        "type": "scatter",
+        "options": {
+          "elements": {
+            "point": {
+              "radius": 5,
+              "hoverRadius": 7
+            }
+          },
+          "scales": {
+            "x": {
+              "type": "linear",
+              "position": "bottom"
+            }
+          }
+        }
+      }
+    },
+    "color_schemes": {
+      "default": [
+        "#4e79a7",
+        "#f28e2b",
+        "#e15759",
+        "#76b7b2",
+        "#59a14f",
+        "#edc948",
+        "#b07aa1",
+        "#ff9da7",
+        "#9c755f",
+        "#bab0ac"
+      ],
+      "gradient": {
+        "start": "#4e79a7",
+        "end": "#edc948"
+      },
+      "dark_mode": [
+        "#1f77b4",
+        "#ff7f0e",
+        "#2ca02c",
+        "#d62728",
+        "#9467bd",
+        "#8c564b",
+        "#e377c2",
+        "#7f7f7f",
+        "#bcbd22",
+        "#17becf"
+      ]
+    },
+    "animations": {
+      "enabled": true,
+      "duration": 1000,
+      "easing": "easeInOutQuad"
+    },
+    "customizations": {
+      "header_font": {
+        "size": 16,
+        "weight": "bold",
+        "color": "#333"
+      },
+      "body_font": {
+        "size": 12,
+        "color": "#666"
+      },
+      "footer_font": {
+        "size": 10,
+        "color": "#999"
+      },
+      "grid_lines": {
+        "color": "#e0e0e0",
+        "lineWidth": 1
+      },
+      "hover_effects": {
+        "highlightBorderWidth": 2,
+        "highlightBorderColor": "#000"
+      }
+    }
+  }
+  

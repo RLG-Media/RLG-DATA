@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Management | RLG Data & RLG Fans</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/projects.css">
+    <script src="scripts/projects.js" defer></script>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <a href="dashboard.html" class="logo">RLG</a>
+            <ul class="nav-links">
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="projects.html" class="active">Projects</a></li>
+                <li><a href="settings.html">Settings</a></li>
+                <li><a href="support.html">Support</a></li>
+                <li><a href="logout.html">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="container">
+            <h1>Manage Your Projects</h1>
+            <button class="btn-primary" id="newProjectBtn">+ New Project</button>
+
+            <!-- Project List -->
+            <div class="project-list" id="projectList">
+                <!-- Dynamic project cards will be inserted here -->
+            </div>
+        </section>
+
+        <!-- Project Modal -->
+        <div class="modal" id="projectModal">
+            <div class="modal-content">
+                <span class="close-btn" id="closeModal">&times;</span>
+                <h2 id="modalTitle">Create New Project</h2>
+                <form id="projectForm">
+                    <label for="projectName">Project Name:</label>
+                    <input type="text" id="projectName" name="projectName" placeholder="Enter project name" required>
+
+                    <label for="projectDescription">Description:</label>
+                    <textarea id="projectDescription" name="projectDescription" rows="4" placeholder="Enter project description" required></textarea>
+
+                    <label for="startDate">Start Date:</label>
+                    <input type="date" id="startDate" name="startDate">
+
+                    <label for="endDate">End Date:</label>
+                    <input type="date" id="endDate" name="endDate">
+
+                    <input type="hidden" id="projectId" name="projectId">
+
+                    <div class="modal-actions">
+                        <button type="submit" class="btn-primary">Save</button>
+                        <button type="button" class="btn-secondary" id="cancelModal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 RLG Data & RLG Fans. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>

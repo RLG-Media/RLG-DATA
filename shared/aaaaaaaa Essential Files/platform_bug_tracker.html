@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Platform Bug Tracker for RLG Data and RLG Fans">
+    <meta name="author" content="RLG Team">
+    <title>Platform Bug Tracker | RLG</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/theme_manager.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" defer></script>
+    <script src="scripts/bug_tracker.js" defer></script>
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <a href="dashboard.html">RLG</a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="analytics.html">Analytics</a></li>
+                    <li><a href="platform_bug_tracker.html" class="active">Bug Tracker</a></li>
+                    <li><a href="settings.html">Settings</a></li>
+                </ul>
+            </nav>
+            <div class="user-profile">
+                <img src="images/user-avatar.png" alt="User Avatar">
+                <div class="dropdown">
+                    <a href="profile.html">Profile</a>
+                    <a href="logout.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="bug-tracker-container">
+            <h1>Platform Bug Tracker</h1>
+            <div class="report-bug-form">
+                <h2>Report a Bug</h2>
+                <form id="bug-report-form">
+                    <label for="bug-title">Bug Title:</label>
+                    <input type="text" id="bug-title" name="bug-title" placeholder="Enter a concise title for the bug" required>
+
+                    <label for="bug-description">Bug Description:</label>
+                    <textarea id="bug-description" name="bug-description" rows="5" placeholder="Provide a detailed description of the bug" required></textarea>
+
+                    <label for="bug-severity">Severity:</label>
+                    <select id="bug-severity" name="bug-severity" required>
+                        <option value="">Select severity</option>
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                        <option value="critical">Critical</option>
+                    </select>
+
+                    <label for="steps-to-reproduce">Steps to Reproduce:</label>
+                    <textarea id="steps-to-reproduce" name="steps-to-reproduce" rows="5" placeholder="Provide steps to reproduce the bug" required></textarea>
+
+                    <label for="attachments">Attachments:</label>
+                    <input type="file" id="attachments" name="attachments" accept=".png, .jpg, .jpeg, .gif, .mp4, .mov, .pdf">
+
+                    <button type="submit">Submit Bug Report</button>
+                </form>
+            </div>
+
+            <div class="bug-list">
+                <h2>Reported Bugs</h2>
+                <div id="bug-list-container">
+                    <!-- Bug reports will be dynamically loaded here -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 RLG. All rights reserved.</p>
+    </footer>
+</body>
+</html>

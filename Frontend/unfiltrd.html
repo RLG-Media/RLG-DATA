@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2>Unfiltrd Data Fetch</h2>
+    <p>Enter the username of an Unfiltrd creator below to retrieve their profile data.</p>
+
+    <!-- Form to fetch Unfiltrd creator data -->
+    <form id="unfiltrdForm" action="{{ url_for('routes.fetch_unfiltrd_data') }}" method="GET">
+        <div class="form-group">
+            <label for="username">Unfiltrd Username</label>
+            <input type="text" id="username" name="username" class="form-control" placeholder="Enter username" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Fetch Data</button>
+    </form>
+
+    <!-- Displaying results -->
+    <div id="unfiltrdResults" class="mt-4" style="display: none;">
+        <h4>Results</h4>
+        <div id="resultsContent"></div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('unfiltrdForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        const username = document.getElementById('username').value;
+
+        // Fetch data from Unfiltrd service via Flask API endpoint
+        fetch(`/unfiltrd/fetch/${username}`)
+            .then(response => response.json())
+            .then(data => {
+                const resultsContainer = document.getElementById('unfiltrdResults');
+                const resultsContent = document.getElementById('resultsContent');
+
+                if (data) {
+                    resultsContent.innerHTML = `
+                        <p><strong>Creator Name:</strong> ${data.creator_name || 'N/A'}</p>
+                        <p><strong>Followers:</strong> ${data.followers || 'N/A'}</p>
+                        <p><strong>Content:</strong> ${data.content || 'N/A'}</p>
+                        <p><strong>Earnings:</strong> ${data.earnings || 'N/A'}</p>
+                    `;
+                } else {
+                    resultsContent.innerHTML = `<p>No data available for username: ${username}</p>`;
+                }
+                
+                resultsContainer.style.display = 'block';
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+                alert('An error occurred while fetching data. Please try again.');
+            });
+    });
+</script>
+{% endblock %}

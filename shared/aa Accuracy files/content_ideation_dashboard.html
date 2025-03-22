@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Content Ideation Dashboard for RLG Data and RLG Fans">
+    <meta name="author" content="RLG Data & Fans">
+    <title>Content Ideation Dashboard | RLG</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/theme_manager.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" defer></script>
+    <script src="scripts/content_ideation_dashboard.js" defer></script>
+</head>
+
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <a href="dashboard.html">RLG</a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="media_dashboard.html">Media</a></li>
+                    <li><a href="social_media_dashboard.html">Social Media</a></li>
+                    <li><a href="content_ideation_dashboard.html" class="active">Content Ideation</a></li>
+                    <li><a href="settings.html">Settings</a></li>
+                </ul>
+            </nav>
+            <div class="user-profile">
+                <img src="images/user-avatar.png" alt="User Avatar">
+                <div class="dropdown">
+                    <a href="profile.html">Profile</a>
+                    <a href="logout.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="content-ideation-container">
+            <header class="dashboard-header">
+                <h1>Content Ideation Dashboard</h1>
+                <p>Generate, analyze, and refine content ideas for your audience.</p>
+            </header>
+
+            <div class="ideation-tools">
+                <div class="tool">
+                    <h2>Trending Topics</h2>
+                    <input type="text" id="topic-search" placeholder="Search for trending topics...">
+                    <button id="search-topics">Search</button>
+                    <ul id="trending-topics">
+                        <!-- Trending topics will be dynamically populated here -->
+                    </ul>
+                </div>
+
+                <div class="tool">
+                    <h2>Audience Insights</h2>
+                    <input type="text" id="audience-keywords" placeholder="Enter audience interests...">
+                    <button id="generate-insights">Generate Insights</button>
+                    <div id="audience-insights">
+                        <!-- Audience insights will be dynamically populated here -->
+                    </div>
+                </div>
+
+                <div class="tool">
+                    <h2>Content Suggestions</h2>
+                    <textarea id="content-brief" placeholder="Describe your content goals..."></textarea>
+                    <button id="generate-suggestions">Get Suggestions</button>
+                    <ul id="content-suggestions">
+                        <!-- Content suggestions will be dynamically populated here -->
+                    </ul>
+                </div>
+            </div>
+
+            <div class="platform-integration">
+                <h2>Social Media Platforms</h2>
+                <p>Select platforms to tailor your content:</p>
+                <div class="platform-icons">
+                    <i class="fab fa-facebook-square" title="Facebook"></i>
+                    <i class="fab fa-twitter-square" title="Twitter"></i>
+                    <i class="fab fa-instagram-square" title="Instagram"></i>
+                    <i class="fab fa-tiktok" title="TikTok"></i>
+                    <i class="fab fa-linkedin" title="LinkedIn"></i>
+                    <i class="fab fa-pinterest-square" title="Pinterest"></i>
+                    <i class="fab fa-reddit-square" title="Reddit"></i>
+                    <i class="fab fa-snapchat-square" title="Snapchat"></i>
+                    <i class="fab fa-youtube-square" title="YouTube"></i>
+                    <i class="fab fa-threads" title="Threads"></i>
+                </div>
+            </div>
+
+            <div class="reports-section">
+                <h2>Content Performance Reports</h2>
+                <p>View detailed reports on content performance:</p>
+                <ul>
+                    <li><a href="seo_reports.html">SEO Reports</a></li>
+                    <li><a href="engagement_reports.html">Engagement Analysis</a></li>
+                    <li><a href="sentiment_trends_dashboard.html">Sentiment Trends</a></li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 RLG. All rights reserved.</p>
+    </footer>
+</body>
+
+</html>

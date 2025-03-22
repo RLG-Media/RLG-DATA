@@ -1,0 +1,115 @@
+{
+    "crawler_name": "RLG_SuperCrawler",
+    "version": "3.0",
+    "user_agent": "Mozilla/5.0 (compatible; RLG_SuperCrawler/3.0; +https://rlgdata.com/bot)",
+    
+    "target_sources": {
+      "news_sites": [
+        "https://cnn.com", "https://bbc.com", "https://forbes.com",
+        "https://aljazeera.com", "https://reuters.com", "https://africanews.com"
+      ],
+      "social_media": [
+        "https://twitter.com", "https://reddit.com", "https://facebook.com",
+        "https://linkedin.com", "https://tiktok.com", "https://instagram.com"
+      ],
+      "competitor_sites": [
+        "https://brandwatch.com", "https://hootsuite.com", "https://sproutsocial.com",
+        "https://buzzsumo.com", "https://mention.com", "https://meltwater.com"
+      ]
+    },
+  
+    "region_settings": {
+      "default_region": "global",
+      "supported_regions": ["North America", "Europe", "Asia", "Africa", "Middle East", "Latin America"],
+      "language_support": ["en", "es", "fr", "de", "zh", "ar", "pt", "ru", "af", "yo"],
+      "geo_compliance": {
+        "GDPR": true,
+        "CCPA": true,
+        "SADC_Region_Compliance": true
+      }
+    },
+  
+    "crawling_rules": {
+      "max_depth": 5,
+      "max_pages_per_site": 2000,
+      "request_interval": {
+        "default": 5,
+        "high_traffic_sites": 10
+      },
+      "auto_retry": true,
+      "max_retries": 5,
+      "headers": {
+        "Accept-Language": "en-US,en;q=0.9",
+        "Cache-Control": "no-cache",
+        "Referer": "https://rlgdata.com"
+      },
+      "auto_adaptive_crawling": true,
+      "dynamic_crawl_frequency": {
+        "low_update_sites": "weekly",
+        "medium_update_sites": "daily",
+        "high_update_sites": "hourly"
+      }
+    },
+  
+    "scraping_settings": {
+      "enable_js_rendering": true,
+      "headless_browser": true,
+      "proxy_rotation": {
+        "enabled": true,
+        "service": "BrightData",
+        "auto_detect_bans": true
+      },
+      "rate_limiting": {
+        "requests_per_minute": 80,
+        "concurrent_requests": 10
+      },
+      "content_filters": {
+        "exclude_advertisements": true,
+        "exclude_irrelevant_content": ["cookies notice", "terms of service", "privacy policy"],
+        "min_text_length": 300
+      }
+    },
+  
+    "data_extraction": {
+      "enable_sentiment_analysis": true,
+      "enable_keyword_extraction": true,
+      "structured_data_parsing": true,
+      "credibility_scoring": {
+        "enabled": true,
+        "scoring_model": "AI-Powered Trust Score"
+      },
+      "store_as": ["JSON", "CSV", "SQL", "NoSQL"],
+      "api_integration": {
+        "enabled": true,
+        "rlg_api_endpoint": "https://api.rlgdata.com/crawler_results"
+      }
+    },
+  
+    "automation": {
+      "scheduler": {
+        "enabled": true,
+        "frequency": "hourly",
+        "timezone": "UTC"
+      },
+      "auto_adapt": {
+        "adjust_crawl_rate": true,
+        "detect_ban_patterns": true,
+        "dynamic_throttling": true
+      },
+      "notifications": {
+        "enable_alerts": true,
+        "alert_methods": ["email", "slack", "sms"],
+        "trigger_events": ["ban detected", "downtime detected", "new competitor trend"]
+      }
+    },
+  
+    "compliance": {
+      "respect_robots_txt": true,
+      "gdpr_compliant": true,
+      "ccpa_compliant": true,
+      "sadc_compliance": true,
+      "data_retention_policy": "90_days",
+      "exclude_sensitive_content": true
+    }
+  }
+  

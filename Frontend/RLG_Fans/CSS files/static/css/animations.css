@@ -1,0 +1,162 @@
+/* animations.css */
+
+/* General Animations */
+
+/* Fade In Animation */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+.fade-in {
+    animation: fadeIn 0.6s ease-in-out;
+}
+
+/* Fade Out Animation */
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+.fade-out {
+    animation: fadeOut 0.6s ease-in-out;
+}
+
+/* Slide In from Left */
+@keyframes slideInLeft {
+    from { transform: translateX(-100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+.slide-in-left {
+    animation: slideInLeft 0.5s ease-out;
+}
+
+/* Slide In from Right */
+@keyframes slideInRight {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+.slide-in-right {
+    animation: slideInRight 0.5s ease-out;
+}
+
+/* Slide Up */
+@keyframes slideUp {
+    from { transform: translateY(100%); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+.slide-up {
+    animation: slideUp 0.5s ease-out;
+}
+
+/* Button Animations */
+
+/* Button Hover Animation */
+@keyframes buttonHover {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+.btn-hover:hover {
+    animation: buttonHover 0.3s ease-in-out;
+}
+
+/* Bounce Animation for Buttons */
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+.bounce {
+    animation: bounce 0.6s ease infinite;
+}
+
+/* Notification Animations */
+
+/* Pulse Animation for Notifications */
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.05); opacity: 0.8; }
+    100% { transform: scale(1); opacity: 1; }
+}
+.pulse-animation {
+    animation: pulse 1s infinite ease-in-out;
+}
+
+/* Success and Error Message Animations */
+@keyframes showSuccess {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.show-success {
+    animation: showSuccess 0.5s ease-out;
+}
+
+@keyframes showError {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.show-error {
+    animation: showError 0.5s ease-out;
+}
+
+/* Interactive Elements */
+
+/* Shake Animation for Attention */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-5px); }
+    40%, 80% { transform: translateX(5px); }
+}
+.shake {
+    animation: shake 0.5s ease;
+}
+
+/* Expand and Collapse for Sidebar */
+@keyframes expandSidebar {
+    from { width: 0; opacity: 0; }
+    to { width: 240px; opacity: 1; }
+}
+.sidebar-expand {
+    animation: expandSidebar 0.4s ease-out forwards;
+}
+
+@keyframes collapseSidebar {
+    from { width: 240px; opacity: 1; }
+    to { width: 0; opacity: 0; }
+}
+.sidebar-collapse {
+    animation: collapseSidebar 0.4s ease-out forwards;
+}
+
+/* Loading and Chart Animations */
+
+/* Loading Spinner Animation */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(0, 123, 255, 0.2);
+    border-top-color: #007bff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: auto;
+}
+
+/* Scale Up Animation for Charts */
+@keyframes scaleUp {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+.scale-up {
+    animation: scaleUp 0.6s ease-out;
+}
+
+/* Fade Highlight Animation */
+@keyframes fadeHighlight {
+    0% { background-color: rgba(255, 255, 0, 0.5); }
+    100% { background-color: transparent; }
+}
+.fade-highlight {
+    animation: fadeHighlight 1.5s ease-out;
+}

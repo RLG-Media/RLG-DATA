@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% block title %}Integrations - RLG DATA{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Platform Integrations</h2>
+
+    <!-- Introduction -->
+    <p>Connect RLG DATA with your favorite platforms to enhance your analytics, reporting, and automation capabilities. Below is a list of available integrations and their setup guides.</p>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} mt-3">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <!-- Integrations List -->
+    <div class="row mt-4">
+        <!-- Social Media Platforms -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Social Media Integrations</h4>
+                    <p>Connect platforms like Facebook, Instagram, Twitter, TikTok, and more to analyze engagement, reach, and performance metrics.</p>
+                    <a href="{{ url_for('guide', guide_id=10) }}" class="btn btn-primary">Social Media Setup Guide</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- E-commerce Platforms -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">E-commerce Integrations</h4>
+                    <p>Integrate Shopify, WooCommerce, Takealot, and other e-commerce platforms to track sales, inventory, and customer insights.</p>
+                    <a href="{{ url_for('guide', guide_id=11) }}" class="btn btn-secondary">E-commerce Setup Guide</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Communication Tools -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Communication Tools</h4>
+                    <p>Integrate platforms like Telegram, Discord, Messenger, and more to streamline communication and monitor conversations.</p>
+                    <a href="{{ url_for('guide', guide_id=12) }}" class="btn btn-primary">Communication Tools Setup</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Platforms -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Content Platforms</h4>
+                    <p>Sync with platforms like OnlyFans, Fansly, and Patreon to track and analyze your content performance and monetization strategies.</p>
+                    <a href="{{ url_for('guide', guide_id=13) }}" class="btn btn-secondary">Content Platform Setup Guide</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Integration Management Section -->
+    <div class="mt-5">
+        <h4>Manage Your Integrations</h4>
+        <p>View and manage your active integrations directly from the dashboard.</p>
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Integration</th>
+                    <th>Status</th>
+                    <th>Last Synced</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for integration in integrations %}
+                <tr>
+                    <td>{{ integration.name }}</td>
+                    <td>{{ 'Active' if integration.is_active else 'Inactive' }}</td>
+                    <td>{{ integration.last_synced }}</td>
+                    <td>
+                        {% if integration.is_active %}
+                        <a href="{{ url_for('deactivate_integration', integration_id=integration.id) }}" class="btn btn-warning btn-sm">Deactivate</a>
+                        {% else %}
+                        <a href="{{ url_for('activate_integration', integration_id=integration.id) }}" class="btn btn-success btn-sm">Activate</a>
+                        {% endif %}
+                        <a href="{{ url_for('delete_integration', integration_id=integration.id) }}" class="btn btn-danger btn-sm">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- API Access Section -->
+    <div class="mt-5">
+        <h4>Custom API Access</h4>
+        <p>Use our API to create custom integrations with other platforms or services. Manage your API tokens below.</p>
+        <a href="{{ url_for('api_documentation') }}" class="btn btn-info">View API Documentation</a>
+        <table class="table mt-3">
+            <thead>
+                <tr>
+                    <th>Token</th>
+                    <th>Created</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for token in api_tokens %}
+                <tr>
+                    <td>{{ token.token }}</td>
+                    <td>{{ token.created_at }}</td>
+                    <td>
+                        <a href="{{ url_for('revoke_token', token_id=token.id) }}" class="btn btn-danger btn-sm">Revoke</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

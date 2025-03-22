@@ -1,0 +1,72 @@
+global:
+  scrape_interval: 15s       # How often to scrape targets by default.
+  evaluation_interval: 15s  # How often to evaluate rules.
+
+  # Default global timeout for scraping.
+  scrape_timeout: 10s
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: ['localhost:9093']  # Replace with your Alertmanager instance if applicable.
+
+rule_files:
+  # List of alerting and recording rules
+  - "rules/*.yml"  # Path to additional alert rules.
+
+scrape_configs:
+  # Scrape configuration for Prometheus server itself
+  - job_name: "prometheus"
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # Scrape configuration for RLG Data backend
+  - job_name: "rlg_data_backend"
+    static_configs:
+      - targets: 
+          - "localhost:5000"  # Adjust to the actual host and port for RLG Data backend.
+    metrics_path: "/metrics"  # Endpoint for metrics in your backend.
+    scheme: "http"
+
+  # Scrape configuration for RLG Fans backend
+  - job_name: "rlg_fans_backend"
+    static_configs:
+      - targets: 
+          - "localhost:5001"  # Adjust to the actual host and port for RLG Fans backend.
+    metrics_path: "/metrics"
+    scheme: "http"
+
+  # Scrape configuration for PostgreSQL exporter
+  - job_name: "postgresql"
+    static_configs:
+      - targets: 
+          - "localhost:9187"  # Adjust to the host and port for PostgreSQL exporter.
+    metrics_path: "/metrics"
+
+  # Scrape configuration for Redis exporter
+  - job_name: "redis"
+    static_configs:
+      - targets: 
+          - "localhost:9121"  # Adjust to the host and port for Redis exporter.
+    metrics_path: "/metrics"
+
+  # Scrape configuration for Docker monitoring (cAdvisor)
+  - job_name: "cadvisor"
+    static_configs:
+      - targets: 
+          - "localhost:8080"  # Adjust to the host and port for cAdvisor.
+    metrics_path: "/metrics"
+
+  # Scrape configuration for Nginx (via exporter)
+  - job_name: "nginx"
+    static_configs:
+      - targets: 
+          - "localhost:9113"  # Adjust to the host and port for Nginx exporter.
+    metrics_path: "/metrics"
+
+  # Scrape configuration for Node Exporter (system metrics)
+  - job_name: "node_exporter"
+    static_configs:
+      - targets: 
+          - "localhost:9100"  # Adjust to the host and port for Node Exporter.
+    metrics_path: "/metrics"

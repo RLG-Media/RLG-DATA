@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Details - RLG Fans</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+
+    <style>
+        .project-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .project-details, .analytics, .actions {
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #fff;
+            margin-bottom: 20px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .chart-container {
+            height: 400px;
+        }
+        .btn-action {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container mt-5">
+        <div class="project-header">
+            <h2>Project: {{ project.name }}</h2>
+            <p class="text-muted">{{ project.description }}</p>
+        </div>
+
+        <!-- Project Details Section -->
+        <div class="project-details">
+            <h4>Project Details</h4>
+            <p><strong>Created by:</strong> {{ project.user.username }}</p>
+            <p><strong>Created on:</strong> {{ project.created_at.strftime('%Y-%m-%d') }}</p>
+            <p><strong>Status:</strong> {{ project.status }}</p>
+            <p><strong>Keywords:</strong> {{ project.keywords }}</p>
+        </div>
+
+        <!-- Analytics Section -->
+        <div class="analytics">
+            <h4>Project Analytics</h4>
+            <div class="chart-container" id="mentionsChart"></div>
+            <div class="chart-container mt-4" id="sentimentChart"></div>
+        </div>
+
+        <!-- Actions Section -->
+        <div class="actions">
+            <h4>Actions</h4>
+            <div class="d-grid gap-2">
+                <a href="{{ url_for('dashboard.download_report', project_name=project.name) }}" class="btn btn-primary btn-action">Download Report</a>
+                <a href="{{ url_for('dashboard.scrape', project_name=project.name) }}" class="btn btn-outline-secondary btn-action">Start New Scrape</a>
+                <a href="{{ url_for('dashboard.delete_project', project_id=project.id) }}" class="btn btn-danger btn-action">Delete Project</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load JS Libraries -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        // Mentions Chart using Chart.js
+        const mentionsCtx = document.getElementById('mentionsChart').getContext('2d');
+        new Chart(mentionsCtx, {
+            type: 'line',
+            data: {
+                labels: {{ mentions_data.labels }},
+                datasets: [{
+                    label: 'Mentions Over Time',
+                    data: {{ mentions_data.values }},
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    fill: true,
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+
+        // Sentiment Chart using Chart.js
+        const sentimentCtx = document.getElementById('sentimentChart').getContext('2d');
+        new Chart(sentimentCtx, {
+            type: 'pie',
+            data: {
+                labels: ['Positive', 'Neutral', 'Negative'],
+                datasets: [{
+                    data: {{ sentiment_data.values }},
+                    backgroundColor: ['#4CAF50', '#FFC107', '#F44336']
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'top' }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

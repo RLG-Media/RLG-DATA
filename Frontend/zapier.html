@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zapier Integration - RLG Tools</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/animations.css') }}">
+</head>
+<body>
+    <!-- Navbar -->
+    {% include "navbar.html" %}
+
+    <!-- Main Content -->
+    <div class="container mt-5">
+        <h1 class="text-center">Zapier Integration</h1>
+        <p class="text-muted text-center">
+            Automate your workflows with Zapier. Connect RLG Data and RLG Fans to thousands of apps for seamless data sharing and enhanced productivity.
+        </p>
+
+        <!-- Zapier Actions -->
+        <div class="card mt-4">
+            <div class="card-header bg-primary text-white">
+                Manage Your Zapier Webhooks
+            </div>
+            <div class="card-body">
+                <form id="zapier-form" method="POST">
+                    <div class="form-group">
+                        <label for="webhookUrl">Webhook URL</label>
+                        <input type="url" id="webhookUrl" name="webhook_url" class="form-control" placeholder="Enter your Zapier Webhook URL" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="triggerType">Trigger Type</label>
+                        <select id="triggerType" name="trigger_type" class="form-control">
+                            <option value="new_data_uploaded">New Data Uploaded</option>
+                            <option value="user_signup">User Signup</option>
+                            <option value="subscription_update">Subscription Update</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-3">Create Webhook</button>
+                </form>
+
+                <hr class="my-4">
+
+                <h5>Existing Webhooks</h5>
+                <ul id="webhookList" class="list-group">
+                    <!-- Example List Item -->
+                    <!-- Dynamically populated using JavaScript -->
+                    <li class="list-group-item">
+                        <strong>Trigger:</strong> New Data Uploaded<br>
+                        <strong>URL:</strong> <span class="text-muted">https://hooks.zapier.com/hooks/catch/123456/abcdef/</span>
+                        <button class="btn btn-sm btn-danger float-right ml-2" onclick="deleteWebhook('example_webhook_id')">Delete</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    {% include "footer.html" %}
+
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+    <script>
+        // Example JavaScript for managing Zapier integrations
+
+        document.getElementById('zapier-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const webhookUrl = document.getElementById('webhookUrl').value;
+            const triggerType = document.getElementById('triggerType').value;
+
+            fetch('/api/zapier/create_webhook', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ webhook_url: webhookUrl, trigger_type: triggerType })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    alert('Webhook created successfully!');
+                    // Add webhook to the list
+                    const list = document.getElementById('webhookList');
+                    const item = document.createElement('li');
+                    item.className = 'list-group-item';
+                    item.innerHTML = `
+                        <strong>Trigger:</strong> ${triggerType}<br>
+                        <strong>URL:</strong> <span class="text-muted">${webhookUrl}</span>
+                        <button class="btn btn-sm btn-danger float-right ml-2" onclick="deleteWebhook('${data.webhook_id}')">Delete</button>
+                    `;
+                    list.appendChild(item);
+                } else {
+                    alert('Failed to create webhook: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error creating webhook:', error);
+                alert('An error occurred while creating the webhook.');
+            });
+        });
+
+        function deleteWebhook(webhookId) {
+            fetch('/api/zapier/delete_webhook', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ webhook_id: webhookId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    alert('Webhook deleted successfully!');
+                    // Remove webhook from the list
+                    const list = document.getElementById('webhookList');
+                    const items = list.getElementsByTagName('li');
+                    for (let i = 0; i < items.length; i++) {
+                        if (items[i].innerHTML.includes(webhookId)) {
+                            list.removeChild(items[i]);
+                            break;
+                        }
+                    }
+                } else {
+                    alert('Failed to delete webhook: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error deleting webhook:', error);
+                alert('An error occurred while deleting the webhook.');
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+# Stage 1: Build frontend assets
+FROM node:16 AS frontend
+WORKDIR /frontend
+COPY frontend/package*.json ./
+RUN npm install
+COPY frontend . 
+RUN npm run build
+
+# Stage 2: Install backend dependencies for RLG DATA
+FROM python:3.9-slim AS backend_data
+WORKDIR /app_data
+COPY backend_data/requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Stage 3: Install backend dependencies for RLG FANS
+FROM python:3.9-slim AS backend_fans
+WORKDIR /app_fans
+COPY backend_fans/requirements.txt ./
+RUN pip install --no-cache-dir -r requirements_fans.txt
+
+# Stage 4: Final stage to assemble the application
+FROM python:3.9-slim
+WORKDIR /app
+
+# Copy backend files and build output of frontend
+COPY --from=backend_data /app_data /app/backend_data
+COPY --from=backend_fans /app_fans /app/backend_fans
+COPY --from=frontend /frontend/build /app/static  # Place frontend build in Flask's static folder
+
+# Environment Variables for RLG DATA
+ENV FLASK_APP=backend_data/app.py
+ENV FLASK_ENV=production
+ENV DATABASE_URL=postgresql://username:password@db_data/rlg_data
+ENV REDIS_URL=redis://redis:6379/0
+ENV JWT_SECRET_KEY=your_jwt_secret_key
+ENV STRIPE_SECRET_KEY=your_stripe_secret_key
+ENV SENTRY_DSN=your_sentry_dsn
+
+# Environment Variables for RLG FANS
+ENV FANS_FLASK_APP=backend_fans/app.py
+ENV FANS_DATABASE_URL=postgresql://username:password@db_fans/rlg_fans
+ENV ONLYFANS_API_KEY=your_onlyfans_token
+ENV STRIPCHAT_API_KEY=your_stripchat_token
+ENV SHEER_API_KEY=your_sheer_token
+ENV PORNHUB_API_KEY=your_pornhub_token
+
+# Expose backend ports
+EXPOSE 5000  # RLG DATA
+EXPOSE 5001  # RLG FANS
+
+# Start both Flask servers (RLG DATA and RLG FANS)
+CMD ["sh", "-c", "flask run --app backend_data --host=0.0.0.0 --port=5000 & flask run --app backend_fans --host=0.0.0.0 --port=5001"]

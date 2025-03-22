@@ -1,0 +1,179 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - RLG Fans{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar Navigation -->
+        <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+            <div class="position-sticky">
+                <ul class="nav flex-column">
+                    <li class="nav-item"><a class="nav-link active" href="#">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('analytics') }}">Analytics</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('content_planning') }}">Content Planning</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('trending_insights') }}">Trending Insights</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('recommendations') }}">Recommendations</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('settings') }}">Settings</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main Dashboard Content -->
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">Welcome, {{ session['username'] }}</h1>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <a href="{{ url_for('create_project') }}" class="btn btn-sm btn-primary">New Project</a>
+                    <a href="{{ url_for('upload_report') }}" class="btn btn-sm btn-outline-secondary">Upload Report</a>
+                </div>
+            </div>
+
+            <!-- Project Overview -->
+            <h2>Your Projects</h2>
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Project Name</th>
+                            <th>Status</th>
+                            <th>Last Updated</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for project in projects %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ project.name }}</td>
+                            <td><span class="badge bg-success">{{ project.status }}</span></td>
+                            <td>{{ project.last_updated.strftime('%Y-%m-%d') }}</td>
+                            <td><a href="{{ url_for('view_project', project_id=project.id) }}" class="btn btn-sm btn-primary">View</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Charts and Analytics -->
+            <div class="row">
+                <div class="col-md-6">
+                    <h2>Mentions by Platform</h2>
+                    <div id="mentions_chart" style="width: 100%; height: 400px;"></div>
+                </div>
+                <div class="col-md-6">
+                    <h2>Sentiment Breakdown</h2>
+                    <canvas id="sentimentBarChart" width="400" height="400"></canvas>
+                </div>
+            </div>
+
+            <!-- Word Cloud -->
+            <h2 class="mt-4">Word Cloud</h2>
+            <div id="word-cloud" style="width: 100%; height: 400px;"></div>
+
+            <!-- Report Calendar -->
+            <h2 class="mt-4">Report Schedule</h2>
+            <div id="calendar" style="width: 100%; height: 600px;"></div>
+        </main>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<!-- Google Charts for Mentions Chart -->
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script>
+    google.charts.load('current', { 'packages': ['corechart'] });
+    google.charts.setOnLoadCallback(drawMentionsChart);
+
+    function drawMentionsChart() {
+        var data = google.visualization.arrayToDataTable([
+            ['Platform', 'Mentions'],
+            ['Twitter', 300],
+            ['Instagram', 200],
+            ['OnlyFans', 150],
+            ['Patreon', 120],
+            ['Other', 100]
+        ]);
+
+        var options = {
+            title: 'Mentions by Platform',
+            pieHole: 0.4,
+            colors: ['#1b9e77', '#d95f02', '#7570b3', '#e7298a', '#66a61e']
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('mentions_chart'));
+        chart.draw(data, options);
+    }
+</script>
+
+<!-- Chart.js for Sentiment Breakdown -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    var ctx = document.getElementById('sentimentBarChart').getContext('2d');
+    var sentimentChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Positive', 'Neutral', 'Negative'],
+            datasets: [{
+                label: 'Sentiment Analysis',
+                data: [60, 25, 15],
+                backgroundColor: ['#4CAF50', '#FFC107', '#F44336'],
+                borderColor: ['#4CAF50', '#FFC107', '#F44336'],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: { y: { beginAtZero: true } }
+        }
+    });
+</script>
+
+<!-- FullCalendar for Scheduling -->
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.9.0/main.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.9.0/main.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            events: [
+                { title: 'Monthly Report', start: '2024-11-01' },
+                { title: 'Weekly Analysis', start: '2024-11-07' }
+            ]
+        });
+        calendar.render();
+    });
+</script>
+
+<!-- D3 Word Cloud -->
+<script src="https://cdn.jsdelivr.net/npm/d3-cloud/build/d3.layout.cloud.js"></script>
+<script>
+    var fill = d3.scale.category20();
+    d3.layout.cloud().size([500, 300])
+        .words([{ text: "Growth", size: 50 }, { text: "Engagement", size: 40 }, { text: "Subscribers", size: 30 }])
+        .rotate(0)
+        .fontSize(function (d) { return d.size; })
+        .on("end", draw)
+        .start();
+
+    function draw(words) {
+        d3.select("#word-cloud").append("svg")
+            .attr("width", 500)
+            .attr("height", 300)
+            .append("g")
+            .attr("transform", "translate(250,150)")
+            .selectAll("text")
+            .data(words)
+            .enter().append("text")
+            .style("font-size", function (d) { return d.size + "px"; })
+            .style("fill", function (d, i) { return fill(i); })
+            .attr("text-anchor", "middle")
+            .attr("transform", function (d) {
+                return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+            })
+            .text(function (d) { return d.text; });
+    }
+</script>
+{% endblock %}

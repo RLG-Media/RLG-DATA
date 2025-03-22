@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEO Insights Dashboard</title>
+    <link rel="stylesheet" href="seo_insights.css">
+    <script src="seo_insights.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>SEO Insights Dashboard</h1>
+        <p>Your comprehensive tool for analyzing and improving SEO performance.</p>
+    </header>
+
+    <main>
+        <!-- Keyword Input Section -->
+        <section class="keyword-input">
+            <h2>Analyze Keywords</h2>
+            <p>Enter a keyword to fetch insights such as search volume, competitors, and trends.</p>
+            <form id="keyword-form">
+                <label for="keyword">Keyword:</label>
+                <input type="text" id="keyword" name="keyword" placeholder="Enter keyword..." required>
+                <button type="submit">Analyze</button>
+            </form>
+        </section>
+
+        <!-- Results Section -->
+        <section class="results">
+            <h2>Analysis Results</h2>
+
+            <!-- Search Volume Section -->
+            <div id="search-volume">
+                <h3>Search Volume</h3>
+                <p>Details about the total number of search results and competition level.</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Keyword</th>
+                            <th>Total Results</th>
+                            <th>Search Time (Seconds)</th>
+                            <th>Featured Snippets</th>
+                        </tr>
+                    </thead>
+                    <tbody id="search-volume-data"></tbody>
+                </table>
+            </div>
+
+            <!-- Competitor Analysis Section -->
+            <div id="competitors">
+                <h3>Top Competitors</h3>
+                <p>Top-ranking websites for the given keyword.</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Title</th>
+                            <th>Snippet</th>
+                            <th>URL</th>
+                        </tr>
+                    </thead>
+                    <tbody id="competitors-data"></tbody>
+                </table>
+            </div>
+
+            <!-- Keyword Strength Section -->
+            <div id="keyword-strength">
+                <h3>Keyword Strength</h3>
+                <p>An assessment of the keyword's potential and competitiveness.</p>
+                <ul id="keyword-strength-data"></ul>
+            </div>
+
+            <!-- Related Trends Section -->
+            <div id="related-trends">
+                <h3>Related Trends</h3>
+                <p>Trending keywords related to your search term.</p>
+                <ul id="trends-data"></ul>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 RLG Data and RLG Fans. All rights reserved.</p>
+    </footer>
+</body>
+</html>
+
+<link rel="stylesheet" href="path/to/seo_insights.css">

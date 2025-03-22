@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keyword Research Reports</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Keyword Research Reports</h1>
+            <p>Analyze and export your keyword data for deeper insights.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section id="report-summary">
+            <h2>Summary</h2>
+            <p>The following reports summarize the keyword performance data collected during your research session. Use these insights to optimize your SEO and marketing strategies.</p>
+            <button id="export-pdf" class="btn"><i class="fas fa-file-pdf"></i> Export as PDF</button>
+            <button id="export-csv" class="btn"><i class="fas fa-file-csv"></i> Export as CSV</button>
+        </section>
+
+        <section id="keyword-overview">
+            <h2>Keyword Overview</h2>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Keyword</th>
+                        <th>Search Volume</th>
+                        <th>Competition</th>
+                        <th>Trend</th>
+                        <th>Top Competitor</th>
+                        <th>Engagement</th>
+                        <th>Impressions</th>
+                    </tr>
+                </thead>
+                <tbody id="report-table-body">
+                    <!-- Data rows will be dynamically inserted here -->
+                </tbody>
+            </table>
+        </section>
+
+        <section id="visual-reports">
+            <h2>Visual Reports</h2>
+            <div class="chart-container">
+                <canvas id="keyword-trend-chart"></canvas>
+            </div>
+            <div class="chart-container">
+                <canvas id="competition-chart"></canvas>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 RLG Media. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Sample Data (replace with dynamic data in production)
+        const reportData = [
+            { keyword: "SEO Tips", volume: 15000, competition: "Medium", trend: "Upward", competitor: "ExampleSite.com", engagement: 4500, impressions: 12000 },
+            { keyword: "Digital Marketing", volume: 25000, competition: "High", trend: "Stable", competitor: "MarketingPro.com", engagement: 8000, impressions: 20000 },
+            { keyword: "Content Strategy", volume: 10000, competition: "Low", trend: "Upward", competitor: "ContentGenius.com", engagement: 3000, impressions: 9000 },
+        ];
+
+        // Populate Table
+        const tableBody = document.getElementById('report-table-body');
+        reportData.forEach(data => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${data.keyword}</td>
+                <td>${data.volume}</td>
+                <td>${data.competition}</td>
+                <td>${data.trend}</td>
+                <td>${data.competitor}</td>
+                <td>${data.engagement}</td>
+                <td>${data.impressions}</td>
+            `;
+            tableBody.appendChild(row);
+        });
+
+        // Chart Configuration
+        const trendCtx = document.getElementById('keyword-trend-chart').getContext('2d');
+        new Chart(trendCtx, {
+            type: 'line',
+            data: {
+                labels: reportData.map(data => data.keyword),
+                datasets: [{
+                    label: 'Search Volume',
+                    data: reportData.map(data => data.volume),
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: true
+                    },
+                },
+            }
+        });
+
+        const competitionCtx = document.getElementById('competition-chart').getContext('2d');
+        new Chart(competitionCtx, {
+            type: 'bar',
+            data: {
+                labels: reportData.map(data => data.keyword),
+                datasets: [{
+                    label: 'Engagement',
+                    data: reportData.map(data => data.engagement),
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1,
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: true
+                    },
+                },
+            }
+        });
+
+        // Export Functionality
+        document.getElementById('export-pdf').addEventListener('click', () => {
+            alert("Export to PDF functionality will be implemented.");
+        });
+
+        document.getElementById('export-csv').addEventListener('click', () => {
+            alert("Export to CSV functionality will be implemented.");
+        });
+    </script>
+</body>
+</html>

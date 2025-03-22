@@ -1,0 +1,32 @@
+<template>
+  <div>
+    <button @click="toggleSidebar">Toggle Sidebar</button>
+    <button @click="toggleGlobalOverlay">Toggle Global Overlay</button>
+    <button @click="toggleLoader">Toggle Loader</button>
+
+    <Sidebar v-if="isSidebarVisible" />
+    <GlobalOverlay v-if="isGlobalOverlayVisible" />
+    <Loader v-if="isLoaderVisible" />
+  </div>
+</template>
+
+<script>
+import { mapGetters, mapActions } from 'vuex';
+import Sidebar from './Sidebar.vue';
+import GlobalOverlay from './GlobalOverlay.vue';
+import Loader from './Loader.vue';
+
+export default {
+  components: { Sidebar, GlobalOverlay, Loader },
+  computed: {
+    ...mapGetters(['isSidebarVisible', 'isGlobalOverlayVisible', 'isLoaderVisible']),
+  },
+  methods: {
+    ...mapActions([
+      'toggleSidebar',
+      'toggleGlobalOverlay',
+      'toggleLoader',
+    ]),
+  },
+};
+</script>

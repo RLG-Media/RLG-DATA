@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sentiment Trends Dashboard for RLG Data and RLG Fans">
+    <meta name="author" content="RLG Development Team">
+    <title>Sentiment Trends Dashboard | RLG Data & RLG Fans</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/theme_manager.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="scripts/sentiment_trends_dashboard.js" defer></script>
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <a href="dashboard.html">RLG</a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="analytics.html">Analytics</a></li>
+                    <li><a href="sentiment_trends_dashboard.html" class="active">Sentiment Trends</a></li>
+                    <li><a href="settings.html">Settings</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="sentiment-trends-dashboard">
+            <h1>Sentiment Trends Dashboard</h1>
+            <p>Analyze sentiment trends across multiple platforms for RLG Data and RLG Fans to gain actionable insights.</p>
+
+            <div class="dashboard-widgets">
+                <div class="widget">
+                    <h2>Overview</h2>
+                    <div class="widget-content">
+                        <p><strong>Overall Positive Sentiment:</strong> <span id="overall-positive">0%</span></p>
+                        <p><strong>Overall Neutral Sentiment:</strong> <span id="overall-neutral">0%</span></p>
+                        <p><strong>Overall Negative Sentiment:</strong> <span id="overall-negative">0%</span></p>
+                    </div>
+                </div>
+
+                <div class="widget">
+                    <h2>Platform Sentiment Breakdown</h2>
+                    <ul>
+                        <li>Twitter: <span id="twitter-sentiment">0%</span></li>
+                        <li>Instagram: <span id="instagram-sentiment">0%</span></li>
+                        <li>Facebook: <span id="facebook-sentiment">0%</span></li>
+                        <li>TikTok: <span id="tiktok-sentiment">0%</span></li>
+                        <li>LinkedIn: <span id="linkedin-sentiment">0%</span></li>
+                        <li>Pinterest: <span id="pinterest-sentiment">0%</span></li>
+                        <li>Reddit: <span id="reddit-sentiment">0%</span></li>
+                        <li>Snapchat: <span id="snapchat-sentiment">0%</span></li>
+                        <li>Threads: <span id="threads-sentiment">0%</span></li>
+                    </ul>
+                </div>
+
+                <div class="widget">
+                    <h2>Top Keywords by Sentiment</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Keyword</th>
+                                <th>Positive</th>
+                                <th>Neutral</th>
+                                <th>Negative</th>
+                            </tr>
+                        </thead>
+                        <tbody id="top-keywords-sentiment">
+                            <!-- Dynamic keyword sentiment data will be inserted here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <h2>Sentiment Trends Over Time</h2>
+                <canvas id="sentiment-trends-chart"></canvas>
+            </div>
+
+            <div class="actions">
+                <button id="download-report" class="btn">Download Report</button>
+                <button id="refresh-trends" class="btn">Refresh Trends</button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 RLG. All rights reserved.</p>
+    </footer>
+</body>
+</html>

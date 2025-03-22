@@ -1,0 +1,158 @@
+<!-- snapchat.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snapchat Analytics - RLG Fans</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+
+    <!-- Chart.js for Analytics Charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a class="navbar-brand" href="{{ url_for('index') }}">RLG Fans</a>
+        <ul class="navbar-nav">
+            <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+            <li><a href="{{ url_for('services') }}">Services</a></li>
+            <li><a href="{{ url_for('support') }}">Support</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+        <h1>Snapchat Analytics</h1>
+        <p>Gain valuable insights into your Snapchat story views, engagement, and follower growth to enhance your reach and maximize your influence.</p>
+
+        <!-- Analytics Overview -->
+        <div class="analytics-overview">
+            <div class="metric-card">
+                <h2>Total Followers</h2>
+                <p id="totalFollowers">Loading...</p>
+            </div>
+            <div class="metric-card">
+                <h2>Story Views</h2>
+                <p id="storyViews">Loading...</p>
+            </div>
+            <div class="metric-card">
+                <h2>Engagement Rate</h2>
+                <p id="engagementRate">Loading...</p>
+            </div>
+        </div>
+
+        <!-- Story Views and Engagement Charts -->
+        <div class="charts-section">
+            <h2>Story Views Over Time</h2>
+            <canvas id="storyViewsChart" class="chart-container"></canvas>
+
+            <h2>Engagement Analysis</h2>
+            <canvas id="engagementChart" class="chart-container"></canvas>
+        </div>
+
+        <!-- Recommendations Section -->
+        <div class="recommendations-section">
+            <h2>Recommendations for Boosting Engagement</h2>
+            <ul id="recommendationsList">
+                <li>Loading recommendations...</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Fetch data from backend APIs and update the page with Snapchat metrics
+        async function loadSnapchatMetrics() {
+            try {
+                const response = await fetch('/api/snapchat/metrics');
+                const data = await response.json();
+
+                document.getElementById('totalFollowers').innerText = data.followers;
+                document.getElementById('storyViews').innerText = data.storyViews;
+                document.getElementById('engagementRate').innerText = data.engagementRate + '%';
+
+                updateStoryViewsChart(data.storyViewsData);
+                updateEngagementChart(data.engagementData);
+                loadRecommendations(data.recommendations);
+            } catch (error) {
+                console.error('Error loading Snapchat metrics:', error);
+            }
+        }
+
+        // Draws story views chart using data from the backend
+        function updateStoryViewsChart(storyViewsData) {
+            const ctx = document.getElementById('storyViewsChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: storyViewsData.dates,
+                    datasets: [{
+                        label: 'Story Views',
+                        data: storyViewsData.values,
+                        borderColor: '#FFFC00',
+                        backgroundColor: 'rgba(255, 252, 0, 0.2)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: { beginAtZero: true }
+                    },
+                    plugins: {
+                        legend: { position: 'top' }
+                    }
+                }
+            });
+        }
+
+        // Draws engagement rate bar chart
+        function updateEngagementChart(engagementData) {
+            const ctx = document.getElementById('engagementChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: engagementData.dates,
+                    datasets: [{
+                        label: 'Engagement Rate',
+                        data: engagementData.values,
+                        backgroundColor: '#FFFC00',
+                        borderColor: '#FFFC00',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: { beginAtZero: true }
+                    },
+                    plugins: {
+                        legend: { position: 'top' }
+                    }
+                }
+            });
+        }
+
+        // Loads recommendations for optimized engagement
+        function loadRecommendations(recommendations) {
+            const recommendationsList = document.getElementById('recommendationsList');
+            recommendationsList.innerHTML = '';
+
+            recommendations.forEach(rec => {
+                const item = document.createElement('li');
+                item.innerText = rec;
+                recommendationsList.appendChild(item);
+            });
+        }
+
+        // Load all metrics on page load
+        document.addEventListener('DOMContentLoaded', loadSnapchatMetrics);
+    </script>
+
+</body>
+</html>

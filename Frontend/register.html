@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block title %}Register - RLG{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <!-- Registration Card -->
+            <div class="card shadow">
+                <div class="card-body">
+                    <h2 class="card-title text-center mb-4">Create Your Account</h2>
+
+                    <!-- Flash Messages -->
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ category }} mt-3">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+
+                    <!-- Registration Form -->
+                    <form method="POST" action="{{ url_for('auth.register') }}" novalidate>
+                        <!-- CSRF Token -->
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                        <!-- Username Field -->
+                        <div class="form-group mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <input 
+                                type="text" 
+                                name="username" 
+                                id="username" 
+                                class="form-control" 
+                                placeholder="Enter your username" 
+                                required 
+                                minlength="3" 
+                                maxlength="20" 
+                                autocomplete="username"
+                                pattern="^[a-zA-Z0-9_]+$"
+                                title="Username can contain letters, numbers, and underscores only.">
+                        </div>
+
+                        <!-- Email Field -->
+                        <div class="form-group mb-3">
+                            <label for="email" class="form-label">Email Address</label>
+                            <input 
+                                type="email" 
+                                name="email" 
+                                id="email" 
+                                class="form-control" 
+                                placeholder="Enter your email address" 
+                                required 
+                                autocomplete="email">
+                        </div>
+
+                        <!-- Password Field -->
+                        <div class="form-group mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input 
+                                type="password" 
+                                name="password" 
+                                id="password" 
+                                class="form-control" 
+                                placeholder="Enter a strong password" 
+                                required 
+                                minlength="8" 
+                                autocomplete="new-password"
+                                pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+                                title="Password must be at least 8 characters long, include uppercase and lowercase letters, a number, and a special character.">
+                            <small class="form-text text-muted">
+                                Your password must include at least one uppercase letter, one lowercase letter, one number, and one special character.
+                            </small>
+                        </div>
+
+                        <!-- Confirm Password Field -->
+                        <div class="form-group mb-3">
+                            <label for="confirm_password" class="form-label">Confirm Password</label>
+                            <input 
+                                type="password" 
+                                name="confirm_password" 
+                                id="confirm_password" 
+                                class="form-control" 
+                                placeholder="Re-enter your password" 
+                                required 
+                                autocomplete="new-password">
+                        </div>
+
+                        <!-- Terms and Conditions -->
+                        <div class="form-check mb-3">
+                            <input 
+                                type="checkbox" 
+                                class="form-check-input" 
+                                id="terms" 
+                                name="terms" 
+                                required>
+                            <label class="form-check-label" for="terms">
+                                I agree to the <a href="{{ url_for('terms') }}">Terms and Conditions</a> and <a href="{{ url_for('privacy_policy') }}">Privacy Policy</a>.
+                            </label>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-block">Register</button>
+                        </div>
+                    </form>
+
+                    <!-- Login Link -->
+                    <p class="text-center mt-3">
+                        Already have an account? <a href="{{ url_for('auth.login') }}">Login here</a>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RLG Dynamic Reporting Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-900">
+
+    <!-- HEADER -->
+    <header class="bg-blue-600 text-white text-center py-5 shadow-md">
+        <h1 class="text-3xl font-semibold">📊 RLG Dynamic Reporting Dashboard</h1>
+        <p class="text-lg">AI-Powered Real-Time Analytics & Insights</p>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <div class="container mx-auto py-8 px-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+            <!-- TOTAL MENTIONS CARD -->
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h2 class="text-xl font-bold">📢 Total Mentions</h2>
+                <p class="text-gray-600">Across All Platforms</p>
+                <p id="total-mentions" class="text-4xl font-bold text-blue-600 mt-4">0</p>
+            </div>
+
+            <!-- SENTIMENT ANALYSIS CARD -->
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h2 class="text-xl font-bold">😊 Sentiment Analysis</h2>
+                <canvas id="sentimentChart"></canvas>
+            </div>
+
+            <!-- TREND ANALYSIS CARD -->
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h2 class="text-xl font-bold">📈 Trend Analysis</h2>
+                <canvas id="trendChart"></canvas>
+            </div>
+
+            <!-- COMPETITOR BENCHMARKING CARD -->
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h2 class="text-xl font-bold">🏆 Competitor Benchmark</h2>
+                <canvas id="competitorChart"></canvas>
+            </div>
+
+        </div>
+
+        <!-- ADVANCED REPORTING TABLE -->
+        <div class="bg-white mt-10 p-6 rounded-lg shadow-md">
+            <h2 class="text-2xl font-bold mb-4">📊 Detailed Reports</h2>
+            <table class="min-w-full bg-white border border-gray-300">
+                <thead>
+                    <tr class="bg-gray-200 text-left">
+                        <th class="py-2 px-4 border-b">Date</th>
+                        <th class="py-2 px-4 border-b">Platform</th>
+                        <th class="py-2 px-4 border-b">Region</th>
+                        <th class="py-2 px-4 border-b">Mentions</th>
+                        <th class="py-2 px-4 border-b">Sentiment</th>
+                    </tr>
+                </thead>
+                <tbody id="report-table">
+                    <!-- Data will be populated dynamically -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- EXPORT & REFRESH BUTTONS -->
+        <div class="mt-6 flex justify-between">
+            <button onclick="exportCSV()" class="bg-green-600 text-white px-4 py-2 rounded shadow">📥 Export CSV</button>
+            <button onclick="fetchData()" class="bg-blue-600 text-white px-4 py-2 rounded shadow">🔄 Refresh Data</button>
+        </div>
+
+    </div>
+
+    <!-- JAVASCRIPT (DYNAMIC REPORTING & CHARTS) -->
+    <script>
+        async function fetchData() {
+            try {
+                const response = await fetch("https://api.rlgdata.com/reports");
+                const data = await response.json();
+
+                document.getElementById("total-mentions").innerText = data.total_mentions;
+
+                // Populate report table
+                const tableBody = document.getElementById("report-table");
+                tableBody.innerHTML = ""; // Clear old data
+                data.reports.forEach(report => {
+                    let row = `<tr>
+                        <td class="py-2 px-4 border-b">${report.date}</td>
+                        <td class="py-2 px-4 border-b">${report.platform}</td>
+                        <td class="py-2 px-4 border-b">${report.region}</td>
+                        <td class="py-2 px-4 border-b">${report.mentions}</td>
+                        <td class="py-2 px-4 border-b">${report.sentiment}</td>
+                    </tr>`;
+                    tableBody.innerHTML += row;
+                });
+
+                // Generate Sentiment Chart
+                new Chart(document.getElementById("sentimentChart"), {
+                    type: "pie",
+                    data: {
+                        labels: ["Positive", "Neutral", "Negative"],
+                        datasets: [{
+                            data: [data.sentiment.positive, data.sentiment.neutral, data.sentiment.negative],
+                            backgroundColor: ["#4CAF50", "#FFC107", "#F44336"]
+                        }]
+                    }
+                });
+
+                // Generate Trend Chart
+                new Chart(document.getElementById("trendChart"), {
+                    type: "line",
+                    data: {
+                        labels: data.trends.dates,
+                        datasets: [{
+                            label: "Mentions Over Time",
+                            data: data.trends.values,
+                            borderColor: "#2196F3",
+                            fill: false
+                        }]
+                    }
+                });
+
+                // Generate Competitor Benchmarking Chart
+                new Chart(document.getElementById("competitorChart"), {
+                    type: "bar",
+                    data: {
+                        labels: ["RLG Data", "Brandwatch", "Hootsuite", "Sprout Social"],
+                        datasets: [{
+                            label: "Mentions",
+                            data: data.competitors,
+                            backgroundColor: ["#1E88E5", "#D81B60", "#FDD835", "#43A047"]
+                        }]
+                    }
+                });
+
+            } catch (error) {
+                console.error("Data Fetch Error:", error);
+            }
+        }
+
+        function exportCSV() {
+            let csvContent = "data:text/csv;charset=utf-8,Date,Platform,Region,Mentions,Sentiment\n";
+            document.querySelectorAll("#report-table tr").forEach(row => {
+                csvContent += row.innerText.replace(/\t/g, ",") + "\n";
+            });
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "RLG_Reports.csv");
+            document.body.appendChild(link);
+            link.click();
+        }
+
+        document.addEventListener("DOMContentLoaded", fetchData);
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Interactive tutorials for RLG Data and RLG Fans users to enhance their understanding and engagement.">
+    <meta name="author" content="RLG Development Team">
+    <title>Interactive Tutorials | RLG</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/theme_manager.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="scripts/interactive_tutorials.js" defer></script>
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <a href="dashboard.html">RLG</a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="analytics.html">Analytics</a></li>
+                    <li><a href="interactive_tutorials.html" class="active">Tutorials</a></li>
+                    <li><a href="settings.html">Settings</a></li>
+                </ul>
+            </nav>
+            <div class="user-profile">
+                <img src="images/user-avatar.png" alt="User Avatar">
+                <div class="dropdown">
+                    <a href="profile.html">Profile</a>
+                    <a href="logout.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="tutorials-container">
+            <h1>Interactive Tutorials</h1>
+            <p>Enhance your knowledge of RLG Data and RLG Fans with these step-by-step guides and interactive lessons.</p>
+
+            <div class="tutorial-category">
+                <h2>Getting Started</h2>
+                <ul>
+                    <li>
+                        <button class="tutorial-btn" data-tutorial="getting-started-1">
+                            <i class="fas fa-play-circle"></i> Navigating the Dashboard
+                        </button>
+                    </li>
+                    <li>
+                        <button class="tutorial-btn" data-tutorial="getting-started-2">
+                            <i class="fas fa-play-circle"></i> Setting Up Your Profile
+                        </button>
+                    </li>
+                    <li>
+                        <button class="tutorial-btn" data-tutorial="getting-started-3">
+                            <i class="fas fa-play-circle"></i> Customizing Your Theme
+                        </button>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="tutorial-category">
+                <h2>Advanced Features</h2>
+                <ul>
+                    <li>
+                        <button class="tutorial-btn" data-tutorial="advanced-1">
+                            <i class="fas fa-play-circle"></i> Social Media Integration
+                        </button>
+                    </li>
+                    <li>
+                        <button class="tutorial-btn" data-tutorial="advanced-2">
+                            <i class="fas fa-play-circle"></i> Data Analytics and Reporting
+                        </button>
+                    </li>
+                    <li>
+                        <button class="tutorial-btn" data-tutorial="advanced-3">
+                            <i class="fas fa-play-circle"></i> Automating Workflows
+                        </button>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="tutorial-category">
+                <h2>Best Practices</h2>
+                <ul>
+                    <li>
+                        <button class="tutorial-btn" data-tutorial="best-practices-1">
+                            <i class="fas fa-play-circle"></i> Creating Engaging Content
+                        </button>
+                    </li>
+                    <li>
+                        <button class="tutorial-btn" data-tutorial="best-practices-2">
+                            <i class="fas fa-play-circle"></i> Optimizing Ad Spend
+                        </button>
+                    </li>
+                    <li>
+                        <button class="tutorial-btn" data-tutorial="best-practices-3">
+                            <i class="fas fa-play-circle"></i> Managing Multi-Platform Campaigns
+                        </button>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="tutorial-display">
+                <div class="tutorial-content">
+                    <h3>Select a tutorial to get started</h3>
+                    <p>Click on any of the tutorials listed above to view step-by-step instructions and videos.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 RLG. All rights reserved.</p>
+    </footer>
+</body>
+</html>

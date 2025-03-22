@@ -1,0 +1,104 @@
+{
+    "regions": {
+      "Africa": {
+        "South Africa": {
+          "languages": ["en", "af", "zu", "xh", "st"],
+          "default_language": "en",
+          "social_media": ["Facebook", "Twitter", "Instagram", "TikTok", "LinkedIn", "Pinterest", "Reddit", "Snapchat", "Threads"]
+        },
+        "Nigeria": {
+          "languages": ["en", "yo", "ig", "ha"],
+          "default_language": "en",
+          "social_media": ["Facebook", "Twitter", "Instagram", "TikTok", "LinkedIn"]
+        },
+        "Kenya": {
+          "languages": ["en", "sw"],
+          "default_language": "en",
+          "social_media": ["Facebook", "Twitter", "Instagram", "TikTok"]
+        }
+      },
+      "North America": {
+        "United States": {
+          "languages": ["en", "es"],
+          "default_language": "en",
+          "social_media": ["Facebook", "Twitter", "Instagram", "TikTok", "LinkedIn", "Reddit", "Snapchat", "Threads", "Pinterest"]
+        },
+        "Canada": {
+          "languages": ["en", "fr"],
+          "default_language": "en",
+          "social_media": ["Facebook", "Twitter", "Instagram", "TikTok", "LinkedIn", "Snapchat", "Threads"]
+        },
+        "Mexico": {
+          "languages": ["es"],
+          "default_language": "es",
+          "social_media": ["Facebook", "Twitter", "Instagram", "TikTok", "Pinterest", "Threads"]
+        }
+      },
+      "Europe": {
+        "Germany": {
+          "languages": ["de", "en"],
+          "default_language": "de",
+          "social_media": ["Facebook", "Twitter", "Instagram", "TikTok", "LinkedIn", "Reddit", "Snapchat", "Threads", "Pinterest"]
+        },
+        "France": {
+          "languages": ["fr", "en"],
+          "default_language": "fr",
+          "social_media": ["Facebook", "Twitter", "Instagram", "TikTok", "LinkedIn", "Pinterest", "Threads"]
+        },
+        "United Kingdom": {
+          "languages": ["en"],
+          "default_language": "en",
+          "social_media": ["Facebook", "Twitter", "Instagram", "TikTok", "LinkedIn", "Reddit", "Snapchat", "Threads"]
+        }
+      },
+      "Asia": {
+        "India": {
+          "languages": ["hi", "en", "ta", "bn", "te", "mr", "ml", "kn"],
+          "default_language": "en",
+          "social_media": ["Facebook", "Twitter", "Instagram", "TikTok", "LinkedIn", "Threads", "Pinterest"]
+        },
+        "China": {
+          "languages": ["zh"],
+          "default_language": "zh",
+          "social_media": ["WeChat", "Weibo", "TikTok (Douyin)", "Threads"]
+        },
+        "Japan": {
+          "languages": ["ja", "en"],
+          "default_language": "ja",
+          "social_media": ["Facebook", "Twitter", "Instagram", "TikTok", "Threads"]
+        }
+      },
+      "Oceania": {
+        "Australia": {
+          "languages": ["en"],
+          "default_language": "en",
+          "social_media": ["Facebook", "Twitter", "Instagram", "TikTok", "LinkedIn", "Threads", "Snapchat"]
+        },
+        "New Zealand": {
+          "languages": ["en", "mi"],
+          "default_language": "en",
+          "social_media": ["Facebook", "Twitter", "Instagram", "TikTok", "LinkedIn", "Threads"]
+        }
+      },
+      "South America": {
+        "Brazil": {
+          "languages": ["pt"],
+          "default_language": "pt",
+          "social_media": ["Facebook", "Twitter", "Instagram", "TikTok", "LinkedIn", "Pinterest", "Threads"]
+        },
+        "Argentina": {
+          "languages": ["es"],
+          "default_language": "es",
+          "social_media": ["Facebook", "Twitter", "Instagram", "TikTok", "Pinterest"]
+        }
+      }
+    },
+    "recommendations": [
+      "Update this file as new regions or languages are added to the platform.",
+      "Integrate default language selection with user preferences in the frontend.",
+      "Ensure all supported social media platforms are included and updated regularly.",
+      "Implement automated checks to verify the accuracy of regional language data.",
+      "Use this mapping to personalize onboarding flows and regional content recommendations."
+    ]
+  }
+  

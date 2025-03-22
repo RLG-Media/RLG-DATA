@@ -1,0 +1,126 @@
+# deployment_config.yaml
+# This file defines the configuration for deploying the RLG Platform,
+# which comprises two major components:
+#  - RLG Data: Media monitoring and analysis tool.
+#  - RLG Fans: Fan engagement and social monitoring tool.
+# The configuration includes application settings, database connections,
+# API endpoints and keys, logging preferences, and Docker deployment settings.
+
+app:
+  name: "RLG Platform"
+  description: "A comprehensive SaaS tool for media monitoring (RLG Data) and fan engagement (RLG Fans)."
+  version: "1.0.0"
+  environment: "production"
+  region: "default"  # Change as necessary to support region-specific configuration
+
+database:
+  type: "postgresql"
+  host: "database"       # Docker service name for the database container
+  port: 5432
+  name: ${DB_NAME}       # Use environment variables to securely provide these values
+  user: ${DB_USER}
+  password: ${DB_PASSWORD}
+  pool_size: 10
+  timeout: 30
+
+api:
+  endpoints:
+    rlg_data: "https://api.rlgdata.example.com/v1"   # Replace with your production endpoint
+    rlg_fans: "https://api.rlgfans.example.com/v1"   # Replace with your production endpoint
+  keys:
+    rlg_data: ${API_KEY_RLG_DATA}   # Securely provided via environment variables
+    rlg_fans: ${API_KEY_RLG_FANS}
+
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  destination: "stdout"  # Change to a file path if persistent logging is needed
+
+deployment:
+  docker:
+    version: "3.8"
+    services:
+      rlg_data:
+        build:
+          context: "./"
+          dockerfile: "Dockerfile.data"
+        image: "rlg_data:latest"
+        environment:
+          ENV: "production"
+          REGION: "${app.region}"
+          DATABASE_URL: "${DATABASE_URL}"
+          API_KEY: "${API_KEY_RLG_DATA}"
+          LOG_LEVEL: "INFO"
+        ports:
+          - "8000:8000"
+        deploy:
+          replicas: 2
+          resources:
+            limits:
+              cpus: "1.0"
+              memory: "512M"
+      rlg_fans:
+        build:
+          context: "./"
+          dockerfile: "Dockerfile.fans"
+        image: "rlg_fans:latest"
+        environment:
+          ENV: "production"
+          REGION: "${app.region}"
+          DATABASE_URL: "${DATABASE_URL}"
+          API_KEY: "${API_KEY_RLG_FANS}"
+          LOG_LEVEL: "INFO"
+        ports:
+          - "8001:8000"
+        deploy:
+          replicas: 2
+          resources:
+            limits:
+              cpus: "1.0"
+              memory: "512M"
+      api_gateway:
+        build:
+          context: "./"
+          dockerfile: "Dockerfile.gateway"
+        image: "rlg_gateway:latest"
+        environment:
+          ENV: "production"
+          LOG_LEVEL: "INFO"
+        ports:
+          - "80:80"
+        depends_on:
+          - rlg_data
+          - rlg_fans
+        deploy:
+          replicas: 1
+      database:
+        image: "postgres:13"
+        environment:
+          POSTGRES_USER: "${DB_USER}"
+          POSTGRES_PASSWORD: "${DB_PASSWORD}"
+          POSTGRES_DB: "${DB_NAME}"
+        volumes:
+          - "db_data:/var/lib/postgresql/data"
+        ports:
+          - "5432:5432"
+        deploy:
+          replicas: 1
+    volumes:
+      db_data: {}
+
+monitoring:
+  enabled: true
+  poll_interval: 60  # Polling interval for internal monitoring (in seconds)
+
+alerts:
+  email:
+    enabled: true
+    smtp_server: "${SMTP_SERVER}"   # SMTP server address (from environment)
+    smtp_port: 587
+    smtp_user: "${SMTP_USER}"
+    smtp_password: "${SMTP_PASSWORD}"
+    sender_email: "alerts@example.com"
+    recipient_emails:
+      - "admin@example.com"
+
+# End of deployment_config.yaml

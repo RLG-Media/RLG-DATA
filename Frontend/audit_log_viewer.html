@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Audit Log Viewer for RLG Data & RLG Fans">
+    <meta name="author" content="RLG Data & RLG Fans">
+    <title>Audit Log Viewer | RLG</title>
+    
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/theme_manager.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="scripts/audit_log_viewer.js" defer></script>
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <a href="dashboard.html">RLG</a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="analytics.html">Analytics</a></li>
+                    <li><a href="audit_log_viewer.html" class="active">Audit Logs</a></li>
+                    <li><a href="settings.html">Settings</a></li>
+                </ul>
+            </nav>
+            <div class="user-profile">
+                <img src="images/user-avatar.png" alt="User Avatar">
+                <div class="dropdown">
+                    <a href="profile.html">Profile</a>
+                    <a href="logout.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="audit-log-container">
+            <header class="log-header">
+                <h2>Audit Log Viewer</h2>
+                <div class="log-controls">
+                    <input type="text" id="searchLogs" placeholder="Search logs...">
+                    <select id="filterSeverity">
+                        <option value="">Severity</option>
+                        <option value="info">Info</option>
+                        <option value="warning">Warning</option>
+                        <option value="error">Error</option>
+                    </select>
+                    <select id="filterUser">
+                        <option value="">Filter by User</option>
+                    </select>
+                    <button id="refreshLogs"><i class="fas fa-sync-alt"></i> Refresh</button>
+                    <button id="exportCSV"><i class="fas fa-file-csv"></i> Export CSV</button>
+                </div>
+            </header>
+
+            <table class="log-table">
+                <thead>
+                    <tr>
+                        <th>Timestamp</th>
+                        <th>User</th>
+                        <th>Action</th>
+                        <th>Severity</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody id="logEntries">
+                    <!-- Logs will be dynamically populated here -->
+                </tbody>
+            </table>
+
+            <div class="pagination">
+                <button id="prevPage" disabled><i class="fas fa-chevron-left"></i> Prev</button>
+                <span id="currentPage">Page 1</span>
+                <button id="nextPage"><i class="fas fa-chevron-right"></i> Next</button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 RLG Data & RLG Fans. All rights reserved.</p>
+    </footer>
+</body>
+</html>

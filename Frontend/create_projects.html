@@ -1,0 +1,28 @@
+<div class="container mt-4">
+    <h2 class="mb-4">Create New Project</h2>
+    
+    <!-- Project Creation Form -->
+    <form method="POST">
+        <!-- Project Name Field -->
+        <div class="form-group mb-3">
+            <label for="project_name">Project Name:</label>
+            <input type="text" class="form-control" id="project_name" name="project_name" placeholder="Enter project name" required>
+        </div>
+
+        <!-- Keywords Field -->
+        <div class="form-group mb-3">
+            <label for="keywords">Keywords (comma-separated):</label>
+            <input type="text" class="form-control" id="keywords" name="keywords" placeholder="Enter keywords" required>
+            <small class="form-text text-muted">Separate keywords with commas (e.g., brand, competitor, topic).</small>
+        </div>
+
+        <!-- Description Field -->
+        <div class="form-group mb-4">
+            <label for="description">Description:</label>
+            <textarea class="form-control" id="description" name="description" rows="3" placeholder="Describe the project..."></textarea>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary">Create Project</button>
+    </form>
+</div>

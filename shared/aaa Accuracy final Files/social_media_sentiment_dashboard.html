@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Social Media Sentiment Dashboard for monitoring and analyzing sentiment across platforms.">
+    <title>Social Media Sentiment Dashboard | RLG</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/theme_manager.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="scripts/social_media_sentiment_dashboard.js" defer></script>
+</head>
+
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <a href="dashboard.html">RLG</a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="analytics.html">Analytics</a></li>
+                    <li><a href="social_media_sentiment_dashboard.html" class="active">Sentiment Dashboard</a></li>
+                    <li><a href="settings.html">Settings</a></li>
+                </ul>
+            </nav>
+            <div class="user-profile">
+                <img src="images/user-avatar.png" alt="User Avatar">
+                <div class="dropdown">
+                    <a href="profile.html">Profile</a>
+                    <a href="logout.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="sentiment-dashboard-container">
+            <header class="dashboard-header">
+                <h1>Social Media Sentiment Dashboard</h1>
+                <p>Monitor and analyze sentiment trends across all major platforms.</p>
+            </header>
+
+            <section class="platform-filters">
+                <label for="platform-select">Select Platform:</label>
+                <select id="platform-select">
+                    <option value="all">All Platforms</option>
+                    <option value="twitter">Twitter</option>
+                    <option value="facebook">Facebook</option>
+                    <option value="instagram">Instagram</option>
+                    <option value="linkedin">LinkedIn</option>
+                    <option value="tiktok">TikTok</option>
+                    <option value="pinterest">Pinterest</option>
+                    <option value="reddit">Reddit</option>
+                    <option value="snapchat">Snapchat</option>
+                    <option value="threads">Threads</option>
+                </select>
+
+                <label for="date-range">Date Range:</label>
+                <input type="date" id="start-date">
+                <span>to</span>
+                <input type="date" id="end-date">
+
+                <button id="apply-filters">Apply Filters</button>
+            </section>
+
+            <section class="sentiment-summary">
+                <h2>Sentiment Overview</h2>
+                <div class="summary-cards">
+                    <div class="card">
+                        <h3>Positive</h3>
+                        <p id="positive-sentiment">0%</p>
+                    </div>
+                    <div class="card">
+                        <h3>Neutral</h3>
+                        <p id="neutral-sentiment">0%</p>
+                    </div>
+                    <div class="card">
+                        <h3>Negative</h3>
+                        <p id="negative-sentiment">0%</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="sentiment-trends">
+                <h2>Sentiment Trends</h2>
+                <div id="sentiment-trends-chart" class="chart"></div>
+            </section>
+
+            <section class="top-posts">
+                <h2>Top Influential Posts</h2>
+                <ul id="top-posts-list">
+                    <!-- Dynamic content populated by backend -->
+                </ul>
+            </section>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 RLG. All rights reserved.</p>
+    </footer>
+</body>
+
+</html>

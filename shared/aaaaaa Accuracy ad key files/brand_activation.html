@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Plan, build, launch, monitor, and strategize successful brand activations with RLG Data and RLG Fans.">
+    <meta name="author" content="RLG Team">
+    <title>Brand Activation | RLG Data & RLG Fans</title>
+    <link rel="stylesheet" href="/shared/styles/theme_manager.css">
+    <link rel="stylesheet" href="/shared/styles/brand_activation.css">
+    <script src="/shared/scripts/analytics_dashboard.js" defer></script>
+    <script src="/shared/scripts/geolocation.js" defer></script>
+    <script src="/shared/scripts/brand_activation.js" defer></script>
+</head>
+
+<body>
+    <header class="header">
+        <div class="logo">
+            <img src="/shared/images/logo.png" alt="RLG Logo">
+        </div>
+        <nav class="navigation">
+            <ul>
+                <li><a href="/dashboard.html">Dashboard</a></li>
+                <li><a href="/campaigns.html">Campaigns</a></li>
+                <li><a href="/analytics.html">Analytics</a></li>
+                <li><a href="/settings.html">Settings</a></li>
+                <li><a href="/logout.html">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <section class="hero">
+            <h1>Brand Activation Hub</h1>
+            <p>Plan, build, launch, and monitor activations that drive real results and engage niche audiences.</p>
+        </section>
+
+        <section class="activation-form-section">
+            <h2>Create a New Activation</h2>
+            <form id="brand-activation-form">
+                <!-- Campaign Details -->
+                <fieldset>
+                    <legend>Campaign Details</legend>
+                    <label for="campaign-name">Campaign Name:</label>
+                    <input type="text" id="campaign-name" name="campaignName" placeholder="Enter campaign name" required>
+
+                    <label for="target-audience">Target Audience:</label>
+                    <textarea id="target-audience" name="targetAudience" placeholder="Describe the target audience (e.g., demographics, psychographics)" required></textarea>
+
+                    <label for="objectives">Objectives:</label>
+                    <textarea id="objectives" name="objectives" placeholder="List key objectives (e.g., increase sales, drive engagement)" required></textarea>
+
+                    <label for="budget">Budget ($):</label>
+                    <input type="number" id="budget" name="budget" min="100" step="50" placeholder="Enter budget" required>
+                </fieldset>
+
+                <!-- Creative Assets -->
+                <fieldset>
+                    <legend>Creative Assets</legend>
+                    <label for="assets">Upload Assets:</label>
+                    <input type="file" id="assets" name="assets" multiple>
+                </fieldset>
+
+                <!-- Channels -->
+                <fieldset>
+                    <legend>Marketing Channels</legend>
+                    <label for="channels">Select Channels:</label>
+                    <select id="channels" name="channels[]" multiple required>
+                        <option value="social_media">Social Media</option>
+                        <option value="email_marketing">Email Marketing</option>
+                        <option value="influencer_marketing">Influencer Marketing</option>
+                        <option value="seo">SEO</option>
+                        <option value="paid_ads">Paid Ads</option>
+                    </select>
+                </fieldset>
+
+                <!-- Submit -->
+                <button type="submit" class="btn-primary">Plan Activation</button>
+            </form>
+        </section>
+
+        <section class="activation-list-section">
+            <h2>Active Campaigns</h2>
+            <div id="active-campaigns">
+                <p>No active campaigns yet. Start creating one now!</p>
+            </div>
+        </section>
+
+        <section class="analytics-section">
+            <h2>Monitor Campaigns</h2>
+            <div id="campaign-analytics">
+                <p>Select a campaign to view performance analytics.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2025 RLG Data & RLG Fans. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Additional Scripts -->
+    <script>
+        // Initialize campaign creation form
+        document.getElementById('brand-activation-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const campaignName = document.getElementById('campaign-name').value;
+            const targetAudience = document.getElementById('target-audience').value;
+            const objectives = document.getElementById('objectives').value;
+            const budget = document.getElementById('budget').value;
+            const channels = Array.from(document.getElementById('channels').selectedOptions).map(option => option.value);
+
+            // Construct campaign object
+            const newCampaign = {
+                campaignName,
+                targetAudience,
+                objectives,
+                budget,
+                channels,
+                createdAt: new Date().toISOString()
+            };
+
+            // Send campaign data to backend
+            fetch('/api/brand_activation', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newCampaign)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    alert('Campaign created successfully!');
+                    // Refresh campaigns section
+                    loadActiveCampaigns();
+                })
+                .catch(error => {
+                    console.error('Error creating campaign:', error);
+                    alert('Failed to create campaign. Please try again.');
+                });
+        });
+
+        // Load active campaigns
+        function loadActiveCampaigns() {
+            fetch('/api/active_campaigns')
+                .then(response => response.json())
+                .then(campaigns => {
+                    const container = document.getElementById('active-campaigns');
+                    container.innerHTML = '';
+
+                    if (campaigns.length === 0) {
+                        container.innerHTML = '<p>No active campaigns yet. Start creating one now!</p>';
+                        return;
+                    }
+
+                    campaigns.forEach(campaign => {
+                        const campaignDiv = document.createElement('div');
+                        campaignDiv.className = 'campaign';
+                        campaignDiv.innerHTML = `
+                            <h3>${campaign.name}</h3>
+                            <p>Target Audience: ${campaign.targetAudience}</p>
+                            <p>Budget: $${campaign.budget}</p>
+                            <p>Status: ${campaign.status}</p>
+                        `;
+                        container.appendChild(campaignDiv);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error loading campaigns:', error);
+                });
+        }
+
+        // Initial load
+        document.addEventListener('DOMContentLoaded', loadActiveCampaigns);
+    </script>
+</body>
+
+</html>

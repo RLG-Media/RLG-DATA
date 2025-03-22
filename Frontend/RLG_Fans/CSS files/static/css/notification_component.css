@@ -1,0 +1,55 @@
+/* notification_component.css */
+
+.notification {
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 5px;
+    font-size: 1rem;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    animation: fade-in 0.3s ease;
+    max-width: 500px;
+}
+
+.notification p {
+    margin: 0;
+}
+
+.notification.info {
+    background-color: #007bff;
+}
+
+.notification.success {
+    background-color: #28a745;
+}
+
+.notification.warning {
+    background-color: #ffc107;
+    color: #333;
+}
+
+.notification.error {
+    background-color: #dc3545;
+}
+
+.close-button {
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0;
+    margin-left: 10px;
+    transition: color 0.2s ease;
+}
+
+.close-button:hover {
+    color: #adb5bd;
+}
+
+@keyframes fade-in {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}

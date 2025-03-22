@@ -1,0 +1,124 @@
+# CI/CD pipeline configuration
+version: '1.0'
+
+stages:
+  - lint
+  - test
+  - build
+  - deploy
+
+variables:
+  # Set environment variables for the pipeline
+  DEFAULT_BRANCH: main
+  PYTHON_VERSION: "3.11"
+  DEPLOY_ENVIRONMENT: production
+  COVERAGE_THRESHOLD: 85
+
+before_script:
+  # Install system dependencies and setup environment
+  - echo "Setting up environment..."
+  - python --version
+  - python -m pip install --upgrade pip
+  - pip install -r requirements.txt
+
+lint_job:
+  stage: lint
+  script:
+    - echo "Running linters..."
+    - pylint --errors-only my_project/
+    - flake8 my_project/ --max-line-length=88
+    - black --check my_project/
+  allow_failure: false
+  tags:
+    - linting
+
+test_job:
+  stage: test
+  script:
+    - echo "Running unit tests..."
+    - pytest --cov=my_project/ --cov-fail-under=${COVERAGE_THRESHOLD} --junitxml=test-results.xml
+  artifacts:
+    paths:
+      - test-results.xml
+      - .pytest_cache
+      - coverage.xml
+  tags:
+    - testing
+
+build_job:
+  stage: build
+  script:
+    - echo "Building the application..."
+    - python setup.py sdist bdist_wheel
+    - echo "Build artifacts created."
+  artifacts:
+    paths:
+      - dist/
+  tags:
+    - build
+
+deploy_job:
+  stage: deploy
+  script:
+    - echo "Deploying application to ${DEPLOY_ENVIRONMENT}..."
+    - if [ "$CI_COMMIT_BRANCH" == "$DEFAULT_BRANCH" ]; then
+        ./scripts/deploy.sh ${DEPLOY_ENVIRONMENT};
+      else
+        echo "Not on the default branch. Skipping deployment.";
+      fi
+  environment:
+    name: ${DEPLOY_ENVIRONMENT}
+    url: https://my_project.com
+  tags:
+    - deployment
+
+security_scans_job:
+  stage: test
+  script:
+    - echo "Running security scans..."
+    - bandit -r my_project/
+    - safety check
+    - echo "Security scans completed."
+  allow_failure: false
+  tags:
+    - security
+
+integration_tests_job:
+  stage: test
+  script:
+    - echo "Running integration tests..."
+    - pytest tests/integration --junitxml=integration-test-results.xml
+  artifacts:
+    paths:
+      - integration-test-results.xml
+  tags:
+    - integration
+
+container_build_job:
+  stage: build
+  script:
+    - echo "Building Docker container..."
+    - docker build -t my_project:${CI_COMMIT_SHA} .
+    - docker tag my_project:${CI_COMMIT_SHA} my_registry/my_project:${CI_COMMIT_SHA}
+  artifacts:
+    paths:
+      - docker_image.tar
+  tags:
+    - docker
+
+release_job:
+  stage: deploy
+  script:
+    - echo "Creating release..."
+    - git tag -a v$(date +%Y.%m.%d)-${CI_PIPELINE_ID} -m "Release pipeline ${CI_PIPELINE_ID}"
+    - git push origin --tags
+  only:
+    - tags
+  tags:
+    - release
+
+after_script:
+  # Clean up after pipeline run
+  - echo "Pipeline completed. Cleaning up..."
+  - rm -rf .pytest_cache dist/
+

@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}Email Verification - RLG {% if platform == 'Data' %}Data{% else %}Fans{% endif %}{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="text-center">
+        <h1 class="display-4">Verify Your Email</h1>
+        <p class="lead">Please confirm your email address to continue using RLG {% if platform == 'Data' %}Data{% else %}Fans{% endif %}.</p>
+    </div>
+
+    <!-- Verification Instructions -->
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-8 text-center">
+            <p>
+                We've sent a verification email to <strong>{{ user_email }}</strong>. Please check your inbox and click the verification link to verify your account.
+            </p>
+            <p class="text-muted">
+                Didn't receive the email? Check your spam or junk folder, or use the button below to resend it.
+            </p>
+        </div>
+    </div>
+
+    <!-- Resend Email Button -->
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-6 text-center">
+            <form method="POST" action="{{ url_for('resend_verification_email') }}">
+                <input type="hidden" name="email" value="{{ user_email }}">
+                <button type="submit" class="btn btn-primary btn-lg">Resend Verification Email</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Additional Guidance -->
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-8 text-center">
+            <h3>Need Assistance?</h3>
+            <p>If you're having trouble verifying your email, feel free to <a href="{{ url_for('support') }}">contact our support team</a>.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Dynamic Footer for Pricing Tiers -->
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10 text-center">
+            <h4>Explore Our Pricing Plans</h4>
+            <p class="text-muted">
+                Our services are tailored to meet your needs. Check out the pricing tiers for your region below:
+            </p>
+            <ul class="list-unstyled">
+                {% if user_location == "Israel" %}
+                    <li><strong>Weekly:</strong> $99</li>
+                    <li><strong>Monthly:</strong> $399</li>
+                {% else %}
+                    <li><strong>Weekly:</strong> $15</li>
+                    <li><strong>Monthly:</strong> $59</li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript for Enhancements -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const email = '{{ user_email }}';
+        const resendButton = document.querySelector('button[type="submit"]');
+        
+        resendButton.addEventListener('click', function (e) {
+            if (!email) {
+                e.preventDefault();
+                alert('Email address is missing. Please try again later.');
+            }
+        });
+    });
+</script>
+{% endblock %}

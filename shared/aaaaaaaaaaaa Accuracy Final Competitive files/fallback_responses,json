@@ -1,0 +1,15 @@
+{
+    "problem": "Thank you for reporting this issue from {location[city]}, {location[country]}. Our team is investigating. If urgent, please reach out to support at support@rlgmedia.com.",
+    
+    "error": "Oops! Something went wrong. Let's fix this together. Could you describe what happened before the error? Our AI assistant is learning from this to improve your experience.",
+    
+    "status": "I see you're checking on a previous request. Could you share your case number or describe your inquiry? I’ll make sure you get an update right away.",
+    
+    "thank you": "You're very welcome! We appreciate you using RLG {context[system]} in {location[city]}. Let us know if you need anything else!",
+
+    "data_not_found": "We couldn’t find the exact data for your request, but we’re continuously improving our AI model. Try refining your search, or let us know what insights you're looking for.",
+
+    "unsupported_query": "That request is beyond our current capabilities, but we're expanding! Stay tuned for future updates or check our documentation for available features.",
+
+    "ai_feedback": "Our AI is always learning! If you think we could improve, share your thoughts at feedback@rlgmedia.com. Your input helps shape the future of RLG {context[system]}."
+}

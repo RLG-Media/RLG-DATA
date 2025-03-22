@@ -1,0 +1,126 @@
+{
+    "rlg_platform": {
+      "default_settings": {
+        "theme": "light",
+        "notifications_enabled": true,
+        "dashboard_layout": "grid",
+        "language": "en"
+      },
+      "user_roles": [
+        {
+          "role_id": 1,
+          "role_name": "Admin",
+          "permissions": [
+            "manage_users",
+            "view_reports",
+            "edit_settings",
+            "access_all_services"
+          ]
+        },
+        {
+          "role_id": 2,
+          "role_name": "Creator",
+          "permissions": [
+            "manage_content",
+            "view_analytics",
+            "respond_to_interactions"
+          ]
+        },
+        {
+          "role_id": 3,
+          "role_name": "Viewer",
+          "permissions": [
+            "view_reports",
+            "access_basic_features"
+          ]
+        }
+      ]
+    },
+    "rlg_data": {
+      "analytics": {
+        "available_metrics": [
+          "engagement_rate",
+          "reach",
+          "clicks",
+          "impressions",
+          "sentiment_score"
+        ],
+        "default_time_range": "30_days"
+      },
+      "reports": {
+        "templates": [
+          {
+            "template_id": 1,
+            "template_name": "Monthly Overview",
+            "sections": ["Summary", "Graphs", "Insights"]
+          },
+          {
+            "template_id": 2,
+            "template_name": "Social Media Performance",
+            "sections": ["Engagement", "Top Posts", "Platform Breakdown"]
+          }
+        ]
+      },
+      "platforms": [
+        {
+          "platform_name": "Facebook",
+          "metrics_supported": ["likes", "shares", "comments", "reach"]
+        },
+        {
+          "platform_name": "YouTube",
+          "metrics_supported": ["views", "subscribers", "watch_time"]
+        },
+        {
+          "platform_name": "TikTok",
+          "metrics_supported": ["views", "engagement_rate", "shares"]
+        }
+      ]
+    },
+    "rlg_fans": {
+      "subscription_plans": [
+        {
+          "plan_id": 1,
+          "plan_name": "Basic",
+          "features": ["View Content", "Limited Interactions"],
+          "price_per_month": 5.99
+        },
+        {
+          "plan_id": 2,
+          "plan_name": "Premium",
+          "features": ["View Content", "Unlimited Interactions", "Exclusive Content"],
+          "price_per_month": 19.99
+        }
+      ],
+      "popular_platforms": [
+        "OnlyFans",
+        "Fansly",
+        "Patreon",
+        "MYM.fans"
+      ],
+      "engagement_data": [
+        {
+          "platform": "OnlyFans",
+          "total_creators": 12500,
+          "average_engagement_rate": 8.5
+        },
+        {
+          "platform": "Fansly",
+          "total_creators": 8700,
+          "average_engagement_rate": 7.2
+        },
+        {
+          "platform": "Patreon",
+          "total_creators": 15200,
+          "average_engagement_rate": 6.8
+        }
+      ]
+    },
+    "shared_data": {
+      "languages_supported": ["en", "es", "fr", "de", "pt"],
+      "timezones": ["UTC", "EST", "PST", "CET"],
+      "default_user_avatar": "https://rlgplatform.com/assets/images/default_avatar.png",
+      "max_file_upload_size_mb": 50,
+      "contact_support_email": "support@rlgplatform.com"
+    }
+  }
+  

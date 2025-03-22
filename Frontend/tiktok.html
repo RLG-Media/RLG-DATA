@@ -1,0 +1,154 @@
+<!-- tiktok.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TikTok Analytics - RLG Fans</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+
+    <!-- Chart.js for Data Visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a class="navbar-brand" href="{{ url_for('index') }}">RLG Fans</a>
+        <ul class="navbar-nav">
+            <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+            <li><a href="{{ url_for('services') }}">Services</a></li>
+            <li><a href="{{ url_for('support') }}">Support</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+        <h1>TikTok Analytics</h1>
+        <p>Unlock powerful insights into your TikTok performance, including trends, engagement, and follower growth. Use this data to optimize your content strategy and maximize reach.</p>
+
+        <!-- Analytics Overview -->
+        <div class="analytics-overview">
+            <div class="metric-card">
+                <h2>Total Followers</h2>
+                <p id="totalFollowers">Loading...</p>
+            </div>
+            <div class="metric-card">
+                <h2>Video Views</h2>
+                <p id="videoViews">Loading...</p>
+            </div>
+            <div class="metric-card">
+                <h2>Average Engagement Rate</h2>
+                <p id="engagementRate">Loading...</p>
+            </div>
+        </div>
+
+        <!-- Video Views and Engagement Charts -->
+        <div class="charts-section">
+            <h2>Video Views Over Time</h2>
+            <canvas id="videoViewsChart" class="chart-container"></canvas>
+
+            <h2>Engagement Breakdown</h2>
+            <canvas id="engagementChart" class="chart-container"></canvas>
+        </div>
+
+        <!-- Content Suggestions Section -->
+        <div class="suggestions-section">
+            <h2>Content Suggestions to Boost Engagement</h2>
+            <ul id="suggestionsList">
+                <li>Loading suggestions...</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Fetch data from backend APIs and update the page with TikTok metrics
+        async function loadTikTokMetrics() {
+            try {
+                const response = await fetch('/api/tiktok/metrics');
+                const data = await response.json();
+
+                document.getElementById('totalFollowers').innerText = data.followers;
+                document.getElementById('videoViews').innerText = data.videoViews;
+                document.getElementById('engagementRate').innerText = data.engagementRate + '%';
+
+                updateVideoViewsChart(data.viewsData);
+                updateEngagementChart(data.engagementData);
+                loadContentSuggestions(data.suggestions);
+            } catch (error) {
+                console.error('Error loading TikTok metrics:', error);
+            }
+        }
+
+        // Draws video views chart using data from backend
+        function updateVideoViewsChart(viewsData) {
+            const ctx = document.getElementById('videoViewsChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: viewsData.dates,
+                    datasets: [{
+                        label: 'Video Views',
+                        data: viewsData.values,
+                        borderColor: '#FF6F61',
+                        backgroundColor: 'rgba(255, 111, 97, 0.2)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: { beginAtZero: true }
+                    },
+                    plugins: {
+                        legend: { position: 'top' }
+                    }
+                }
+            });
+        }
+
+        // Draws engagement rate breakdown chart
+        function updateEngagementChart(engagementData) {
+            const ctx = document.getElementById('engagementChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Likes', 'Comments', 'Shares', 'Saves'],
+                    datasets: [{
+                        label: 'Engagement Breakdown',
+                        data: engagementData.values,
+                        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'],
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: { position: 'top' }
+                    }
+                }
+            });
+        }
+
+        // Loads content suggestions for optimized engagement
+        function loadContentSuggestions(suggestions) {
+            const suggestionsList = document.getElementById('suggestionsList');
+            suggestionsList.innerHTML = '';
+
+            suggestions.forEach(suggestion => {
+                const item = document.createElement('li');
+                item.innerText = suggestion;
+                suggestionsList.appendChild(item);
+            });
+        }
+
+        // Load all metrics on page load
+        document.addEventListener('DOMContentLoaded', loadTikTokMetrics);
+    </script>
+
+</body>
+</html>

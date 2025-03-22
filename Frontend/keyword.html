@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keyword Research Tool</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <header>
+        <h1>Keyword Research Tool</h1>
+    </header>
+
+    <main>
+        <section class="keyword-search">
+            <h2>Find the Best Keywords</h2>
+            <form id="keyword-form">
+                <label for="keyword">Enter a Keyword:</label>
+                <input type="text" id="keyword" name="keyword" placeholder="e.g., digital marketing" required>
+                <button type="submit">Analyze</button>
+            </form>
+        </section>
+
+        <section id="keyword-results" style="display: none;">
+            <h2>Keyword Analysis Results</h2>
+
+            <div class="results-container">
+                <div class="result-item">
+                    <h3>Search Volume</h3>
+                    <p id="search-volume">Loading...</p>
+                </div>
+                <div class="result-item">
+                    <h3>Keyword Difficulty</h3>
+                    <p id="keyword-difficulty">Loading...</p>
+                </div>
+                <div class="result-item">
+                    <h3>Top Competitors</h3>
+                    <ul id="competitors-list">
+                        <!-- Competitor links will be dynamically inserted here -->
+                    </ul>
+                </div>
+                <div class="result-item">
+                    <h3>Keyword Suggestions</h3>
+                    <ul id="keyword-suggestions">
+                        <!-- Keyword suggestions will be dynamically inserted here -->
+                    </ul>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <canvas id="engagement-chart"></canvas>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 RLG Media. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        document.getElementById('keyword-form').addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            const keyword = document.getElementById('keyword').value;
+            if (!keyword) return;
+
+            const response = await fetch(`/api/keyword?keyword=${encodeURIComponent(keyword)}`);
+            const data = await response.json();
+
+            if (data.success) {
+                document.getElementById('search-volume').innerText = data.search_volume;
+                document.getElementById('keyword-difficulty').innerText = data.keyword_difficulty;
+
+                const competitorsList = document.getElementById('competitors-list');
+                competitorsList.innerHTML = '';
+                data.top_competitors.forEach(competitor => {
+                    const li = document.createElement('li');
+                    const link = document.createElement('a');
+                    link.href = competitor.url;
+                    link.target = '_blank';
+                    link.innerText = competitor.name;
+                    li.appendChild(link);
+                    competitorsList.appendChild(li);
+                });
+
+                const suggestionsList = document.getElementById('keyword-suggestions');
+                suggestionsList.innerHTML = '';
+                data.related_keywords.forEach(keyword => {
+                    const li = document.createElement('li');
+                    li.innerText = keyword;
+                    suggestionsList.appendChild(li);
+                });
+
+                const ctx = document.getElementById('engagement-chart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: data.engagements.map(e => e.date),
+                        datasets: [{
+                            label: 'Keyword Engagements',
+                            data: data.engagements.map(e => e.count),
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+
+                document.getElementById('keyword-results').style.display = 'block';
+            } else {
+                alert('Failed to fetch keyword data. Please try again.');
+            }
+        });
+    </script>
+</body>
+
+</html>

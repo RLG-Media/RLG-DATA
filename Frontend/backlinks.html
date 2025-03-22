@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RLG Data &amp; RLG Fans - Backlinks Report</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- DataTables CSS -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+  <!-- Custom CSS -->
+  <style>
+    body {
+      padding-top: 70px;
+    }
+    .report-header {
+      margin-bottom: 30px;
+    }
+    #chartContainer {
+      margin-top: 40px;
+      text-align: center;
+    }
+    footer {
+      margin-top: 60px;
+      padding: 20px;
+      background-color: #f8f9fa;
+      text-align: center;
+    }
+    .dataTables_wrapper .dataTables_filter {
+      float: right;
+      text-align: right;
+    }
+    #lastUpdated {
+      margin-top: 10px;
+      font-size: 0.9em;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+    <a class="navbar-brand" href="#">RLG Data &amp; RLG Fans</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="collapse navbar-collapse" id="navbarContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Backlinks Report <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#about">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#contact">Contact</a>
+        </li>
+      </ul>
+      <button id="refreshBtn" class="btn btn-outline-light my-2 my-sm-0">Refresh Report</button>
+    </div>
+  </nav>
+  
+  <!-- Main Container -->
+  <div class="container">
+    <header class="report-header text-center">
+      <h1>RLG Data &amp; RLG Fans - Backlinks Report</h1>
+      <p class="lead">
+        Automated, data‑driven insights into your backlink profile, powered by advanced scraping, compliance, and our proprietary RLG Super Tool.
+      </p>
+      <div id="lastUpdated">Last updated: N/A</div>
+    </header>
+    
+    <!-- Backlinks Table Section -->
+    <section id="report">
+      <h2>Backlinks Details</h2>
+      <div class="table-responsive">
+        <table id="backlinksTable" class="table table-bordered table-striped">
+          <thead class="thead-dark">
+            <tr>
+              <th>Page URL</th>
+              <th>Page Title</th>
+              <th>Anchor Text</th>
+              <th>Backlink URL</th>
+              <th>Region</th>
+              <th>SEO Metrics</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Data rows will be dynamically loaded here -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+    
+    <!-- Region Distribution Chart Section -->
+    <section id="chartContainer">
+      <h2>Backlinks Distribution by Region</h2>
+      <canvas id="regionChart" width="400" height="400"></canvas>
+    </section>
+    
+    <!-- About Section -->
+    <section id="about" class="mt-5">
+      <h2>About RLG Data &amp; RLG Fans</h2>
+      <p>
+        RLG Data &amp; RLG Fans is an intelligent, automated media monitoring tool that provides detailed, region‑, country‑, city‑, and town‑accurate insights. Our platform leverages state‑of‑the‑art scraping and compliance tools combined with AI‑powered analytics to offer real‑world, profitable, and competitive solutions.
+      </p>
+      <ul>
+        <li><strong>Compliance & Security:</strong> We adhere to international standards (GDPR, CCPA, WCAG) ensuring data privacy and robust security.</li>
+        <li><strong>Competitive Edge:</strong> Outperforms tools like Brandwatch, Brand24, Mention, Hootsuite, Meltwater, and more.</li>
+        <li><strong>Real-Time & Scalable:</strong> Automated monitoring and instant alerts on a user‑friendly dashboard.</li>
+      </ul>
+      <p>
+        Integrated with our flagship RLG Super Tool, our solution is data‑driven, self‑learning, and optimized for real‑world profitability.
+      </p>
+    </section>
+    
+    <!-- Contact Section -->
+    <section id="contact" class="mt-5">
+      <h2>Contact Us</h2>
+      <p>
+        For inquiries regarding RLG Data &amp; RLG Fans, API integration, or a product demo, please reach out to <a href="mailto:info@rlgdata.com">info@rlgdata.com</a>.
+      </p>
+    </section>
+  </div>
+  
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 RLG Data &amp; RLG Fans. All rights reserved.</p>
+  </footer>
+  
+  <!-- Dependencies: jQuery, Bootstrap JS, DataTables, PapaParse, Chart.js -->
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <!-- Custom JavaScript -->
+  <script>
+    // Global variable for region distribution data and last updated time
+    let regionData = {};
+    let lastUpdated = "N/A";
+
+    // Function to load CSV data using PapaParse and refresh the table and chart
+    function loadBacklinksReport() {
+      Papa.parse("backlinks_report.csv", {
+        download: true,
+        header: true,
+        complete: function(results) {
+          const data = results.data;
+          populateTable(data);
+          processRegionData(data);
+          renderChart();
+          lastUpdated = new Date().toLocaleString();
+          $("#lastUpdated").text("Last updated: " + lastUpdated);
+        },
+        error: function(err) {
+          console.error("Error loading CSV:", err);
+        }
+      });
+    }
+    
+    // Function to populate the backlinks table using DataTables
+    function populateTable(data) {
+      let tableRows = "";
+      data.forEach(function(row) {
+        if (row.page_url && row.page_url.trim() !== "") {
+          tableRows += `
+            <tr>
+              <td>${row.page_url}</td>
+              <td>${row.page_title}</td>
+              <td>${row.anchor_text}</td>
+              <td><a href="${row.backlink_url}" target="_blank">${row.backlink_url}</a></td>
+              <td>${row.region}</td>
+              <td>${row.seo_metrics ? row.seo_metrics : "N/A"}</td>
+            </tr>
+          `;
+        }
+      });
+      $("#backlinksTable tbody").html(tableRows);
+    }
+    
+    // Process region distribution data for Chart.js
+    function processRegionData(data) {
+      regionData = {}; // Reset region data
+      data.forEach(function(row) {
+        let region = row.region ? row.region : "Unknown";
+        if (regionData[region]) {
+          regionData[region] += 1;
+        } else {
+          regionData[region] = 1;
+        }
+      });
+    }
+    
+    // Render the region distribution pie chart using Chart.js
+    function renderChart() {
+      const ctx = document.getElementById("regionChart").getContext("2d");
+      const labels = Object.keys(regionData);
+      const counts = Object.values(regionData);
+      
+      // Destroy existing chart instance if exists
+      if (window.regionChartInstance) {
+        window.regionChartInstance.destroy();
+      }
+      
+      window.regionChartInstance = new Chart(ctx, {
+        type: "pie",
+        data: {
+          labels: labels,
+          datasets: [{
+            data: counts,
+            backgroundColor: [
+              "#4e73df", "#1cc88a", "#36b9cc", "#f6c23e", "#e74a3b", "#858796", "#6f42c1", "#fd7e14"
+            ]
+          }]
+        },
+        options: {
+          responsive: true,
+          title: {
+            display: true,
+            text: "Backlinks Distribution by Region"
+          }
+        }
+      });
+    }
+    
+    // Initialize DataTables for searchable, sortable, and paginated table
+    function initializeDataTable() {
+      if ($.fn.DataTable.isDataTable("#backlinksTable")) {
+        $("#backlinksTable").DataTable().destroy();
+      }
+      $("#backlinksTable").DataTable({
+        responsive: true,
+        order: [[0, "asc"]],
+        language: {
+          search: "Search:",
+          zeroRecords: "No matching records found",
+          info: "Showing _START_ to _END_ of _TOTAL_ entries",
+          infoEmpty: "No entries available",
+          infoFiltered: "(filtered from _MAX_ total entries)"
+        }
+      });
+    }
+    
+    // Function to refresh the report data
+    function refreshReport() {
+      loadBacklinksReport();
+    }
+    
+    // Set up auto-refresh every 60 seconds
+    setInterval(refreshReport, 60000);
+    
+    // Refresh button click event
+    $("#refreshBtn").on("click", function() {
+      refreshReport();
+    });
+    
+    // Load the report when the page is ready
+    $(document).ready(function() {
+      loadBacklinksReport();
+      // Initialize DataTable after a short delay to ensure table is populated
+      setTimeout(initializeDataTable, 3000);
+    });
+  </script>
+</body>
+</html>
