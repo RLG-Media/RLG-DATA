@@ -1,0 +1,12 @@
+RLG DATA.zip
+RLG DATA_2.zip.001
+RLG DATA_2.zip.002
+# Ignore virtual environment
+venv/
+
+# Ignore temporary files
+*.pyc
+__pycache__/
+
+# Ignore large archive files (if you are hosting them externally or using split files only)
+RLG DATA.zip

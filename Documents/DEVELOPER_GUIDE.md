@@ -1,6 +1,6 @@
-# Developer Guide for RLG Media: RLG Data and RLG Fans
+# Developer Guide for RLG Media: RLG Data & RLG Fans
 
-Welcome to the Developer Guide for **RLG Data** and **RLG Fans**. This document provides a technical overview, setup instructions, architecture insights, and best practices to assist developers in effectively implementing and managing both tools.
+Welcome to the Developer Guide for **RLG Data** and **RLG Fans**. This document provides a comprehensive technical overview, setup instructions, architecture insights, and best practices to assist developers in effectively implementing, testing, deploying, and maintaining both tools.
 
 ---
 
@@ -16,143 +16,190 @@ Welcome to the Developer Guide for **RLG Data** and **RLG Fans**. This document 
 4. [Backend Components](#backend-components)
    - [Key Services and Modules](#key-services-and-modules)
    - [Database and Models](#database-and-models)
+   - [Monitoring and Scheduled Tasks](#monitoring-and-scheduled-tasks)
 5. [Frontend Components](#frontend-components)
 6. [Integrations and External APIs](#integrations-and-external-apis)
 7. [Testing and Debugging](#testing-and-debugging)
 8. [Deployment and Maintenance](#deployment-and-maintenance)
 9. [Security and Best Practices](#security-and-best-practices)
+10. [Special Features and Enhancements](#special-features-and-enhancements)
+11. [Additional Recommendations](#additional-recommendations)
 
 ---
 
 ## 1. Introduction
 
-RLG Media's **RLG Data** and **RLG Fans** are integrated solutions designed to provide brands, creators, and influencers with insights and tools to maximize their online presence and monetization. This guide will walk you through the technical aspects to develop, deploy, and maintain these tools.
+**RLG Data** and **RLG Fans** are integrated, AI-powered solutions designed to provide brands, creators, and influencers with advanced tools for:
+- **Data intelligence & analytics**
+- **Social media scraping and compliance monitoring**
+- **Real-time trend prediction and competitor analysis**
+- **Dynamic, region-based pricing** (with a hard geo-location pricing lock on Israel)
+- **Automated brand monitoring and subscription management**
 
-**RLG Data** focuses on social media analytics, brand health, and audience engagement, while **RLG Fans** is built to optimize monetization for subscription-based platforms. Each tool leverages data processing, trend analysis, and AI recommendations.
+This guide will walk you through the technical aspects required to build, test, deploy, and maintain these tools.
+
+---
 
 ## 2. Architecture Overview
 
 ### System Components
-
-The platform is organized into core components:
-
-- **Frontend**: A web-based interface for user interactions, analytics display, and insights.
-- **Backend**: The application logic, APIs, data processing, and third-party integrations.
-- **Database**: PostgreSQL for relational data and Redis for caching.
-- **External APIs**: Data sources from social media and fan platforms for real-time analytics and insights.
+- **Frontend:** Web-based interfaces built using modern JavaScript frameworks (React/Vue) for dashboards, pricing pages, user settings, etc.
+- **Backend:** Python-based services (Flask/FastAPI) that handle application logic, API endpoints, data processing, and integration with third-party services.
+- **Database:** PostgreSQL for structured data; Redis for caching and rate limiting.
+- **File Storage:** Git LFS for large file management (split files are tracked and uploaded separately).
+- **Monitoring & Automation:** Services for system health (using psutil, Kubernetes API) and scheduled tasks (using Celery).
+- **External Integrations:** APIs for social media (Twitter, Instagram, Facebook), monetization platforms (OnlyFans, Patreon, Fansly), and payment gateways (Stripe, PayPal, PayFast).
 
 ### Service Integrations
+- **Social Media & Data Scraping:** Integrates with Twitter, Instagram, Facebook for real-time social data.
+- **Analytics & Reporting:** Utilizes Google Analytics, custom AI modules (trend_predictor.py, recommendation_engine.py) for insights.
+- **Compliance & Security:** Implements scraping and compliance tools ensuring GDPR, CCPA compliance, and rate limiting.
+- **Payment Processing:** Supports multiple gateways (Stripe, PayPal, PayFast) with region-specific pricing, including a hard pricing lock for users in Israel.
 
-- **RLG Data** integrates with social platforms (Twitter, Instagram, Facebook) and uses Google Analytics and FullCalendar for data visualization.
-- **RLG Fans** connects to OnlyFans, Patreon, Fansly, and other fan platforms to gather monetization data and provide optimization strategies.
+---
 
 ## 3. Getting Started
 
 ### System Requirements
-
-- **Languages**: Python (backend), JavaScript (frontend)
-- **Frameworks**: Flask (backend), React/Vue (frontend)
-- **Database**: PostgreSQL, Redis
-- **Additional Services**: Docker, Celery, Nginx (for production)
+- **Languages:** Python (backend), JavaScript (frontend)
+- **Frameworks:** Flask/FastAPI, React/Vue
+- **Databases:** PostgreSQL, Redis
+- **Other Tools:** Docker, Git LFS, Celery, Nginx
+- **OS:** Windows/Mac/Linux
 
 ### Environment Setup
-
-1. **Clone Repository**:
+1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/your-repo/rlg_media.git
-   cd rlg_media
-
-2. Environment Variables: Set up .env files for each tool with keys such as DATABASE_URL, JWT_SECRET_KEY, REDIS_URL, and API keys.
-
-Install Dependencies:
-
-Backend: pip install -r requirements.txt
-Frontend: npm install (within frontend directory)
-Database Initialization: Run migrations and initialize tables.
-
+   git clone https://github.com/RLG-Media/RLG-DATA.git
+   cd RLG-DATA
+Create and Activate Virtual Environment:
 bash
-Copy code
-flask db upgrade
+Copy
+Edit
+python -m venv venv
+# Windows:
+venv\Scripts\activate
+# macOS/Linux:
+source venv/bin/activate
+Install Dependencies:
+bash
+Copy
+Edit
+pip install -r requirements.txt
+Configure Environment Variables:
+Create a .env file with necessary keys such as:
+ini
+Copy
+Edit
+DATABASE_URL=your_database_url
+JWT_SECRET_KEY=your_jwt_secret
+REDIS_URL=your_redis_url
+STRIPE_API_KEY=your_stripe_api_key
+PAYPAL_CLIENT_ID=your_paypal_client_id
+PAYPAL_CLIENT_SECRET=your_paypal_client_secret
+PAYFAST_MERCHANT_ID=your_payfast_merchant_id
+PAYFAST_MERCHANT_KEY=your_payfast_merchant_key
+Initialize Database:
+bash
+Copy
+Edit
+flask db upgrade  # For Flask-SQLAlchemy migrations
 4. Backend Components
-The backend serves APIs, processes data, handles scheduled tasks, and integrates with external APIs.
-
 Key Services and Modules
-API Endpoints (api_endpoints.py): Defines RESTful endpoints for both tools, such as /api/analytics and /api/fans/optimization.
-Data Processing (data_processing.py): Gathers and processes data, computes insights, and performs data cleaning.
-AI and Analytics:
+API Endpoints (api_endpoints.py):
+Exposes RESTful endpoints (e.g., /api/analytics, /api/fans) for data access.
+Data Processing (data_processing.py):
+Handles data collection, cleaning, and transformation.
+AI and Analytics Modules:
 trend_predictor.py: Predicts trends based on historical data.
-recommendation_engine.py: Provides personalized recommendations for content and monetization.
+recommendation_engine.py: Generates personalized recommendations.
+Monitoring Service (monitoring_service.py):
+Continuously monitors system health, external API statuses, and logs errors.
+Scheduled Tasks:
+Implemented using Celery for periodic data updates and report generation.
 Database and Models
-PostgreSQL: Main data storage for users, reports, platform insights, and analytics.
-Redis: Caching for session data, rate limiting, and scheduled tasks.
-Scheduled Tasks
-Using Celery for:
-
-Regular data updates (e.g., hourly content scraping from social platforms).
-Long-running tasks such as AI-driven analysis and report generation.
+PostgreSQL: Main storage for users, reports, analytics, and subscription data.
+Redis: Used for caching, session management, and rate limiting.
 5. Frontend Components
-The frontend provides user interaction, data visualization, and insights. Built with modern JavaScript frameworks, it’s responsive and interactive.
-
-Key Components
-Dashboard: Main interface displaying user-specific analytics, insights, and monetization opportunities.
-Widgets and Charts: Interactive elements built with Chart.js and Google Charts, showing trends, sentiment, and engagement.
-UI Components (Core UI Components folder): Modular components like EngagementWidget, LoadingSpinner, and NotificationComponent enhance usability and UI consistency.
-Responsive Design
-CSS files like styles.css and responsive.css handle responsive layouts.
-Animations (animations.css): CSS animations to enhance user experience.
+Dashboard:
+Provides real-time insights, analytics, and monitoring.
+Pricing & Subscription Pages:
+Interactive pages with dynamic, region-based pricing.
+Note: Special pricing for Israel is locked in upon registration.
+User Profile & Settings:
+Allows users to update account details, manage notifications, and customize their experience.
+Responsive Design:
+Utilizes modern CSS frameworks and responsive design principles.
 6. Integrations and External APIs
-The tools integrate with multiple platforms. RLG Data uses APIs like Twitter, Instagram, and Facebook for social data, while RLG Fans accesses monetization data from subscription platforms.
-
-API Helpers
-Each API connection has helper functions in api_helpers.py to handle request formatting, error handling, and data extraction.
-
-Error Handling and Logging
-Use error_handling.py for error logging and tracking with Sentry. logging_config.py configures logging for production, ensuring reliable tracking of errors and performance.
-
+Social Media APIs:
+Integrates with Twitter, Instagram, Facebook.
+Payment Gateways:
+Processes payments using Stripe, PayPal, and PayFast.
+Compliance Tools:
+Built-in scraping and compliance tools to ensure data privacy and regulatory adherence.
+Third-Party Integrations (third_party_integrations.py):
+Connects with external services for real-time data, analytics, and automated actions.
 7. Testing and Debugging
-Testing Frameworks
-Backend: pytest for testing APIs, data processing, and integrations.
-Frontend: Jest or Mocha for component testing.
-End-to-End: Selenium or Cypress for full-stack testing.
-Key Test Files
-API Tests (test_endpoints.py): Covers all endpoint functionality.
-Service Tests (test_services.py): Validates data processing, external API connections, and scheduled tasks.
-UI Tests (ui_tests.js): Ensures frontend components are functional and responsive.
+Backend Testing:
+Uses pytest for API and unit tests.
+Frontend Testing:
+Uses Jest/Mocha for component testing and Cypress for end-to-end testing.
+Integration Tests:
+Ensures data processing, scraping, and API integrations function as expected.
+Logging:
+Comprehensive logging is implemented using Python's logging module and integrated with Sentry for error tracking.
 8. Deployment and Maintenance
-Docker and Docker Compose
-Dockerize the app for production. The Dockerfile and docker-compose.yml configure backend, frontend, Redis, PostgreSQL, and Celery workers.
-
-Build: docker-compose build
-Run: docker-compose up
-CI/CD Pipeline
-Set up CI/CD (e.g., GitHub Actions) to automate testing, deployment, and continuous integration.
-
-Monitoring and Logging
-Use Sentry for error monitoring, and Prometheus with Grafana for application metrics and performance visualization.
-
+Docker & Docker Compose:
+Containerize the application for consistency across environments.
+Kubernetes:
+Use kubernetes_config.yaml for orchestrating deployments, scaling, and monitoring.
+CI/CD Pipeline:
+Set up using GitHub Actions or Jenkins for automated testing, building, and deployment.
+Monitoring:
+Utilize tools like Prometheus and Grafana for performance metrics, and Sentry for error tracking.
+Git LFS:
+Handles large file storage for assets exceeding standard Git limits.
 9. Security and Best Practices
-Security
-Environment Variables: Secure sensitive information in .env files.
-Authentication: Use JWT for secure user sessions.
-Input Validation: Sanitize inputs and validate with helper functions in validators.py.
-Rate Limiting: Protect APIs with rate limiting in rate_limiting.py to prevent abuse.
-Code Quality and Documentation
-Code Standards: Follow PEP 8 for Python and ESLint for JavaScript.
-Documentation: Maintain comprehensive documentation for all major functions and classes.
-Version Control: Track changes with a clear commit history and use feature branches.
-This guide provides a foundation for working with RLG Data and RLG Fans. Each component is designed for scalability, reliability, and ease of use, ensuring that developers can build upon and maintain the tools effectively.
+Secure Environment Variables:
+Use .env files or a secrets manager for sensitive information.
+Authentication & Authorization:
+Implement JWT for secure user sessions and role-based access.
+Input Validation & Rate Limiting:
+Sanitize all inputs and enforce rate limits to prevent abuse.
+Data Encryption:
+Use AES-256 and RSA hybrid encryption (see data_encryption.py) for sensitive data.
+Compliance:
+Ensure GDPR, CCPA, and other legal standards are met with automated compliance tools.
+Code Quality:
+Follow PEP 8 (Python) and ESLint (JavaScript) standards.
+10. Special Features and Enhancements
+Hard Geo-Location Pricing Lock on Israel:
+During user registration, the system detects the user’s location using geolocation_service.py.
+If the user is from Israel, their pricing is locked to the special region pricing (e.g., $99/month for Premium, $35/week for Creator) and rate limits are adjusted accordingly.
+The pricing page is only accessible after registration so that the system can securely lock in the location.
+AI-Powered Data Scraping and Trend Prediction:
+Uses advanced AI to gather real-time data from various sources.
+Provides dynamic, personalized recommendations and competitor analysis.
+Automated Monitoring and Error Tracking:
+The monitoring_service.py continuously checks system health and notifies admins via email and Slack.
+Comprehensive Subscription Management:
+Enables users to upgrade, downgrade, or cancel subscriptions with region-based pricing enforcement.
+11. Additional Recommendations
+Documentation:
+Keep this guide and your API documentation updated.
 
-markdown
-Copy code
+Version Control:
+Use feature branches and merge requests for ongoing development.
 
+User Feedback:
+Implement a feedback mechanism within the tool to gather user input and continuously improve functionality.
 
-### Key Additions
+Performance Optimization:
+Regularly review logs and performance metrics to optimize resource usage and speed.
 
-- **Architectural Overview**: Explanation of components and their roles.
-- **Environment Setup**: Step-by-step guidance to set up the development environment.
-- **Backend & Frontend Components**: Details on core modules, data processing, and UI components.
-- **Integrations**: Outline of API connections and error handling.
-- **Testing and CI/CD**: Instructions for testing, end-to-end setup, and CI/CD processes.
-- **Security**: Emphasis on securing sensitive information and best practices.
+Continuous Integration and Deployment (CI/CD):
+Automate your testing and deployment processes to ensure rapid, reliable updates.
 
-This comprehensive guide covers all technical aspects, ensuring full understanding and efficient maintenance of both **RLG Data** and **RLG Fans**.
+This Developer Guide is designed to provide a complete, comprehensive, and detailed overview of the RLG Data & RLG Fans platform, ensuring that developers have all the necessary information to build, deploy, and maintain this competitive, automated, and data-driven tool.
+
+Feel free to reach out if you have any questions or need further clarification.
