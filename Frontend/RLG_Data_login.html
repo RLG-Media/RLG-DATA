@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - RLG Data & RLG Fans</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+  <style>
+    /* Basic styling – adjust or move to your CSS files */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f7f7f7;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 400px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .btn {
+      width: 100%;
+      padding: 10px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .btn:hover {
+      background-color: #0056b3;
+    }
+    .note {
+      text-align: center;
+      font-size: 0.9em;
+      color: #666;
+      margin-top: 15px;
+    }
+    .special-message {
+      text-align: center;
+      color: #d9534f;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Login</h1>
+    <p>Please enter your credentials to sign in.</p>
+    
+    <form id="login-form" method="POST" action="{{ url_for('login') }}">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      
+      <div class="form-group">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+      
+      <!-- This special message area will display if the user is locked to a Special Region -->
+      <div id="special-message" class="special-message">
+        {% if user and user.location_locked and user.special_message %}{{ user.special_message }}{% endif %}
+      </div>
+      
+      <button type="submit" class="btn">Login</button>
+    </form>
+    
+    <p class="note">
+      Don't have an account? <a href="{{ url_for('register') }}">Register here</a>.
+    </p>
+  </div>
+</body>
+</html>

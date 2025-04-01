@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}Home - RLG Data & RLG Fans{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center">Welcome to RLG Data & RLG Fans</h1>
+    
+    {% if user %}
+        <!-- Registered User: Display personalized details with locked pricing -->
+        <div class="card mb-4 shadow-sm">
+            <div class="card-body">
+                <h3>Hello, {{ user.username }}!</h3>
+                <p>Your location is locked as: 
+                    {% if user.location.country == 'Israel' %}
+                        Special Region
+                    {% else %}
+                        {{ user.location.country }}
+                    {% endif %}
+                </p>
+                
+                <h4>Your Pricing Plan</h4>
+                {% if user.location.country == 'Israel' %}
+                    <p><strong>Special Region Pricing:</strong></p>
+                    <ul>
+                        <li>CREATOR: $99 Monthly / $35 Weekly</li>
+                        <li>PRO: $499 Monthly / $99 Weekly</li>
+                        <li>ENTERPRISE: $699 Monthly</li>
+                        <li>RLG Media Pack: $2500 Monthly</li>
+                    </ul>
+                {% elif user.location.country in africa_sadc_countries %} 
+                    <p><strong>Africa & SADC Pricing:</strong></p>
+                    <ul>
+                        <li>CREATOR: $30 Monthly / $8 Weekly</li>
+                        <li>PRO: $59 Monthly / $15 Weekly</li>
+                        <li>ENTERPRISE: $299 Monthly</li>
+                        <li>RLG Media Pack: $1500 Monthly</li>
+                    </ul>
+                {% else %}
+                    <p><strong>Global Pricing:</strong></p>
+                    <ul>
+                        <li>CREATOR: $59 Monthly / $15 Weekly</li>
+                        <li>PRO: $99 Monthly / $35 Weekly</li>
+                        <li>ENTERPRISE: $299 Monthly</li>
+                        <li>RLG Media Pack: $2000 Monthly</li>
+                    </ul>
+                {% endif %}
+                
+                {% if user.special_message %} 
+                    <p class="special-message">{{ user.special_message }}</p>
+                {% endif %}
+            </div>
+        </div>
+    {% else %}
+        <!-- Unregistered User: Invite registration -->
+        <div class="card mb-4 shadow-sm">
+            <div class="card-body text-center">
+                <h4>Welcome to RLG Data & RLG Fans</h4>
+                <p>To unlock personalized pricing and exclusive features, please register. Your location will be detected and locked upon registration.</p>
+                <a href="{{ url_for('register') }}" class="btn btn-primary">Register Now</a>
+                <p class="mt-3">For visitors from Israel, pricing will be shown as Special Region once registered. <br>
+                   <em>עם ישראל חי!, הפתרון הטכנולוגי שישנה את העתיד.</em>
+                </p>
+            </div>
+        </div>
+    {% endif %}
+    
+    <!-- Additional Information About the Platform -->
+    <div class="mt-5 text-center">
+        <p>RLG Data & RLG Fans integrates AI-driven insights, advanced scraping and compliance tools, and cutting-edge monetization strategies with the RLG Super Tool to maximize your revenue and engagement.</p>
+    </div>
+</div>
+{% endblock %}

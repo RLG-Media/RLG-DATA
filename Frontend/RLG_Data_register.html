@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - RLG Data & RLG Fans</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <!-- Include your geolocation service script which fills in hidden fields, etc. -->
+    <script src="/static/js/geolocation_service.js" defer></script>
+    <style>
+      /* Minimal inline styles; adjust or move to your CSS files as needed */
+      body {
+          font-family: Arial, sans-serif;
+          background-color: #f9f9f9;
+          margin: 0;
+          padding: 20px;
+      }
+      .container {
+          max-width: 500px;
+          margin: 0 auto;
+          background: #fff;
+          padding: 20px;
+          border-radius: 8px;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      h1, h2 {
+          text-align: center;
+      }
+      .form-group {
+          margin-bottom: 15px;
+      }
+      label {
+          display: block;
+          margin-bottom: 5px;
+      }
+      input[type="text"],
+      input[type="email"],
+      input[type="password"] {
+          width: 100%;
+          padding: 10px;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+      }
+      .btn {
+          display: block;
+          width: 100%;
+          padding: 10px;
+          background-color: #007bff;
+          color: #fff;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          font-size: 16px;
+      }
+      .btn:hover {
+          background-color: #0056b3;
+      }
+      .note {
+          font-size: 0.9em;
+          color: #555;
+          text-align: center;
+          margin-top: 15px;
+      }
+      .special-message {
+          color: #d9534f;
+          font-weight: bold;
+          text-align: center;
+          margin-bottom: 10px;
+      }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Register</h1>
+        <p>Please fill in the details below to register for RLG Data & RLG Fans. Your location will be detected and locked to ensure accurate, region-specific pricing.</p>
+        
+        <form id="registration-form" method="POST" action="{{ url_for('register') }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            
+            <!-- Hidden fields for geolocation (populated via geolocation_service.js) -->
+            <input type="hidden" id="user-country" name="user_country">
+            <input type="hidden" id="user-country-code" name="user_country_code">
+            <input type="hidden" id="user-city" name="user_city">
+            
+            <!-- This div will be dynamically updated if the user is in a Special Region (Israel) -->
+            <div id="special-message" class="special-message"></div>
+            
+            <button type="submit" class="btn">Register</button>
+        </form>
+        
+        <p class="note">
+            Note: After registration, your location will be locked to ensure accurate pricing. <br>
+            For SADC users, RLG Media Streaming and Broadcasting Services Availble at Special Retainer pricing.<br>
+            <strong> Data Driven Decisions, Helping Build Communications in the SADC Region </strong>
+        </p>
+    </div>
+</body>
+</html>
