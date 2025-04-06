@@ -69,28 +69,36 @@ This guide will walk you through the technical aspects required to build, test, 
 
 ### Environment Setup
 1. **Clone the Repository:**
+
    ```bash
    git clone https://github.com/RLG-Media/RLG-DATA.git
    cd RLG-DATA
+
 Create and Activate Virtual Environment:
+
 bash
 Copy
-Edit
+
 python -m venv venv
 # Windows:
 venv\Scripts\activate
 # macOS/Linux:
 source venv/bin/activate
+
 Install Dependencies:
+
 bash
 Copy
-Edit
+
 pip install -r requirements.txt
+
 Configure Environment Variables:
+
 Create a .env file with necessary keys such as:
+
 ini
 Copy
-Edit
+
 DATABASE_URL=your_database_url
 JWT_SECRET_KEY=your_jwt_secret
 REDIS_URL=your_redis_url
@@ -99,13 +107,17 @@ PAYPAL_CLIENT_ID=your_paypal_client_id
 PAYPAL_CLIENT_SECRET=your_paypal_client_secret
 PAYFAST_MERCHANT_ID=your_payfast_merchant_id
 PAYFAST_MERCHANT_KEY=your_payfast_merchant_key
+
 Initialize Database:
 bash
 Copy
-Edit
+
 flask db upgrade  # For Flask-SQLAlchemy migrations
+
 4. Backend Components
+
 Key Services and Modules
+
 API Endpoints (api_endpoints.py):
 Exposes RESTful endpoints (e.g., /api/analytics, /api/fans) for data access.
 Data Processing (data_processing.py):
@@ -117,10 +129,13 @@ Monitoring Service (monitoring_service.py):
 Continuously monitors system health, external API statuses, and logs errors.
 Scheduled Tasks:
 Implemented using Celery for periodic data updates and report generation.
+
 Database and Models
 PostgreSQL: Main storage for users, reports, analytics, and subscription data.
 Redis: Used for caching, session management, and rate limiting.
+
 5. Frontend Components
+
 Dashboard:
 Provides real-time insights, analytics, and monitoring.
 Pricing & Subscription Pages:
@@ -130,7 +145,9 @@ User Profile & Settings:
 Allows users to update account details, manage notifications, and customize their experience.
 Responsive Design:
 Utilizes modern CSS frameworks and responsive design principles.
+
 6. Integrations and External APIs
+
 Social Media APIs:
 Integrates with Twitter, Instagram, Facebook.
 Payment Gateways:
@@ -139,7 +156,9 @@ Compliance Tools:
 Built-in scraping and compliance tools to ensure data privacy and regulatory adherence.
 Third-Party Integrations (third_party_integrations.py):
 Connects with external services for real-time data, analytics, and automated actions.
+
 7. Testing and Debugging
+
 Backend Testing:
 Uses pytest for API and unit tests.
 Frontend Testing:
@@ -148,7 +167,9 @@ Integration Tests:
 Ensures data processing, scraping, and API integrations function as expected.
 Logging:
 Comprehensive logging is implemented using Python's logging module and integrated with Sentry for error tracking.
+
 8. Deployment and Maintenance
+
 Docker & Docker Compose:
 Containerize the application for consistency across environments.
 Kubernetes:
@@ -159,7 +180,9 @@ Monitoring:
 Utilize tools like Prometheus and Grafana for performance metrics, and Sentry for error tracking.
 Git LFS:
 Handles large file storage for assets exceeding standard Git limits.
+
 9. Security and Best Practices
+
 Secure Environment Variables:
 Use .env files or a secrets manager for sensitive information.
 Authentication & Authorization:
@@ -172,7 +195,9 @@ Compliance:
 Ensure GDPR, CCPA, and other legal standards are met with automated compliance tools.
 Code Quality:
 Follow PEP 8 (Python) and ESLint (JavaScript) standards.
+
 10. Special Features and Enhancements
+
 Hard Geo-Location Pricing Lock on Israel:
 During user registration, the system detects the user’s location using geolocation_service.py.
 If the user is from Israel, their pricing is locked to the special region pricing (e.g., $99/month for Premium, $35/week for Creator) and rate limits are adjusted accordingly.
@@ -184,6 +209,7 @@ Automated Monitoring and Error Tracking:
 The monitoring_service.py continuously checks system health and notifies admins via email and Slack.
 Comprehensive Subscription Management:
 Enables users to upgrade, downgrade, or cancel subscriptions with region-based pricing enforcement.
+
 11. Additional Recommendations
 Documentation:
 Keep this guide and your API documentation updated.
