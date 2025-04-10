@@ -1,0 +1,93 @@
+{
+    "name": "RLG Data & RLG Fans",
+    "description": "RLG Data & RLG Fans is a comprehensive, AI-driven platform delivering advanced data insights, real-time scraping, compliance monitoring, and dynamic, geolocation-based pricing with integrated monetization strategies and reporting. The system includes special locking for users in Israel (displayed as Special Region with the message \"עם ישראל חי!, הפתרון הטכנולוגי שישנה את העתיד.\"), dedicated SADC region pricing, and global default pricing. Additional features include AI analysis, report generation, an RLG Super Tool for actionable insights, newsletter distribution, and an agent chat bot. All services are designed to be scalable, competitive, user-friendly, and fully integrated with powerful scraping and compliance tools.",
+    "repository": "https://github.com/RLG-Media/RLG-DATA",
+    "logo": "https://yourdomain.com/logo.png",
+    "keywords": [
+      "AI",
+      "data insights",
+      "scraping",
+      "compliance",
+      "pricing",
+      "monetization",
+      "analytics",
+      "FastAPI",
+      "RLG",
+      "newsletter",
+      "chatbot"
+    ],
+    "env": {
+      "FLASK_SECRET_KEY": {
+        "required": true,
+        "description": "Secret key for Flask session management."
+      },
+      "JWT_SECRET": {
+        "required": true,
+        "description": "JWT signing secret."
+      },
+      "STRIPE_API_KEY": {
+        "required": true,
+        "description": "API key for Stripe payment processing."
+      },
+      "PAYPAL_CLIENT_ID": {
+        "required": true,
+        "description": "PayPal client ID for payment processing."
+      },
+      "PAYPAL_CLIENT_SECRET": {
+        "required": true,
+        "description": "PayPal client secret for payment processing."
+      },
+      "PAYFAST_MERCHANT_ID": {
+        "required": true,
+        "description": "Merchant ID for PayFast."
+      },
+      "PAYFAST_MERCHANT_KEY": {
+        "required": true,
+        "description": "Merchant key for PayFast."
+      },
+      "DATABASE_URL": {
+        "required": true,
+        "description": "PostgreSQL database URL."
+      },
+      "REDIS_URL": {
+        "required": true,
+        "description": "Redis cache URL."
+      },
+      "GEOIP_DB_PATH": {
+        "required": false,
+        "description": "Path to the GeoLite2-City.mmdb file for geolocation."
+      }
+    },
+    "scripts": {
+      "start": "uvicorn app:app --host 0.0.0.0 --port $PORT --reload",
+      "test": "pytest"
+    },
+    "formation": {
+      "web": {
+        "quantity": 1,
+        "size": "standard-1X"
+      },
+      "worker": {
+        "quantity": 1,
+        "size": "standard-1X"
+      }
+    },
+    "buildpacks": [
+      {
+        "url": "heroku/python"
+      }
+    ],
+    "addons": [
+      "heroku-postgresql",
+      "heroku-redis",
+      "papertrail"
+    ],
+    "maintenance": false,
+    "stack": "heroku-22",
+    "features": {
+      "swagger": true,
+      "autodoc": true,
+      "cdn": true
+    }
+  }
+  
