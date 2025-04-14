@@ -1,0 +1,100 @@
+{
+    "supported_languages": {
+      "en": "English",
+      "fr": "French",
+      "es": "Spanish",
+      "pt": "Portuguese",
+      "sw": "Swahili",
+      "he": "Hebrew",
+      "de": "German",
+      "zh": "Chinese"
+    },
+    "region_language_map": {
+      "SADC": "en",
+      "Israel": "he",
+      "Europe": "fr",
+      "LatinAmerica": "es",
+      "Asia": "zh",
+      "EastAfrica": "sw",
+      "Global": "en"
+    },
+    "special_regions": {
+      "Israel": {
+        "locked": true,
+        "currency": "ILS",
+        "pricing": {
+          "monthly": 99,
+          "weekly": 25
+        },
+        "label": "Special Region - Israel (Pricing locked after registration)",
+        "note": "Location and pricing cannot be changed after registration."
+      },
+      "SADC": {
+        "locked": false,
+        "currency": "USD",
+        "pricing": {
+          "monthly": 59,
+          "weekly": 15
+        },
+        "label": "SADC Region",
+        "note": "Custom pricing for Southern African Development Community."
+      },
+      "Global": {
+        "locked": false,
+        "currency": "USD",
+        "pricing": {
+          "monthly": 59,
+          "weekly": 15
+        },
+        "label": "Global Pricing",
+        "note": "Standard pricing for all other regions."
+      }
+    },
+    "localized_strings": {
+      "en": {
+        "welcome": "Welcome to RLG Data & RLG Fans!",
+        "pricing_note": "Pricing will be shown after registration based on your region.",
+        "locked_pricing_notice": "You cannot change your region after registration.",
+        "super_tool": "Access the RLG Super Tool",
+        "ai_insights": "View AI-Powered Insights",
+        "report_generator": "Generate Detailed Reports",
+        "chatbot_prompt": "Ask the RLG Agent anything",
+        "newsletter_subscribe": "Subscribe to the RLG Newsletter",
+        "compliance_notice": "We comply with all regional regulations and pricing rules."
+      },
+      "he": {
+        "welcome": "ברוכים הבאים ל-RLG Data ו-RLG Fans!",
+        "pricing_note": "המחירים יוצגו לאחר ההרשמה בהתאם למיקומך.",
+        "locked_pricing_notice": "לא תוכל לשנות את מיקומך לאחר ההרשמה.",
+        "super_tool": "גישה לכלי העל של RLG",
+        "ai_insights": "הצג תובנות מונחות AI",
+        "report_generator": "צור דוחות מפורטים",
+        "chatbot_prompt": "שאל את סוכן RLG כל דבר",
+        "newsletter_subscribe": "הירשם לניוזלטר של RLG",
+        "compliance_notice": "אנו עומדים בכל התקנות והכללים האזוריים."
+      },
+      "sw": {
+        "welcome": "Karibu RLG Data na RLG Fans!",
+        "pricing_note": "Bei itaonyeshwa baada ya usajili kulingana na eneo lako.",
+        "locked_pricing_notice": "Huwezi kubadilisha eneo lako baada ya usajili.",
+        "super_tool": "Fikia Zana Kuu ya RLG",
+        "ai_insights": "Angalia Maarifa Yanayoendeshwa na AI",
+        "report_generator": "Tengeneza Ripoti za Kina",
+        "chatbot_prompt": "Muulize RLG Agent chochote",
+        "newsletter_subscribe": "Jisajili kwenye Jarida la RLG",
+        "compliance_notice": "Tunakubaliana na kanuni na sheria zote za kikanda."
+      },
+      "fr": {
+        "welcome": "Bienvenue sur RLG Data & RLG Fans !",
+        "pricing_note": "Les tarifs s'afficheront après l'inscription en fonction de votre région.",
+        "locked_pricing_notice": "Vous ne pourrez pas changer de région après l'inscription.",
+        "super_tool": "Accéder au Super Outil RLG",
+        "ai_insights": "Voir les analyses basées sur l'IA",
+        "report_generator": "Générez des rapports détaillés",
+        "chatbot_prompt": "Demandez n'importe quoi à l'agent RLG",
+        "newsletter_subscribe": "Abonnez-vous à la newsletter RLG",
+        "compliance_notice": "Nous respectons toutes les réglementations régionales."
+      }
+    }
+  }
+  

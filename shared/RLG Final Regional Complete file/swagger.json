@@ -1,0 +1,424 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "RLG Data & RLG Fans API",
+      "version": "1.0.0",
+      "description": "A comprehensive AI-driven platform that delivers data insights, real-time scraping, compliance monitoring, and dynamic, geolocation-based pricing (including Special Region pricing for Israel and dedicated SADC tiers) along with monetization strategies, reporting, newsletter distribution, agent chat bot, and RLG Super Tool insights.  \n\n**Key Features:**\n- AI-driven data insights and predictive analytics\n- Real-time web scraping and market intelligence\n- Compliance monitoring and security enforcement\n- Dynamic pricing: Special Region pricing (locked for Israel: \"עם ישראל חי!, הפתרון הטכנולוגי שישנה את העתיד.\"), SADC region pricing, and global default pricing\n- Integrated monetization, report generators and newsletter distribution\n- RLG Agent Chat bot and RLG Super Tool integration"
+    },
+    "servers": [
+      {
+        "url": "https://api.rlgmedia.com",
+        "description": "Production Server"
+      },
+      {
+        "url": "http://localhost:8000",
+        "description": "Local Development Server"
+      }
+    ],
+    "paths": {
+      "/": {
+        "get": {
+          "tags": ["Root"],
+          "summary": "Root endpoint",
+          "description": "Returns a welcome message and platform overview.",
+          "responses": {
+            "200": {
+              "description": "API running successfully.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "Welcome to RLG Data & RLG Fans API!"
+                      },
+                      "description": {
+                        "type": "string",
+                        "example": "This platform provides AI-driven insights, real-time scraping, compliance monitoring, dynamic pricing, and more."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/ai_analysis": {
+        "post": {
+          "tags": ["AI Analysis"],
+          "summary": "Run AI Analysis",
+          "description": "Executes the complete AI analysis pipeline. Requires the path to a data file, the target column, and a list of feature columns.",
+          "requestBody": {
+            "description": "AI analysis parameters",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AIAnalysisRequest"
+                },
+                "example": {
+                  "data_file": "data/sample.csv",
+                  "target_column": "sales",
+                  "features_columns": ["ad_spend", "season", "competitor_price"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "AI analysis executed successfully.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "status": {"type": "string", "example": "success"},
+                      "result": {"type": "object"}
+                    }
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "AI analysis failed."
+            }
+          }
+        }
+      },
+      "/scrape": {
+        "post": {
+          "tags": ["Scraping"],
+          "summary": "Run scraping job",
+          "description": "Initiates data scraping for a given URL with optional keywords filtering.",
+          "requestBody": {
+            "description": "Scraping parameters",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/ScrapeRequest"},
+                "example": {
+                  "url": "https://example.com",
+                  "keywords": ["product", "review"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Scraping executed successfully.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "status": {"type": "string", "example": "success"},
+                      "data": {"type": "object"}
+                    }
+                  }
+                }
+              }
+            },
+            "500": { "description": "Scraping failed." }
+          }
+        }
+      },
+      "/compliance": {
+        "post": {
+          "tags": ["Compliance"],
+          "summary": "Run compliance check",
+          "description": "Checks compliance for a given media by its ID.",
+          "requestBody": {
+            "description": "Media ID payload",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "media_id": { "type": "integer", "example": 123 }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Compliance check successful.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "status": { "type": "string", "example": "success" },
+                      "compliance": { "type": "object" }
+                    }
+                  }
+                }
+              }
+            },
+            "500": { "description": "Compliance check failed." }
+          }
+        }
+      },
+      "/super_tool": {
+        "get": {
+          "tags": ["RLG Super Tool"],
+          "summary": "Get Super Tool insights",
+          "description": "Retrieves advanced insights from the RLG Super Tool.",
+          "responses": {
+            "200": {
+              "description": "Insights retrieved successfully.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "status": { "type": "string", "example": "success" },
+                      "insights": { "type": "object" }
+                    }
+                  }
+                }
+              }
+            },
+            "500": { "description": "Super Tool failed." }
+          }
+        }
+      },
+      "/login": {
+        "post": {
+          "tags": ["Authentication"],
+          "summary": "User login",
+          "description": "Authenticates a user with their username and password, returning a JWT token and user details (including location lock info for Special Region pricing).",
+          "requestBody": {
+            "description": "Login credentials",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/LoginRequest"},
+                "example": {
+                  "username": "admin",
+                  "password": "password"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "User authenticated successfully.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "status": { "type": "string", "example": "success" },
+                      "message": { "type": "string", "example": "Authenticated successfully." },
+                      "token": { "type": "string", "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9..." }
+                    }
+                  }
+                }
+              }
+            },
+            "401": { "description": "Invalid credentials." }
+          }
+        }
+      },
+      "/health": {
+        "get": {
+          "tags": ["Health"],
+          "summary": "Health check",
+          "description": "Returns the operational status of the API along with a timestamp.",
+          "responses": {
+            "200": {
+              "description": "Service is running.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "status": { "type": "string", "example": "running" },
+                      "timestamp": { "type": "string", "example": "1616589463" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/generate_report": {
+        "post": {
+          "tags": ["Reporting"],
+          "summary": "Generate report",
+          "description": "Generates a report based on the specified report type.",
+          "requestBody": {
+            "description": "Report generation parameters",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportRequest"
+                },
+                "example": {
+                  "report_type": "sales_summary"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Report generated successfully.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "status": { "type": "string", "example": "success" },
+                      "report": { "type": "object" }
+                    }
+                  }
+                }
+              }
+            },
+            "500": { "description": "Report generation failed." }
+          }
+        }
+      },
+      "/send_newsletter": {
+        "post": {
+          "tags": ["Newsletter"],
+          "summary": "Send newsletter",
+          "description": "Sends the RLG newsletter with provided content.",
+          "requestBody": {
+            "description": "Newsletter content",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NewsletterRequest"
+                },
+                "example": {
+                  "content": "This is the latest newsletter update..."
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Newsletter sent successfully.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "status": { "type": "string", "example": "success" },
+                      "result": { "type": "object" }
+                    }
+                  }
+                }
+              }
+            },
+            "500": { "description": "Newsletter sending failed." }
+          }
+        }
+      },
+      "/agent_chat": {
+        "post": {
+          "tags": ["Chat Bot"],
+          "summary": "Agent chat interaction",
+          "description": "Processes a chat message via the RLG Agent Chat Bot and returns an automated response.",
+          "requestBody": {
+            "description": "Chat message payload",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChatRequest"
+                },
+                "example": {
+                  "message": "What are today's insights?"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Chat response generated successfully.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "status": { "type": "string", "example": "success" },
+                      "reply": { "type": "object" }
+                    }
+                  }
+                }
+              }
+            },
+            "500": { "description": "Chat processing failed." }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "AIAnalysisRequest": {
+          "type": "object",
+          "properties": {
+            "data_file": { "type": "string", "example": "data/sample.csv" },
+            "target_column": { "type": "string", "example": "sales" },
+            "features_columns": {
+              "type": "array",
+              "items": { "type": "string" },
+              "example": ["ad_spend", "season", "competitor_price"]
+            }
+          },
+          "required": ["data_file", "target_column", "features_columns"]
+        },
+        "ScrapeRequest": {
+          "type": "object",
+          "properties": {
+            "url": { "type": "string", "example": "https://example.com" },
+            "keywords": {
+              "type": "array",
+              "items": { "type": "string" },
+              "example": ["product", "review"]
+            }
+          },
+          "required": ["url"]
+        },
+        "LoginRequest": {
+          "type": "object",
+          "properties": {
+            "username": { "type": "string", "example": "admin" },
+            "password": { "type": "string", "example": "password" }
+          },
+          "required": ["username", "password"]
+        },
+        "ReportRequest": {
+          "type": "object",
+          "properties": {
+            "report_type": { "type": "string", "example": "sales_summary" }
+          },
+          "required": ["report_type"]
+        },
+        "NewsletterRequest": {
+          "type": "object",
+          "properties": {
+            "content": { "type": "string", "example": "This is the latest newsletter update..." }
+          },
+          "required": ["content"]
+        },
+        "ChatRequest": {
+          "type": "object",
+          "properties": {
+            "message": { "type": "string", "example": "What are today's insights?" }
+          },
+          "required": ["message"]
+        }
+      }
+    }
+  }
+  
