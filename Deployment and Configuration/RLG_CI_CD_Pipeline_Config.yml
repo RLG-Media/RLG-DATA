@@ -12,7 +12,7 @@ on:
   workflow_dispatch:
 
 env:
-  APP_NAME: RLG Data & RLG Fans
+  APP_NAME: "RLG Data & RLG Fans"
   NODE_VERSION: "18.x"
   PYTHON_VERSION: "3.10"
   REGISTRY: ghcr.io
@@ -24,55 +24,58 @@ env:
 
 jobs:
   build:
-    name: 🏗️ Build & AI-Optimized Testing
+    name: 🏗️ Build, Lint & AI-Optimized Tests
     runs-on: ubuntu-latest
 
     steps:
-      - name: 🛠 Checkout Repository
+      - name: 🛠 Checkout Code
         uses: actions/checkout@v3
 
-      - name: ⚡ Setup Node.js & Install Dependencies
+      - name: ⚡ Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
 
-      - name: ⚙️ Setup Python & Install Dependencies
+      - name: ⚙️ Setup Python
         uses: actions/setup-python@v3
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
-      - name: 📦 Install Dependencies
+      - name: 📦 Install Backend & Frontend Dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install -r backend/requirements.txt
+          cd frontend && npm install && cd ..
 
-      - name: 🤖 AI-Powered Code Review & Linting
+      - name: 🤖 Lint, Format & Enforce AI-Powered Standards
         run: |
-          pylint --fail-under=8 rlg_backend/
-          black --check rlg_backend/
+          black --check backend/
+          pylint --fail-under=8 backend/
 
-      - name: 🔬 Run AI-Optimized Tests
+      - name: 🔬 Run AI-Powered Tests
         run: |
-          pytest --cov=rlg_backend
+          pytest --cov=backend/
 
-      - name: 🔍 Security Scan with Trivy
+      - name: 🔐 Trivy Security Scan
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: "fs"
           ignore-unfixed: true
+          severity: CRITICAL,HIGH
 
   docker-build:
-    name: 🏗️ Build & Push AI-Optimized Docker Image
+    name: 🐳 Build & Push AI-Optimized Docker Image
     needs: build
     runs-on: ubuntu-latest
+
     steps:
-      - name: 🛠 Checkout Repository
+      - name: 🛠 Checkout Code
         uses: actions/checkout@v3
 
-      - name: 🔐 Log in to GitHub Container Registry
+      - name: 🔐 Login to GitHub Container Registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ${{ env.REGISTRY }} -u ${{ github.actor }} --password-stdin
 
-      - name: 📦 Build AI-Optimized Docker Image
+      - name: 🧱 Build Docker Image
         run: |
           docker build --build-arg CACHEBUST=$(date +%s) -t ${{ env.IMAGE_NAME }}:${{ github.sha }} .
           docker tag ${{ env.IMAGE_NAME }}:${{ github.sha }} ${{ env.IMAGE_NAME }}:latest
@@ -82,26 +85,45 @@ jobs:
           docker push ${{ env.IMAGE_NAME }}:${{ github.sha }}
           docker push ${{ env.IMAGE_NAME }}:latest
 
-  deploy:
-    name: 🚀 AI-Optimized Deployment to Multi-Cloud
-    needs: docker-build
+  swagger:
+    name: 📚 Generate Swagger API Docs
     runs-on: ubuntu-latest
     steps:
-      - name: 🛠 Checkout Repository
+      - name: 📦 Install Swagger Tools
+        run: |
+          pip install drf-yasg
+
+      - name: 🧾 Generate OpenAPI Spec
+        run: |
+          python backend/manage.py generateschema > backend/static/swagger/openapi-schema.yml
+
+      - name: ☁ Upload OpenAPI Spec
+        uses: actions/upload-artifact@v3
+        with:
+          name: swagger-docs
+          path: backend/static/swagger/openapi-schema.yml
+
+  deploy:
+    name: 🚀 Multi-Cloud Deployment with AI Traffic Control
+    needs: [docker-build, swagger]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🛠 Checkout Code
         uses: actions/checkout@v3
 
-      - name: 🔑 Set Up Kubernetes
+      - name: ☸️ Setup kubectl
         uses: azure/setup-kubectl@v3
         with:
-          version: "latest"
+          version: latest
 
-      - name: ⛵ Deploy to Production with AI-Based Traffic Control
+      - name: ⛵ Deploy to K8s Cluster
         run: |
           kubectl config set-cluster rlg-cluster
           kubectl apply -f k8s/deployment.yaml
           kubectl rollout restart deployment/rlg-backend -n ${{ env.K8S_NAMESPACE }}
 
-      - name: 🔄 Enable AI-Powered Canary Deployment
+      - name: 🔄 Canary Deployments & Health Checks
         run: |
           kubectl set image deployment/rlg-backend rlg-backend=${{ env.IMAGE_NAME }}:${{ github.sha }} -n ${{ env.K8S_NAMESPACE }}
           kubectl rollout pause deployment/rlg-backend -n ${{ env.K8S_NAMESPACE }}
@@ -109,28 +131,30 @@ jobs:
           kubectl rollout resume deployment/rlg-backend -n ${{ env.K8S_NAMESPACE }}
 
   monitoring:
-    name: 📊 AI-Powered Monitoring & Alerts
+    name: 📊 AI Monitoring, Anomaly Detection & Scaling
     needs: deploy
     runs-on: ubuntu-latest
+
     steps:
-      - name: 🔍 AI-Driven Anomaly Detection in Logs
+      - name: 🧠 Anomaly Detection Alert
         run: |
           curl -X POST -H 'Content-type: application/json' \
-          --data '{"text":"🚀 AI-Based Anomaly Detection Triggered for RLG Data & RLG Fans!"}' \
+          --data '{"text":"🚨 AI Anomaly Detected in RLG Services. Investigating..."}' \
           ${{ env.SLACK_WEBHOOK_URL }}
 
-      - name: 📈 Deploy AI-Based Auto-Scaling
+      - name: 📈 Enable Autoscaling
         run: |
           kubectl autoscale deployment rlg-backend --cpu-percent=50 --min=2 --max=10 -n ${{ env.K8S_NAMESPACE }}
 
   notify:
-    name: 📢 Notify Team of AI-Based Deployment Insights
+    name: 📢 Final Notification & Summary
     needs: monitoring
     runs-on: ubuntu-latest
+
     steps:
-      - name: 🔔 Send Slack Notification
+      - name: 🔔 Slack Notification
         if: always()
         run: |
           curl -X POST -H 'Content-type: application/json' \
-          --data '{"text":"🚀 AI-Powered Deployment Completed: ${{ job.status }}"}' \
+          --data '{"text":"✅ RLG Deployment to ${{ env.DEPLOY_ENV }} completed. Status: ${{ job.status }}."}' \
           ${{ env.SLACK_WEBHOOK_URL }}

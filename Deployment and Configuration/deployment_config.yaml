@@ -1,126 +1,356 @@
-# deployment_config.yaml
-# This file defines the configuration for deploying the RLG Platform,
-# which comprises two major components:
-#  - RLG Data: Media monitoring and analysis tool.
-#  - RLG Fans: Fan engagement and social monitoring tool.
-# The configuration includes application settings, database connections,
-# API endpoints and keys, logging preferences, and Docker deployment settings.
+version: '3.8'
 
-app:
-  name: "RLG Platform"
-  description: "A comprehensive SaaS tool for media monitoring (RLG Data) and fan engagement (RLG Fans)."
-  version: "1.0.0"
-  environment: "production"
-  region: "default"  # Change as necessary to support region-specific configuration
-
-database:
-  type: "postgresql"
-  host: "database"       # Docker service name for the database container
-  port: 5432
-  name: ${DB_NAME}       # Use environment variables to securely provide these values
-  user: ${DB_USER}
-  password: ${DB_PASSWORD}
-  pool_size: 10
-  timeout: 30
-
-api:
-  endpoints:
-    rlg_data: "https://api.rlgdata.example.com/v1"   # Replace with your production endpoint
-    rlg_fans: "https://api.rlgfans.example.com/v1"   # Replace with your production endpoint
-  keys:
-    rlg_data: ${API_KEY_RLG_DATA}   # Securely provided via environment variables
-    rlg_fans: ${API_KEY_RLG_FANS}
-
-logging:
-  level: "INFO"
-  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-  destination: "stdout"  # Change to a file path if persistent logging is needed
-
-deployment:
-  docker:
-    version: "3.8"
-    services:
-      rlg_data:
-        build:
-          context: "./"
-          dockerfile: "Dockerfile.data"
-        image: "rlg_data:latest"
-        environment:
-          ENV: "production"
-          REGION: "${app.region}"
-          DATABASE_URL: "${DATABASE_URL}"
-          API_KEY: "${API_KEY_RLG_DATA}"
-          LOG_LEVEL: "INFO"
-        ports:
-          - "8000:8000"
-        deploy:
-          replicas: 2
-          resources:
-            limits:
-              cpus: "1.0"
-              memory: "512M"
-      rlg_fans:
-        build:
-          context: "./"
-          dockerfile: "Dockerfile.fans"
-        image: "rlg_fans:latest"
-        environment:
-          ENV: "production"
-          REGION: "${app.region}"
-          DATABASE_URL: "${DATABASE_URL}"
-          API_KEY: "${API_KEY_RLG_FANS}"
-          LOG_LEVEL: "INFO"
-        ports:
-          - "8001:8000"
-        deploy:
-          replicas: 2
-          resources:
-            limits:
-              cpus: "1.0"
-              memory: "512M"
-      api_gateway:
-        build:
-          context: "./"
-          dockerfile: "Dockerfile.gateway"
-        image: "rlg_gateway:latest"
-        environment:
-          ENV: "production"
-          LOG_LEVEL: "INFO"
-        ports:
-          - "80:80"
-        depends_on:
-          - rlg_data
-          - rlg_fans
-        deploy:
-          replicas: 1
-      database:
-        image: "postgres:13"
-        environment:
-          POSTGRES_USER: "${DB_USER}"
-          POSTGRES_PASSWORD: "${DB_PASSWORD}"
-          POSTGRES_DB: "${DB_NAME}"
-        volumes:
-          - "db_data:/var/lib/postgresql/data"
-        ports:
-          - "5432:5432"
-        deploy:
-          replicas: 1
+services:
+  rlg_backend:
+    container_name: rlg_backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.data
+    image: "rlg_data:latest"
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
     volumes:
-      db_data: {}
+      - ./backend:/app
+    depends_on:
+      - database
+      - redis
+    restart: always
+    networks:
+      - rlg_network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 1
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
 
-monitoring:
-  enabled: true
-  poll_interval: 60  # Polling interval for internal monitoring (in seconds)
+  rlg_frontend:
+    container_name: rlg_frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: "rlg_fans:latest"
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+    depends_on:
+      - rlg_backend
+    restart: always
+    networks:
+      - rlg_network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 1
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
 
-alerts:
-  email:
-    enabled: true
-    smtp_server: "${SMTP_SERVER}"   # SMTP server address (from environment)
-    smtp_port: 587
-    smtp_user: "${SMTP_USER}"
-    smtp_password: "${SMTP_PASSWORD}"
-    sender_email: "alerts@example.com"
-    recipient_emails:
-      - "admin@example.com"
+  api_gateway:
+    container_name: rlg_api_gateway
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile.gateway
+    image: "rlg_gateway:latest"
+    ports:
+      - "80:80"
+    env_file:
+      - .env
+    depends_on:
+      - rlg_backend
+      - rlg_frontend
+    restart: always
+    networks:
+      - rlg_network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
 
-# End of deployment_config.yaml
+  database:
+    container_name: rlg_database
+    image: postgres:13
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - rlg_network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+
+  redis:
+    container_name: rlg_redis
+    image: redis:6
+    ports:
+      - "6379:6379"
+    networks:
+      - rlg_network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+
+  rlg_scraper:
+    container_name: rlg_scraper
+    build:
+      context: ./scraper
+      dockerfile: Dockerfile
+    image: "rlg_scraper:latest"
+    volumes:
+      - ./scraper:/app
+    environment:
+      - TWITTER_API_KEY=${TWITTER_API_KEY}
+      - TWITTER_API_SECRET=${TWITTER_API_SECRET}
+      - TWITTER_ACCESS_TOKEN=${TWITTER_ACCESS_TOKEN}
+      - TWITTER_ACCESS_TOKEN_SECRET=${TWITTER_ACCESS_TOKEN_SECRET}
+      - FACEBOOK_ACCESS_TOKEN=${FACEBOOK_ACCESS_TOKEN}
+      - REDIS_URL=redis://redis:6379/0
+    depends_on:
+      - kafka
+      - redis
+    networks:
+      - rlg_network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+
+  rlg_compliance:
+    container_name: rlg_compliance
+    build:
+      context: ./compliance
+      dockerfile: Dockerfile
+    image: "rlg_compliance:latest"
+    volumes:
+      - ./compliance:/app
+    depends_on:
+      - rlg_backend
+    networks:
+      - rlg_network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+
+  rlg_super_tool:
+    container_name: rlg_super_tool
+    build:
+      context: ./super_tool
+      dockerfile: Dockerfile
+    image: "rlg_super_tool:latest"
+    volumes:
+      - ./super_tool:/app
+    depends_on:
+      - rlg_backend
+      - rlg_scraper
+      - rlg_compliance
+    networks:
+      - rlg_network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+
+  data_processing:
+    container_name: rlg_data_processing
+    build:
+      context: ./data_processing
+      dockerfile: Dockerfile
+    image: "rlg_data_processing:latest"
+    environment:
+      - KAFKA_BROKER=kafka:9092
+      - REDIS_URL=redis://redis:6379/0
+    depends_on:
+      - kafka
+      - redis
+    volumes:
+      - ./data_processing:/app
+    networks:
+      - rlg_network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+
+  task_scheduler:
+    container_name: rlg_task_scheduler
+    build:
+      context: ./task_scheduler
+      dockerfile: Dockerfile
+    image: "rlg_task_scheduler:latest"
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    depends_on:
+      - redis
+      - rlg_backend
+      - rlg_frontend
+    volumes:
+      - ./task_scheduler:/app
+    networks:
+      - rlg_network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+
+  kafka:
+    container_name: rlg_kafka
+    image: wurstmeister/kafka:latest
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: kafka
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    depends_on:
+      - zookeeper
+    networks:
+      - rlg_network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+
+  zookeeper:
+    container_name: rlg_zookeeper
+    image: wurstmeister/zookeeper:latest
+    ports:
+      - "2181:2181"
+    networks:
+      - rlg_network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+
+  monitoring:
+    container_name: rlg_monitoring
+    image: prom/prometheus:latest
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    networks:
+      - rlg_network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+
+  grafana:
+    container_name: rlg_grafana
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    depends_on:
+      - monitoring
+    networks:
+      - rlg_network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+
+volumes:
+  db_data:
+  db_fans_volume:
+
+networks:
+  rlg_network:
+    driver: bridge

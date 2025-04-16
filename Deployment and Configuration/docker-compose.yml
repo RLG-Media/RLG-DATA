@@ -1,23 +1,30 @@
 version: '3.8'
-
 services:
-  rlg_backend:
-    container_name: rlg_backend
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
+  backend_data:
+    build: ./backend_data
     ports:
-      - "8000:8000"
-    env_file:
-      - .env
-    volumes:
-      - ./backend:/app
+      - "5000:5000"
+    environment:
+      - DATABASE_URL=postgresql://user:password@db_data:5432/rlg_data
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+      - REDIS_URL=redis://redis:6379/0
+      - SENTRY_DSN=${SENTRY_DSN}
+      - ONLYFANS_API_KEY=${ONLYFANS_API_KEY}
+      - STRIPCHAT_API_KEY=${STRIPCHAT_API_KEY}
+      - SHEER_API_KEY=${SHEER_API_KEY}
+      - PORNHUB_API_KEY=${PORNHUB_API_KEY}
+      # Additional environment variables for scraping, AI analysis, compliance, reporting, monetization, newsletter, chat bot, etc.
+      - TWITTER_API_KEY=${TWITTER_API_KEY}
+      - TWITTER_API_SECRET=${TWITTER_API_SECRET}
+      - TWITTER_ACCESS_TOKEN=${TWITTER_ACCESS_TOKEN}
+      - TWITTER_ACCESS_TOKEN_SECRET=${TWITTER_ACCESS_TOKEN_SECRET}
+      - FACEBOOK_ACCESS_TOKEN=${FACEBOOK_ACCESS_TOKEN}
     depends_on:
-      - rlg_db
+      - db_data
       - redis
-    restart: always
     networks:
-      - rlg_network
+      - app-network
     logging:
       driver: "json-file"
       options:
@@ -31,20 +38,21 @@ services:
         condition: on-failure
         max_attempts: 3
 
-  rlg_frontend:
-    container_name: rlg_frontend
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
+  backend_fans:
+    build: ./backend_fans
     ports:
-      - "3000:3000"
-    volumes:
-      - ./frontend:/app
+      - "5001:5001"
+    environment:
+      - DATABASE_URL=postgresql://user:password@db_fans:5433/rlg_fans
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+      - REDIS_URL=redis://redis:6379/0
+      - SENTRY_DSN=${SENTRY_DSN}
     depends_on:
-      - rlg_backend
-    restart: always
+      - db_fans
+      - redis
     networks:
-      - rlg_network
+      - app-network
     logging:
       driver: "json-file"
       options:
@@ -58,58 +66,30 @@ services:
         condition: on-failure
         max_attempts: 3
 
-  rlg_db:
-    container_name: rlg_db
-    image: postgres:13
-    restart: always
+  frontend:
+    build: ./frontend
     ports:
-      - "5432:5432"
-    env_file:
-      - .env
-    volumes:
-      - db_data:/var/lib/postgresql/data
+      - "80:80"
+    depends_on:
+      - backend_data
+      - backend_fans
     networks:
-      - rlg_network
+      - app-network
     logging:
       driver: "json-file"
       options:
         max-size: "10m"
         max-file: "3"
     deploy:
-      replicas: 1
+      replicas: 2
       update_config:
         parallelism: 1
       restart_policy:
         condition: on-failure
         max_attempts: 3
 
-  redis:
-    container_name: rlg_redis
-    image: redis:6
-    ports:
-      - "6379:6379"
-    networks:
-      - rlg_network
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "3"
-    deploy:
-      replicas: 1
-      update_config:
-        parallelism: 1
-      restart_policy:
-        condition: on-failure
-        max_attempts: 3
-
-  rlg_scraper:
-    container_name: rlg_scraper
-    build:
-      context: ./scraper
-      dockerfile: Dockerfile
-    volumes:
-      - ./scraper:/app
+  data_collection:
+    build: ./data_collection
     environment:
       - TWITTER_API_KEY=${TWITTER_API_KEY}
       - TWITTER_API_SECRET=${TWITTER_API_SECRET}
@@ -118,64 +98,10 @@ services:
       - FACEBOOK_ACCESS_TOKEN=${FACEBOOK_ACCESS_TOKEN}
       - REDIS_URL=redis://redis:6379/0
     depends_on:
-      - rlg_backend
       - kafka
       - redis
-    restart: always
     networks:
-      - rlg_network
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "3"
-    deploy:
-      replicas: 2
-      update_config:
-        parallelism: 1
-      restart_policy:
-        condition: on-failure
-        max_attempts: 3
-
-  rlg_compliance:
-    container_name: rlg_compliance
-    build:
-      context: ./compliance
-      dockerfile: Dockerfile
-    volumes:
-      - ./compliance:/app
-    depends_on:
-      - rlg_backend
-    restart: always
-    networks:
-      - rlg_network
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "3"
-    deploy:
-      replicas: 2
-      update_config:
-        parallelism: 1
-      restart_policy:
-        condition: on-failure
-        max_attempts: 3
-
-  rlg_super_tool:
-    container_name: rlg_super_tool
-    build:
-      context: ./super_tool
-      dockerfile: Dockerfile
-    volumes:
-      - ./super_tool:/app
-    depends_on:
-      - rlg_backend
-      - rlg_scraper
-      - rlg_compliance
-    restart: always
-    networks:
-      - rlg_network
+      - app-network
     logging:
       driver: "json-file"
       options:
@@ -190,10 +116,7 @@ services:
         max_attempts: 3
 
   data_processing:
-    container_name: rlg_data_processing
-    build:
-      context: ./data_processing
-      dockerfile: Dockerfile
+    build: ./data_processing
     environment:
       - KAFKA_BROKER=kafka:9092
       - REDIS_URL=redis://redis:6379/0
@@ -201,9 +124,7 @@ services:
       - kafka
       - redis
     networks:
-      - rlg_network
-    volumes:
-      - ./data_processing:/app
+      - app-network
     logging:
       driver: "json-file"
       options:
@@ -218,22 +139,17 @@ services:
         max_attempts: 3
 
   task_scheduler:
-    container_name: rlg_task_scheduler
-    build:
-      context: ./task_scheduler
-      dockerfile: Dockerfile
+    build: ./task_scheduler
     environment:
       - REDIS_URL=redis://redis:6379/0
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
     depends_on:
       - redis
-      - rlg_backend
-      - rlg_fans
+      - backend_data
+      - backend_fans
     networks:
-      - rlg_network
-    volumes:
-      - ./task_scheduler:/app
+      - app-network
     logging:
       driver: "json-file"
       options:
@@ -247,8 +163,28 @@ services:
         condition: on-failure
         max_attempts: 3
 
+  db_data:
+    image: postgres:13
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=rlg_data
+    volumes:
+      - db_data_volume:/var/lib/postgresql/data
+    networks:
+      - app-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+
   db_fans:
-    container_name: rlg_db_fans
     image: postgres:13
     environment:
       - POSTGRES_USER=user
@@ -256,10 +192,8 @@ services:
       - POSTGRES_DB=rlg_fans
     volumes:
       - db_fans_volume:/var/lib/postgresql/data
-    ports:
-      - "5433:5432"
     networks:
-      - rlg_network
+      - app-network
     logging:
       driver: "json-file"
       options:
@@ -267,14 +201,28 @@ services:
         max-file: "3"
     deploy:
       replicas: 1
-      update_config:
-        parallelism: 1
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+
+  redis:
+    image: redis:6
+    ports:
+      - "6379:6379"
+    networks:
+      - app-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    deploy:
+      replicas: 1
       restart_policy:
         condition: on-failure
         max_attempts: 3
 
   kafka:
-    container_name: rlg_kafka
     image: wurstmeister/kafka:latest
     ports:
       - "9092:9092"
@@ -284,7 +232,7 @@ services:
     depends_on:
       - zookeeper
     networks:
-      - rlg_network
+      - app-network
     logging:
       driver: "json-file"
       options:
@@ -297,12 +245,11 @@ services:
         max_attempts: 3
 
   zookeeper:
-    container_name: rlg_zookeeper
     image: wurstmeister/zookeeper:latest
     ports:
       - "2181:2181"
     networks:
-      - rlg_network
+      - app-network
     logging:
       driver: "json-file"
       options:
@@ -315,14 +262,13 @@ services:
         max_attempts: 3
 
   monitoring:
-    container_name: rlg_monitoring
     image: prom/prometheus:latest
     volumes:
       - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
     ports:
       - "9090:9090"
     networks:
-      - rlg_network
+      - app-network
     logging:
       driver: "json-file"
       options:
@@ -335,14 +281,13 @@ services:
         max_attempts: 3
 
   grafana:
-    container_name: rlg_grafana
     image: grafana/grafana:latest
     ports:
       - "3000:3000"
     depends_on:
       - monitoring
     networks:
-      - rlg_network
+      - app-network
     logging:
       driver: "json-file"
       options:
@@ -354,10 +299,10 @@ services:
         condition: on-failure
         max_attempts: 3
 
-volumes:
-  db_data:
-  db_fans_volume:
-
 networks:
-  rlg_network:
+  app-network:
     driver: bridge
+
+volumes:
+  db_data_volume:
+  db_fans_volume:
